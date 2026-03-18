@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import usaIcon from "../../assets/icons/usaFlag.svg";
 
 import style from "./header.module.scss";
 
@@ -28,7 +29,13 @@ const Header = () => {
             </li>
           </ul>
         </nav>
-        <button className={style.cm_signin}>Sign In</button>
+
+        <div className={style.cm_right}>
+          <img src={usaIcon} alt="usa flag" />
+          <button className={style.cm_signup}>Sign up</button>
+
+          <button className={style.cm_signin}>Sign In</button>
+        </div>
       </div>
     </header>
   );

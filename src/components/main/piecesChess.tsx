@@ -180,7 +180,7 @@ export const pieces: ChessboardOptions["pieces"] = {
   ),
   bP: () => (
     <span style={pieceStyle("#F7F7F7")}>
-      <img src={figure} alt="figure" width={33} height={33} />
+      <img src={figure} alt="figure" />
     </span>
   ),
 };

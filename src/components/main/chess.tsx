@@ -10,33 +10,16 @@ const ChessMaster: React.FC = () => {
   const [game] = useState<Chess>(new Chess());
 
   const wrapperRef = useRef<HTMLDivElement>(null);
-  const boardRef = useRef<HTMLDivElement>(null);
   const rafRef = useRef<number | null>(null);
 
-  // Current and target tilt values — smoothly interpolated in rAF
   const tilt = useRef({ x: 0, y: 0, targetX: 0, targetY: 0, hovered: false });
-
   const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 
-  // Animation loop — runs only while mounted, updates CSS transform each frame
-  const tick = useCallback(() => {
+  const tick = useCallback(function animate() {
     const t = tilt.current;
-    const speed = 0.08;
-
-    t.x = lerp(t.x, t.targetX, speed);
-    t.y = lerp(t.y, t.targetY, speed);
-
-    if (wrapperRef.current) {
-      const scale = t.hovered ? 1.03 : 1;
-      wrapperRef.current.style.transform = `
-      perspective(900px)
-      rotateX(${t.x}deg)
-      rotateY(${t.y}deg)
-      scale3d(${scale}, ${scale}, 1)
-    `;
-    }
-
-    rafRef.current = requestAnimationFrame(tick);
+    t.x = lerp(t.x, t.targetX, 0.08);
+    t.y = lerp(t.y, t.targetY, 0.08);
+    rafRef.current = requestAnimationFrame(animate);
   }, []);
 
   useEffect(() => {
@@ -92,8 +75,7 @@ const ChessMaster: React.FC = () => {
           onMouseLeave={onMouseLeave}
           onMouseMove={onMouseMove}
         >
-          {/* <div className={style.back}></div> */}
-          <div ref={boardRef} className={style.cm_board}>
+          <div className={style.cm_board}>
             <Chessboard
               options={{
                 position: game.fen(),
