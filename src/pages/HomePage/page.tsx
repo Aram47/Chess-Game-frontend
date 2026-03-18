@@ -1,5 +1,6 @@
 import ChessMaster from "../../components/main/chess";
 
+
 const HomePage = () => {
   return (
     <>
