@@ -1,0 +1,133 @@
+.cm_root {
+  font-family: "Barlow", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.cm_hero {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 100px;
+  gap: 48px;
+
+  .cm_copy {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    text-align: start;
+    gap: 40px;
+
+    .cm_headline {
+      font-size: 72px;
+      font-weight: 900;
+      line-height: 1.1;
+      color: var(--cream);
+      font-family: "Playfair Display", serif;
+
+      span {
+        color: var(--gold);
+      }
+    }
+
+    .cm_subline {
+      font-size: 20px;
+      font-weight: 400;
+      line-height: 1.75;
+      color: var(--muted);
+      width: 85%;
+    }
+    .cm_actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      .cm_btn_fill {
+        background: linear-gradient(180deg, #d4af37 0%, #e8c55a 100%);
+        color: #1a1613;
+        box-shadow: 0px 4px 20px 0px #d4af374d;
+        border: none;
+        border-radius: 16777200px;
+        padding: 1.01rem 1.75rem;
+        font-size: 1.01rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.18s;
+
+        &:hover {
+          background: var(--gold_hover);
+          transform: translateY(-2px);
+          box-shadow: 0 8px 20px rgba(212, 184, 106, 0.28);
+        }
+      }
+
+      .cm_btn_ghost {
+        background: transparent;
+        color: var(--text);
+        border: 1px solid #d4af37;
+        border-radius: 16777200px;
+        padding: 1.01rem 1.75rem;
+        font-size: 1.01rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.18s;
+
+        &:hover {
+          border-color: rgba(255, 255, 255, 0.5);
+          transform: translateY(-2px);
+        }
+      }
+    }
+  }
+}
+
+/* CHESS BOARD */
+.cm_board_outer {
+  flex-shrink: 0;
+  overflow: hidden;
+  border: 8px solid #d4af37;
+  border-radius: 14px;
+  box-shadow:
+    0 28px 72px rgba(0, 0, 0, 0.65),
+    0 0 0 1px rgba(255, 255, 255, 0.05);
+
+  .cm_board {
+    display: grid;
+    grid-template-columns: repeat(8, 62px);
+    grid-template-rows: repeat(8, 62px);
+
+    .cm_sq {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.75rem;
+      user-select: none;
+      transition: filter 0.15s;
+      cursor: default;
+
+      &.light {
+        background: var(--sq_light);
+      }
+      &.dark {
+        background: var(--sq_dark);
+      }
+
+      &.white_p {
+        color: #ffffff;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      &.black_p {
+        color: #000000;
+      }
+
+      &:hover {
+        filter: brightness(1.1);
+      }
+    }
+  }
+}
