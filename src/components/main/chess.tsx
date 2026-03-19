@@ -1,34 +1,55 @@
+import React, { useState, useRef, useCallback, useEffect } from "react";
+import { Chessboard } from "react-chessboard";
+import { Chess } from "chess.js";
 import Header from "../header/Header";
 
 import style from "./style.module.scss";
+import { pieces } from "./piecesChess";
 
-const P: Record<string, string> = {
-  r: "♜",
-  n: "♞",
-  b: "♝",
-  q: "♛",
-  k: "♚",
-  p: "♟",
-  R: "♖",
-  N: "♘",
-  B: "♗",
-  Q: "♕",
-  K: "♔",
-  P: "♙",
-};
+const ChessMaster: React.FC = () => {
+  const [game] = useState<Chess>(new Chess());
 
-const BOARD = [
-  ["r", "n", "b", "q", "k", "b", "n", "r"],
-  ["p", "p", "p", "p", "p", "p", "p", "p"],
-  [" ", " ", " ", " ", " ", " ", " ", " "],
-  [" ", " ", " ", " ", " ", " ", " ", " "],
-  [" ", " ", " ", " ", " ", " ", " ", " "],
-  [" ", " ", " ", " ", " ", " ", " ", " "],
-  ["P", "P", "P", "P", "P", "P", "P", "P"],
-  ["R", "N", "B", "Q", "K", "B", "N", "R"],
-];
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const rafRef = useRef<number | null>(null);
 
-export default function ChessMaster() {
+  const tilt = useRef({ x: 0, y: 0, targetX: 0, targetY: 0, hovered: false });
+  const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
+
+  const tick = useCallback(function animate() {
+    const t = tilt.current;
+    t.x = lerp(t.x, t.targetX, 0.08);
+    t.y = lerp(t.y, t.targetY, 0.08);
+    rafRef.current = requestAnimationFrame(animate);
+  }, []);
+
+  useEffect(() => {
+    rafRef.current = requestAnimationFrame(tick);
+    return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
+  }, [tick]);
+
+  const onMouseEnter = useCallback(() => {
+    tilt.current.hovered = true;
+  }, []);
+
+  const onMouseLeave = useCallback(() => {
+    tilt.current.hovered = false;
+    tilt.current.targetX = 0;
+    tilt.current.targetY = 0;
+  }, []);
+
+  const onMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = wrapperRef.current?.getBoundingClientRect();
+    if (!rect) return;
+
+    const nx = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+    const ny = ((e.clientY - rect.top) / rect.height) * 2 - 1;
+
+    tilt.current.targetX = -ny * 18;
+    tilt.current.targetY = nx * 22;
+  }, []);
+
   return (
     <div className={style.cm_root}>
       <Header />
@@ -47,33 +68,29 @@ export default function ChessMaster() {
           </div>
         </div>
 
-        <div className={style.cm_board_outer}>
+        <div
+          ref={wrapperRef}
+          className={style.cm_board_outer}
+          onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave}
+          onMouseMove={onMouseMove}
+        >
           <div className={style.cm_board}>
-            {BOARD.map((row, ri) =>
-              row.map((piece, ci) => {
-                const isWhitePiece =
-                  piece !== " " && piece === piece.toUpperCase();
-                const isBlackPiece =
-                  piece !== " " && piece === piece.toLowerCase();
-
-                return (
-                  <div
-                    key={`${ri}-${ci}`}
-                    className={`
-                  ${style.cm_sq} 
-                  ${(ri + ci) % 2 === 0 ? style.light : style.dark}
-                  ${isWhitePiece ? style.white_p : ""}
-                  ${isBlackPiece ? style.black_p : ""}
-                `}
-                  >
-                    {piece !== " " ? P[piece] : null}
-                  </div>
-                );
-              }),
-            )}
+            <Chessboard
+              options={{
+                position: game.fen(),
+                boardOrientation: "white",
+                showNotation: false,
+                pieces,
+                lightSquareStyle: { background: "#F0D9B5" },
+                darkSquareStyle: { background: "#B58863" },
+              }}
+            />
           </div>
         </div>
       </section>
     </div>
   );
-}
+};
+
+export default ChessMaster;
