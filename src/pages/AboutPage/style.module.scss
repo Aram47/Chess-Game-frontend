@@ -1,0 +1,9 @@
+.cm_root {
+  font-family: "Barlow", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  min-height: 80vh;
+  overflow: hidden;
+}
