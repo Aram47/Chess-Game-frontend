@@ -1,12 +1,11 @@
 .cm_hero {
   display: flex;
   align-items: center;
-  justify-content: space-between; 
-  margin: 150px 0;
-  min-height: 50vh;
+  justify-content: space-between;
   width: 100%;
-  overflow: hidden;
+  height: auto;
   position: relative;
+  margin-top: 90px;
 
   .cm_copy {
     width: 50%;
@@ -49,8 +48,7 @@
         font-weight: 700;
         cursor: pointer;
         transition: all 0.18s;
-        box-shadow: 0px 4px 20px 0px #E5CC7A4D;
-
+        box-shadow: 0px 4px 20px 0px #e5cc7a4d;
 
         &:hover {
           background: var(--gold_hover);
@@ -109,15 +107,16 @@
   }
 
   .cm_board_outer {
-    width: 500px;
+    width: 400px;
     flex-shrink: 0;
-    overflow: hidden;
     border: 8px solid #eedda6;
     border-radius: 14px;
     position: relative;
-    overflow: visible;
     transition: transform 0.6s ease;
     box-sizing: border-box;
+    transform-style: preserve-3d;
+    will-change: transform;
+    backface-visibility: hidden;
 
     &::after {
       content: "";
@@ -129,15 +128,15 @@
       opacity: 0;
       transition: opacity 0.4s ease 0.3s;
       box-shadow:
-        0 12px 32px rgba(0, 0, 0, 0.5),
-        0 0 0 1px rgba(255, 255, 255, 0.06),
-        0 6px 0 3px #b8a96a,
-        0 8px 16px 2px rgba(0, 0, 0, 0.35);
+        0 0 30px 5px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.1),
+        0 0 0 4px #b8a96a,
+        0 0 15px 2px rgba(184, 169, 106, 0.3);
     }
 
     &:hover {
       transform: perspective(1000px) rotateX(-15deg) rotateY(-27deg)
-        rotateZ(6deg);
+        rotateZ(2deg);
 
       &::after {
         opacity: 1;
@@ -155,6 +154,7 @@
       overflow: hidden;
       transform: none !important;
       filter: none !important;
+      transform-style: flat;
 
       img {
         width: 33px;
