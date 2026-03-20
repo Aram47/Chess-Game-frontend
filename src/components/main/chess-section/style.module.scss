@@ -1,0 +1,234 @@
+.cm_hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; 
+  margin: 150px 0;
+  min-height: 50vh;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+
+  .cm_copy {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    text-align: start;
+    gap: 40px;
+
+    .cm_headline {
+      font-size: 72px;
+      font-weight: 900;
+      line-height: 1.1;
+      color: var(--cream);
+      font-family: "Playfair Display", serif;
+
+      span {
+        color: var(--gold);
+      }
+    }
+
+    .cm_subline {
+      font-size: 20px;
+      font-weight: 400;
+      line-height: 1.75;
+      color: var(--muted);
+      width: 85%;
+    }
+    .cm_actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      .cm_btn_fill {
+        background: linear-gradient(180deg, #e5cc7a 0%, #f4e09e 100%);
+        color: #1a1613;
+        border: none;
+        border-radius: 16777200px;
+        padding: 1.125rem 1.75rem;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.18s;
+        box-shadow: 0px 4px 20px 0px #E5CC7A4D;
+
+
+        &:hover {
+          background: var(--gold_hover);
+          transform: translateY(-2px);
+          box-shadow: 0 8px 20px rgba(212, 184, 106, 0.28);
+        }
+      }
+
+      .cm_btn_ghost {
+        background: transparent;
+        color: var(--text);
+        border: 2px solid var(--gold);
+        border-radius: 16777200px;
+        padding: 1.125rem 1.75rem;
+        font-size: 1.01rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.18s;
+
+        &:hover {
+          border-color: rgba(255, 255, 255, 0.5);
+          transform: translateY(-2px);
+        }
+      }
+    }
+  }
+
+  .leftSide {
+    position: absolute;
+    left: -50%;
+    animation: slideLeft 4s forwards;
+  }
+
+  .rightSide {
+    position: absolute;
+    right: -100%;
+    animation: slideRight 4s forwards;
+  }
+
+  @keyframes slideLeft {
+    from {
+      left: -50%;
+    }
+    to {
+      left: 100px;
+    }
+  }
+
+  @keyframes slideRight {
+    from {
+      right: -100%;
+    }
+    to {
+      right: -60%;
+    }
+  }
+
+  .cm_board_outer {
+    width: 500px;
+    flex-shrink: 0;
+    overflow: hidden;
+    border: 8px solid #eedda6;
+    border-radius: 14px;
+    position: relative;
+    overflow: visible;
+    transition: transform 0.6s ease;
+    box-sizing: border-box;
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset: -8px;
+      border-radius: 14px;
+      pointer-events: none;
+      z-index: -1;
+      opacity: 0;
+      transition: opacity 0.4s ease 0.3s;
+      box-shadow:
+        0 12px 32px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(255, 255, 255, 0.06),
+        0 6px 0 3px #b8a96a,
+        0 8px 16px 2px rgba(0, 0, 0, 0.35);
+    }
+
+    &:hover {
+      transform: perspective(1000px) rotateX(-15deg) rotateY(-27deg)
+        rotateZ(6deg);
+
+      &::after {
+        opacity: 1;
+      }
+
+      [id^="chessboard-square-"] span {
+        transition: transform 0.6s ease;
+        display: inline-block;
+      }
+    }
+
+    .cm_board {
+      width: 100%;
+      border-radius: 4px;
+      overflow: hidden;
+      transform: none !important;
+      filter: none !important;
+
+      img {
+        width: 33px;
+        height: 33px;
+      }
+      .chess_icon {
+        width: 33px;
+        height: 33px;
+      }
+
+      @media (max-width: 1024px) {
+        .chess_icon,
+        img {
+          width: 16px;
+          height: 20px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .chess_icon,
+        img {
+          width: 12px;
+          height: 16px;
+        }
+      }
+    }
+
+    #chessboard-board {
+      grid-template-columns: repeat(8, 57.75px) !important;
+    }
+    [id^="chessboard-square-"] > div {
+      height: auto !important;
+      width: auto !important;
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  .cm_hero {
+    margin: 40px 0;
+    flex-direction: column;
+    padding: 0 40px;
+  }
+
+  .cm_board_outer {
+    width: 340px;
+
+    #chessboard-board {
+      grid-template-columns: repeat(8, 42.5px) !important;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .cm_hero {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 0 20px;
+
+    .cm_headline {
+      font-size: 42px;
+    }
+
+    .cm_subline {
+      font-size: 16px;
+      width: 100%;
+    }
+  }
+
+  .cm_board_outer {
+    width: 280px;
+
+    #chessboard-board {
+      grid-template-columns: repeat(8, 35px) !important;
+    }
+  }
+}

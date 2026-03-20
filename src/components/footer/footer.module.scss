@@ -1,0 +1,80 @@
+.footer {
+  background-color: #2a2118;
+  padding: 4.0625rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+
+  &_columns {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    column-gap: 3rem;
+  }
+
+  &_column {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+
+    &_title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--head);
+      margin: 0;
+    }
+
+    &_links {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+
+      li a {
+        font-size: 1rem;
+        font-weight: 400;
+        color: var(--muted);
+        text-decoration: none;
+        transition: color 0.2s ease;
+
+        &:hover {
+          color: var(--text);
+        }
+      }
+    }
+  }
+
+  &_bottom {
+    border-top: 1px solid #3d3228;
+    margin-top: 3rem;
+    padding-top: 2.0625rem;
+    text-align: center;
+
+    p {
+      margin: 0;
+      font-size: 0.875rem;
+      color: var(--muted);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 0.2rem;
+    }
+
+    a {
+      color: #7a6e65;
+      text-decoration: none;
+      transition: color 0.2s ease;
+      font-family: var(--font-dm);
+
+      &:hover {
+        color: #c8bfb0;
+      }
+    }
+
+    &_divider {
+      color: #3d3228;
+    }
+  }
+}

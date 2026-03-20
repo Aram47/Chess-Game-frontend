@@ -1,10 +1,9 @@
 import React, { useState, useRef, useCallback, useEffect } from "react";
 import { Chessboard } from "react-chessboard";
 import { Chess } from "chess.js";
-import Header from "../header/Header";
+import { pieces } from "./piecesChess";
 
 import style from "./style.module.scss";
-import { pieces } from "./piecesChess";
 
 const ChessMaster: React.FC = () => {
   const [game] = useState<Chess>(new Chess());
@@ -51,45 +50,43 @@ const ChessMaster: React.FC = () => {
   }, []);
 
   return (
-    <div className={style.cm_root}>
-      <Header />
-      <section className={style.cm_hero}>
-        <div className={style.cm_copy}>
-          <h1 className={style.cm_headline}>
-            Master the <span>Art</span> of Chess
-          </h1>
-          <p className={style.cm_subline}>
-            Elevate your game with AI-powered analysis, expert instruction, and
-            a global community of chess enthusiasts.
-          </p>
-          <div className={style.cm_actions}>
-            <button className={style.cm_btn_fill}>Start Playing</button>
-            <button className={style.cm_btn_ghost}>Watch Demo</button>
-          </div>
-        </div>
+    <section className={style.cm_hero}>
+      <div className={`${style.cm_copy} ${style.leftSide}`}>
+        <h1 className={style.cm_headline}>
+          Master the <span>Art</span> of Chess
+        </h1>
 
-        <div
-          ref={wrapperRef}
-          className={style.cm_board_outer}
-          onMouseEnter={onMouseEnter}
-          onMouseLeave={onMouseLeave}
-          onMouseMove={onMouseMove}
-        >
-          <div className={style.cm_board}>
-            <Chessboard
-              options={{
-                position: game.fen(),
-                boardOrientation: "white",
-                showNotation: false,
-                pieces,
-                lightSquareStyle: { background: "#F0D9B5" },
-                darkSquareStyle: { background: "#B58863" },
-              }}
-            />
-          </div>
+        <p className={style.cm_subline}>
+          Elevate your game with AI-powered analysis, expert instruction, and a
+          global community of chess enthusiasts.
+        </p>
+        <div className={style.cm_actions}>
+          <button className={style.cm_btn_fill}>Start Playing</button>
+          <button className={style.cm_btn_ghost}>Watch Demo</button>
         </div>
-      </section>
-    </div>
+      </div>
+
+      <div
+        ref={wrapperRef}
+        className={`${style.cm_board_outer} ${style.rightSide}`}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+        onMouseMove={onMouseMove}
+      >
+        <div className={style.cm_board}>
+          <Chessboard
+            options={{
+              position: game.fen(),
+              boardOrientation: "white",
+              showNotation: false,
+              pieces,
+              lightSquareStyle: { background: "#F0D9B5" },
+              darkSquareStyle: { background: "#B58863" },
+            }}
+          />
+        </div>
+      </div>
+    </section>
   );
 };
 

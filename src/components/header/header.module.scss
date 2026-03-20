@@ -25,7 +25,7 @@
         color: #e5cc7a;
       }
       .cm_logo {
-        font-family: "Playfair Display", serif;
+        font-family: var(--font_main);
         font-size: 1.875rem;
         font-weight: 900;
         color: var(--gold);
@@ -44,16 +44,39 @@
         gap: 32px;
         list-style: none;
 
-        a {
-          font-size: 0.875rem;
-          font-weight: 500;
-          color: var(--muted);
-          text-decoration: none;
-          letter-spacing: 0.03em;
-          transition: color 0.18s;
+        > li {
+          position: relative;
+          height: 25px;
 
-          &:hover {
-            color: var(--text);
+          a {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--muted);
+            text-decoration: none;
+            letter-spacing: 0.03em;
+            transition: color 0.18s;
+            padding-bottom: 4px;
+            font-family: var(--font_main);
+            &::after {
+              content: "";
+              position: absolute;
+              left: 0;
+              bottom: 0;
+              width: 100%;
+              height: 2px;
+              background-color: var(--gold);
+              transform: scaleX(0);
+              transform-origin: left center; // grow from left → right
+              transition: transform 0.25s ease;
+            }
+
+            &:hover {
+              color: var(--gold);
+
+              &::after {
+                transform: scaleX(1);
+              }
+            }
           }
         }
       }
@@ -63,28 +86,47 @@
       display: flex;
       align-items: center;
 
-     
+      &_flags {
+        position: relative;
+        background: none;
+        border: none;
+        cursor: pointer;
+
+        &_show {
+          position: absolute;
+          top: 30px;
+        }
+        > img {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
     }
     .cm_signin {
       background: linear-gradient(180deg, #e5cc7a 0%, #f4e09e 100%);
+      box-shadow: 0px 4px 20px 0px #e5cc7a4d;
+
       color: #1c1c1c;
       border: none;
       border-radius: 999px;
       padding: 0.625rem 1.5rem;
-      font-family: "Barlow", sans-serif;
+      font-family: var(--font_main);
       font-size: 0.875rem;
       font-weight: 700;
-      transition:
-        background 0.18s,
-        transform 0.15s;
-      box-shadow: 0px 4px 20px 0px #e5cc7a4d;
       cursor: pointer;
-
+      transition:
+        transform 0.7s ease,
+        box-shadow 0.7s ease;
       &:hover {
         background: var(--gold_hover);
-        transform: translateY(-1px);
+        transform: translateY(-5px);
+        box-shadow: 0 0 20px 5px rgba(229, 204, 122, 0.6);
       }
     }
+
     .cm_signup {
       padding: 0.625rem 1.5rem;
       font-family: "Barlow", sans-serif;
@@ -92,8 +134,12 @@
       font-weight: 600;
       border: none;
       background: none;
-      color: #F7EFD6;
+      color: #f7efd6;
       cursor: pointer;
+
+      &:hover {
+        color: var(--gold);
+      }
     }
   }
 }
