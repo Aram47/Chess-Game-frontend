@@ -1,14 +1,14 @@
 @import url("https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Barlow:wght@400;700;900&family=Playfair+Display:ital,wght@0,700;1,700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols+2&display=swap");
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap");
 
 :root {
   --text: #6b6375;
   --text-h: #08060d;
   --bg: #1c1c1c;
   --nav_border: rgba(255, 255, 255, 0.07);
-  --gold: #E5CC7A;
+  --gold: #e5cc7a;
   --gold_hover: #e8ce8c;
   --cream: #f0e8d0;
   --muted: #a39589;
@@ -38,19 +38,21 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-#root {
-  max-width: 100%;
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-html,
-body {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+#root {
+  max-width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #1c1c1c;
+  box-sizing: border-box;
 }
 
 h1,

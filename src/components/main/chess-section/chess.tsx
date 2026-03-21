@@ -2,11 +2,13 @@ import React, { useState, useRef, useCallback, useEffect } from "react";
 import { Chessboard } from "react-chessboard";
 import { Chess } from "chess.js";
 import { pieces } from "./piecesChess";
+import figure from "../../../assets/icons/figures/figure.png";
 
 import style from "./style.module.scss";
 
 const ChessMaster: React.FC = () => {
   const [game] = useState<Chess>(new Chess());
+  const [phase, setPhase] = useState<"idle" | "entrance" | "exit">("idle");
 
   const wrapperRef = useRef<HTMLDivElement>(null);
   const rafRef = useRef<number | null>(null);
@@ -22,11 +24,20 @@ const ChessMaster: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    rafRef.current = requestAnimationFrame(tick);
-    return () => {
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    };
+    if (!rafRef.current) {
+      rafRef.current = requestAnimationFrame(tick);
+    }
   }, [tick]);
+
+  useEffect(() => {
+    setPhase("entrance");
+
+    const timer = setTimeout(() => {
+      setPhase("exit");
+    }, 4000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const onMouseEnter = useCallback(() => {
     tilt.current.hovered = true;
@@ -51,7 +62,10 @@ const ChessMaster: React.FC = () => {
 
   return (
     <section className={style.cm_hero}>
-      <div className={`${style.cm_copy} ${style.leftSide}`}>
+      <div
+        className={`${style.cm_copy} ${phase === "exit" ? style.hide_text : ""}`}
+        // className={`${style.cm_copy} ${style.leftSide} ${hideText ? style.hide_text : ""}`}
+      >
         <h1 className={style.cm_headline}>
           Master the <span>Art</span> of Chess
         </h1>
@@ -68,7 +82,13 @@ const ChessMaster: React.FC = () => {
 
       <div
         ref={wrapperRef}
-        className={`${style.cm_board_outer} ${style.rightSide}`}
+        className={`${style.cm_board_outer} ${
+          phase === "entrance"
+            ? style.intro
+            : phase === "exit"
+              ? style.animateClass
+              : ""
+        }`}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
         onMouseMove={onMouseMove}
@@ -85,7 +105,13 @@ const ChessMaster: React.FC = () => {
             }}
           />
         </div>
+
       </div>
+      {phase === 'exit' && (
+      <div className={style.cm_figure}>
+        <img src={figure} alt="figure" />
+      </div>
+    )}
     </section>
   );
 };
