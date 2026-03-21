@@ -9,11 +9,13 @@ import style from "./header.module.scss";
 const Header = () => {
   const navigate = useNavigate();
   const [showFlag, setShowFlag] = useState(false);
+
   const flags = [
     { id: "en", icon: usaIcon, alt: "usa flag" },
     { id: "ru", icon: rusIcon, alt: "rus flag" },
     { id: "am", icon: armIcon, alt: "arm flag" },
   ];
+
   const [activeFlag, setActiveFlag] = useState(flags[0]);
 
   const handleFlagClick = (flag: (typeof flags)[0]) => {
@@ -22,7 +24,7 @@ const Header = () => {
   };
 
   return (
-    <header className={style.cm_container}>
+    <header className={`${style.cm_container} ${style.headerAnimate}`}>
       <div className={style.cm_header}>
         <div className={style.cm_left}>
           <span className={style.cm_logo} onClick={() => navigate("/")}>
@@ -51,10 +53,10 @@ const Header = () => {
 
         <div className={style.cm_right}>
           <div className={style.cm_right_flags}>
-            <img 
-              src={activeFlag.icon} 
-              alt={activeFlag.alt} 
-              onClick={() => setShowFlag(!showFlag)} 
+            <img
+              src={activeFlag.icon}
+              alt={activeFlag.alt}
+              onClick={() => setShowFlag(!showFlag)}
             />
 
             {showFlag && (

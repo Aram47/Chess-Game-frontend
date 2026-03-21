@@ -3,10 +3,10 @@
   width: 100%;
   flex-shrink: 0;
   padding: 1px 32px;
-  margin: 37px auto 0 auto;
-  border-bottom: 1px solid var(--nav_border);
+  margin: 33px auto 0 auto;
   border-radius: 999px;
   box-shadow: 0px 8px 32px 0px #00000080;
+  border: 1px solid rgba(229, 204, 122, 0.2);
 
   .cm_header {
     width: 100%;
@@ -14,6 +14,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+
     .cm_left {
       display: flex;
       align-items: center;
@@ -27,7 +28,7 @@
       .cm_logo {
         font-family: var(--font_main);
         font-size: 1.875rem;
-        font-weight: 900;
+        font-weight: 700;
         color: var(--gold);
         letter-spacing: 0.01em;
       }
@@ -57,6 +58,7 @@
             transition: color 0.18s;
             padding-bottom: 4px;
             font-family: var(--font_main);
+
             &::after {
               content: "";
               position: absolute;
@@ -66,7 +68,7 @@
               height: 2px;
               background-color: var(--gold);
               transform: scaleX(0);
-              transform-origin: left center; // grow from left → right
+              transform-origin: left center;
               transition: transform 0.25s ease;
             }
 
@@ -108,7 +110,6 @@
     .cm_signin {
       background: linear-gradient(180deg, #e5cc7a 0%, #f4e09e 100%);
       box-shadow: 0px 4px 20px 0px #e5cc7a4d;
-
       color: #1c1c1c;
       border: none;
       border-radius: 999px;
@@ -120,6 +121,7 @@
       transition:
         transform 0.7s ease,
         box-shadow 0.7s ease;
+
       &:hover {
         background: var(--gold_hover);
         transform: translateY(-5px);
@@ -140,6 +142,23 @@
       &:hover {
         color: var(--gold);
       }
+    }
+  }
+}
+
+.headerAnimate {
+  position: absolute;
+  top: -50%;
+  left: 50%;
+  transform: translate(-50%);
+  animation: headerAnimate 1s forwards;
+
+  @keyframes headerAnimate {
+    0% {
+      top: -50%;
+    }
+    100% {
+      top: 0%;
     }
   }
 }
