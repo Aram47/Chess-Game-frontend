@@ -6,7 +6,11 @@ import armIcon from "../../assets/icons/flags/armFlag.svg";
 
 import style from "./header.module.scss";
 
-const Header = () => {
+interface HeaderType {
+  setActiveModal: (type: "signup" | "signin" | null) => void;
+}
+
+const Header = ({ setActiveModal }: HeaderType) => {
   const navigate = useNavigate();
   const [showFlag, setShowFlag] = useState(false);
 
@@ -75,8 +79,18 @@ const Header = () => {
             )}
           </div>
 
-          <button className={style.cm_signup}>Sign up</button>
-          <button className={style.cm_signin}>Sign In</button>
+          <button
+            className={style.cm_signup}
+            onClick={() => setActiveModal("signup")}
+          >
+            Sign up
+          </button>
+          <button
+            className={style.cm_signin}
+            onClick={() => setActiveModal("signin")}
+          >
+            Sign In
+          </button>
         </div>
       </div>
     </header>

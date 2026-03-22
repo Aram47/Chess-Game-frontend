@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback, useEffect } from "react";
+import React, { useState, useRef, useCallback, useEffect, type FC } from "react";
 import { Chessboard } from "react-chessboard";
 import { Chess } from "chess.js";
 import { pieces } from "./piecesChess";
@@ -6,7 +6,7 @@ import figure from "../../../assets/icons/figures/figure.png";
 
 import style from "./style.module.scss";
 
-const ChessMaster: React.FC = () => {
+const ChessMaster: FC = () => {
   const [game] = useState<Chess>(new Chess());
   const [phase, setPhase] = useState<"idle" | "entrance" | "exit">("idle");
 
@@ -64,7 +64,6 @@ const ChessMaster: React.FC = () => {
     <section className={style.cm_hero}>
       <div
         className={`${style.cm_copy} ${phase === "exit" ? style.hide_text : ""}`}
-        // className={`${style.cm_copy} ${style.leftSide} ${hideText ? style.hide_text : ""}`}
       >
         <h1 className={style.cm_headline}>
           Master the <span>Art</span> of Chess
