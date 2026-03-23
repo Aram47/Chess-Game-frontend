@@ -1,16 +1,47 @@
-import React from "react";
+import React, { useState } from "react";
 import { Outlet } from "react-router-dom";
 import Header from "../components/header/Header";
+import SignUpModal from "../components/modal/SignUpModal";
+import SignInModal from "../components/modal/SignInModal";
+import ResetPasswordModal from "../components/modal/PasswordModal";
 // import Footer from "../components/footer/Footer";
 
 const Layout: React.FC = () => {
+  const [activeModal, setActiveModal] = useState<
+    "signup" | "signin" | "reset" | null
+  >(null);
+
+  const closeModal = () => setActiveModal(null);
+
   return (
     <div className="app-container">
-      <Header />
-
+      <Header setActiveModal={setActiveModal} />
       <main className="main-content">
         <Outlet />
       </main>
+      <div className="relative z-10 w-full max-w-md max-h-[100vh] rounded-2xl">
+        {activeModal === "signup" && (
+          <SignUpModal
+            onClose={closeModal}
+            onSwitchToLogin={() => setActiveModal("signin")}
+          />
+        )}
+        {activeModal === "signin" && (
+          <SignInModal
+            onClose={closeModal}
+            onSwitchToReset={() => setActiveModal("reset")}
+            onLoginSuccess={() => setActiveModal("signin")}
+            onSwitchToRegister={() => setActiveModal("signup")}
+          />
+        )}
+        {activeModal === "reset" && (
+          <ResetPasswordModal
+            onClose={closeModal}
+            onResetSuccess={closeModal}
+            onSwitchToLogin={() => setActiveModal("signin")}
+          />
+        )}
+      </div>
       {/* <Footer /> */}
     </div>
   );

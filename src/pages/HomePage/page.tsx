@@ -4,7 +4,7 @@ import ChessMaster from "../../components/main/chess-section/chess";
 
 import style from "./style.module.scss";
 
-const AboutPage = () => {
+const HomePage = () => {
   return (
     <div className={style.cm_root}>
       <ChessMaster />
@@ -14,4 +14,4 @@ const AboutPage = () => {
   );
 };
 
-export default AboutPage;
+export default HomePage;
