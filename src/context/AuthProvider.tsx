@@ -27,7 +27,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const restoreUser = async () => {
       try {
         const result = await refreshProvider();
-        console.log('result', result)
         if (result.user) setUser(result.user);
       } catch {
         // silently ignore — no session yet
