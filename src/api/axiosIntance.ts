@@ -25,11 +25,11 @@ api.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        const res = await api.post("/api/refresh");
-        console.log("refresh call", res);
+        await api.post("/api/refresh");
         return api(originalRequest);
-      } catch (refreshError) {
-        return Promise.reject(refreshError);
+      } catch {
+        window.dispatchEvent(new Event("auth:logout"));
+        return Promise.reject(error);
       }
     }
     return Promise.reject(error);

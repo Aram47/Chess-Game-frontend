@@ -21,15 +21,16 @@ export const registerProvider = async (
   return response.data;
 };
 
-export const refreshProvider = async (
-  refreshToken: string,
-): Promise<RefreshResponse> => {
-  const response = await api.post(`/api/refresh`, { refreshToken });
+export const refreshProvider = async (): Promise<RefreshResponse> => {
+  const response = await api.post(`/api/refresh`);
   return response.data;
 };
-
-export const resetPasswordProvider = async (data: IResetPassword): Promise<void> => {
+export const resetPasswordProvider = async (
+  data: IResetPassword,
+): Promise<void> => {
   const response = await api.post(`/api/reset-password`, data);
   return response.data;
 };
-
+export const logoutProvider = async (): Promise<void> => {
+  await api.post(`/api/logout`);
+};

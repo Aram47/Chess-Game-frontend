@@ -131,7 +131,10 @@ const Modal = ({
                   placeholder="Choose a username"
                   value={formData?.username ?? ""}
                   onChange={(e) =>
-                    setFormData?.({ ...formData!, username: e.target.value })
+                    setFormData?.((prev) => ({
+                      ...prev,
+                      username: e.target.value,
+                    }))
                   }
                 />
               )}
@@ -198,10 +201,10 @@ const Modal = ({
                       type="checkbox"
                       checked={formData?.rememberMe ?? false}
                       onChange={(e) =>
-                        setFormData?.({
-                          ...formData!,
+                        setFormData?.((prev) => ({
+                          ...prev,
                           rememberMe: e.target.checked,
-                        })
+                        }))
                       }
                       className="w-4.5 h-4.5 rounded border border-[#676767] accent-[#c8a84b] appearance-none checked:appearance-auto bg-transparent cursor-pointer"
                     />

@@ -38,7 +38,7 @@ const Header = ({ setActiveModal }: HeaderType) => {
         <nav className={style.cm_nav}>
           <ul className={style.cm_links}>
             <li>
-              <NavLink to="#">Play</NavLink>
+              <NavLink to="/play">Play</NavLink>
             </li>
             <li>
               <NavLink to="#">Problems</NavLink>

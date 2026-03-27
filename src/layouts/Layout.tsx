@@ -6,6 +6,8 @@ import SignInModal from "../components/modal/SignInModal";
 import ResetPasswordModal from "../components/modal/PasswordModal";
 // import Footer from "../components/footer/Footer";
 
+import "./style.css"
+
 const Layout: React.FC = () => {
   const [activeModal, setActiveModal] = useState<
     "signup" | "signin" | "reset" | null
