@@ -8,6 +8,7 @@
 @theme {
   --font-playfair: "Playfair Display", serif;
   --font-barlow: "Barlow", sans-serif;
+  --font-dm: "DM Sans", sans-serif;
 }
 
 :root {

@@ -15,12 +15,10 @@ export interface IRegisterPayload extends UserProfile {
 
 export interface ILoginPayload {
   login: string;
-  password?: string;
+  password: string;
 }
 
 export interface AuthResponse {
-  accessToken: string;
-  refreshToken: string;
   user: UserProfile;
 }
 
@@ -39,7 +37,6 @@ export interface AuthContextType {
   login: (data: ILoginPayload) => Promise<boolean>;
   register: (data: IRegisterPayload) => Promise<boolean>;
   logout: () => void;
-  refreshAccessToken: () => Promise<boolean>;
   resetPassword: (data: IResetPassword) => Promise<boolean>;
 }
 

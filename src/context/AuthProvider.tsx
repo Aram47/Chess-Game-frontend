@@ -4,6 +4,7 @@ import { AuthContext } from "./AuthContext";
 
 import {
   loginProvider,
+  logoutProvider,
   refreshProvider,
   registerProvider,
   resetPasswordProvider,
@@ -17,106 +18,67 @@ import type {
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<UserProfile | null>(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(() => {
-    if (typeof window === "undefined") return false;
-    return !!localStorage.getItem("accessToken");
-  });
-
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const logout = useCallback(() => {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
-    setUser(null);
-    setIsLoggedIn(false);
-    setError(null);
-  }, []);
+  const isLoggedIn = !!user;
 
   useEffect(() => {
-    const accessToken = localStorage.getItem("accessToken");
-    if (!accessToken) return;
-
     const restoreUser = async () => {
-      const refreshToken = localStorage.getItem("refreshToken");
-      if (!refreshToken) return logout();
-
       try {
-        const result = await refreshProvider(refreshToken);
-        localStorage.setItem("accessToken", result.accessToken);
+        const result = await refreshProvider();
+        console.log('result', result)
         if (result.user) setUser(result.user);
-        setIsLoggedIn(true);
       } catch {
-        logout();
+        // silently ignore — no session yet
       }
     };
-
     restoreUser();
   }, []);
 
-  const login = useCallback(
-    async ({ login, password }: ILoginPayload) => {
-      if (loading) return false;
-      setLoading(true);
+  useEffect(() => {
+    const handleLogout = () => {
+      setUser(null);
       setError(null);
-      try {
-        const result = await loginProvider({ login, password });
+    };
 
-        localStorage.setItem("accessToken", result.accessToken);
-        localStorage.setItem("refreshToken", result.refreshToken);
+    window.addEventListener("auth:logout", handleLogout);
+    return () => window.removeEventListener("auth:logout", handleLogout);
+  }, []);
 
-        setUser(result.user);
-        setIsLoggedIn(true);
-        return true;
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "Login failed");
-        return false;
-      } finally {
-        setLoading(false);
-      }
-    },
-    [loading],
-  );
-
-  const register = useCallback(
-    async (data: IRegisterPayload) => {
-      if (loading) return false;
-      setLoading(true);
-      setError(null);
-      try {
-        await registerProvider(data);
-        return true;
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "Registration failed");
-        return false;
-      } finally {
-        setLoading(false);
-      }
-    },
-    [loading],
-  );
-
-  const refreshAccessToken = useCallback(async (): Promise<boolean> => {
-    const refreshToken = localStorage.getItem("refreshToken");
-    if (!refreshToken) {
-      logout();
-      return false;
-    }
-
+  const login = useCallback(async ({ login, password }: ILoginPayload) => {
+    setLoading(true);
+    setError(null);
     try {
-      const result = await refreshProvider(refreshToken);
-      localStorage.setItem("accessToken", result.accessToken);
-      if (result.user) setUser(result.user);
+      const result = await loginProvider({ login, password });
+
+      setUser(result.user);
       return true;
-    } catch {
-      logout();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Login failed");
       return false;
+    } finally {
+      setLoading(false);
     }
-  }, [logout]);
+  }, []);
+
+  const register = useCallback(async (data: IRegisterPayload) => {
+    if (loading) return false;
+    setLoading(true);
+    setError(null);
+    try {
+      await registerProvider(data);
+      return true;
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Registration failed");
+      return false;
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   const resetPassword = useCallback(
     async (data: IResetPassword): Promise<boolean> => {
-      if (loading) return false;
       setLoading(true);
       setError(null);
       try {
@@ -129,8 +91,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setLoading(false);
       }
     },
-    [loading],
+    [],
   );
+
+  const logout = useCallback(async () => {
+    try {
+      await logoutProvider();
+    } catch {
+      // ignore
+    } finally {
+      setUser(null);
+      setError(null);
+    }
+  }, []);
 
   return (
     <AuthContext.Provider
@@ -142,7 +115,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         login,
         register,
         logout,
-        refreshAccessToken,
         resetPassword,
       }}
     >

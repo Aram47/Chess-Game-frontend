@@ -31,11 +31,13 @@ export default function SignInModal({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const success = await login({
-      login: formData.email,
+      login: formData.email || formData.username,
       password: formData.password,
     });
-    if (success) onLoginSuccess();
-    onClose()
+    if (success) {
+      onLoginSuccess();
+      onClose();
+    }
   };
 
   return (
