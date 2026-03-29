@@ -8,94 +8,6 @@
   position: relative;
   overflow: hidden;
 
-  .cm_copy {
-    width: 50%;
-    position: absolute;
-    left: -50%;
-    transition:
-      opacity 0.8s ease,
-      transform 0.8s ease;
-    animation: slideLeft 1.5s forwards;
-
-    &.hide_text {
-      opacity: 0;
-      transform: scale(0.9) translateX(-50px);
-      pointer-events: none;
-    }
-
-    @keyframes slideLeft {
-      from {
-        left: -50%;
-      }
-      to {
-        left: 10%;
-      }
-    }
-
-    .cm_headline {
-      font-size: 72px;
-      font-weight: 900;
-      line-height: 1.1;
-      color: var(--cream);
-      font-family: "Playfair Display", serif;
-
-      span {
-        color: var(--gold);
-      }
-    }
-
-    .cm_subline {
-      font-size: 20px;
-      font-weight: 400;
-      line-height: 1.75;
-      color: var(--muted);
-      width: 85%;
-    }
-    .cm_actions {
-      display: flex;
-      align-items: center;
-      gap: 24px;
-
-      .cm_btn_fill {
-        background: linear-gradient(180deg, #e5cc7a 0%, #f4e09e 100%);
-        color: #1a1613;
-        border: none;
-        border-radius: 16777200px;
-        padding: 1.125rem 1.75rem;
-        font-size: 1rem;
-        font-weight: 700;
-        cursor: pointer;
-        transition: all 0.18s;
-        box-shadow: 0px 4px 20px 0px #e5cc7a4d;
-        margin: 0.5rem 1rem 0 0;
-
-        &:hover {
-          transform: translateY(-5px);
-          box-shadow: 0 0 20px 5px rgba(229, 204, 122, 0.6);
-        }
-      }
-
-      .cm_btn_ghost {
-        background: transparent;
-        color: var(--text);
-        border: 2px solid var(--gold);
-        border-radius: 16777200px;
-        padding: 1.125rem 1.75rem;
-        font-size: 1.01rem;
-        font-weight: 700;
-        cursor: pointer;
-        transition: all 0.3s;
-        margin: 0.5rem 1rem 0 0;
-        box-shadow: 0px 4px 20px 0px #e5cc7a4d;
-
-        &:hover {
-          transform: translateY(-5px);
-          background: rgba(229, 204, 122, 0.3);
-        }
-      }
-    }
-  }
-
   .cm_board_outer {
     width: 500px;
     flex-shrink: 0;
@@ -108,12 +20,11 @@
     backface-visibility: hidden;
     animation: slideInRight 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 
-    // PHASE 2 & 3: Slide Left + Zoom Away
 
     &.animateClass {
       animation:
         slideAcross 2s cubic-bezier(0.45, 0, 0.55, 1) forwards,
-        zoomAway 1.2s cubic-bezier(0.45, 0, 0.55, 1) 1.8s forwards !important;
+        zoomAway 2s cubic-bezier(0.45, 0, 0.55, 1) 1.8s forwards !important;
     }
 
     @keyframes slideInRight {
@@ -226,7 +137,7 @@
     opacity: 0;
     pointer-events: none;
     z-index: 10;
-    animation: showFigure 2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    animation: showFigure 5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
     animation-delay: 2s;
 
     @keyframes showFigure {
@@ -245,6 +156,35 @@
       height: 300px;
       width: auto;
       filter: drop-shadow(0 20px 50px rgba(0, 0, 0, 0.5));
+    }
+  }
+
+  .sec_figure {
+    position: absolute;
+    top: 50%;
+    left: 20%;
+    transform: translate(-50%, -50%) scale(0.4);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 10;
+
+    animation:
+      showFigure 2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
+      leftFigure 2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+
+    animation-delay: 2s, 5s;
+
+    @keyframes leftFigure {
+      0% {
+        opacity: 0;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(1) rotateY(0deg);
+      }
+      100% {
+        opacity: 1;
+        left: 10%;
+        transform: translate(-10%, -50%) scale(1) rotateY(0deg);
+      }
     }
   }
 }

@@ -1,10 +1,18 @@
-import React, { useState, useRef, useCallback, useEffect, type FC } from "react";
+import React, {
+  useState,
+  useRef,
+  useCallback,
+  useEffect,
+  type FC,
+} from "react";
 import { Chessboard } from "react-chessboard";
 import { Chess } from "chess.js";
 import { pieces } from "./piecesChess";
-import figure from "../../../assets/icons/figures/figure.png";
+import figure from "../../../assets/icons/figure.png";
 
 import style from "./style.module.scss";
+import PlaySection from "./play/playSection";
+import MasterChessSection from "./master-section";
 
 const ChessMaster: FC = () => {
   const [game] = useState<Chess>(new Chess());
@@ -62,22 +70,8 @@ const ChessMaster: FC = () => {
 
   return (
     <section className={style.cm_hero}>
-      <div
-        className={`${style.cm_copy} ${phase === "exit" ? style.hide_text : ""}`}
-      >
-        <h1 className={style.cm_headline}>
-          Master the <span>Art</span> of Chess
-        </h1>
 
-        <p className={style.cm_subline}>
-          Elevate your game with AI-powered analysis, expert instruction, and a
-          global community of chess enthusiasts.
-        </p>
-        <div className={style.cm_actions}>
-          <button className={style.cm_btn_fill}>Start Playing</button>
-          <button className={style.cm_btn_ghost}>Watch Demo</button>
-        </div>
-      </div>
+     <MasterChessSection phase={phase} />
 
       <div
         ref={wrapperRef}
@@ -104,13 +98,16 @@ const ChessMaster: FC = () => {
             }}
           />
         </div>
+      </div>
 
-      </div>
-      {phase === 'exit' && (
-      <div className={style.cm_figure}>
-        <img src={figure} alt="figure" />
-      </div>
-    )}
+      {phase === "exit" && (
+        <div className={`${style.cm_figure} ${style.sec_figure}`}>
+          <img src={figure} alt="figure" />
+        </div>
+      )}
+      
+      <PlaySection />
+
     </section>
   );
 };

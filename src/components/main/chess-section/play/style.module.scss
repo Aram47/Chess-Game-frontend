@@ -1,0 +1,61 @@
+.cm_column {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: end;
+  gap: 2rem;
+  width: 40%;
+  position: absolute;
+  top: 30%;
+  right: 5%;
+  opacity: 0;
+  pointer-events: none;
+  animation: slideInFromRight 1.5s ease forwards;
+  animation-delay: 9s;
+
+  @keyframes slideInFromRight {
+    0% {
+      opacity: 0;
+      transform: translateX(50px) scale(0.9);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(-50px) scale(1);
+    }
+  }
+
+  .cm_title {
+    font-size: 3.75rem;
+  }
+
+  .cm_actions {
+    cursor: pointer;
+
+    .cm_start {
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.18s;
+    }
+
+    .cm_primary {
+      display: flex;
+      align-items: center;
+
+      .cm_btn_ghost {
+        color: var(--gold);
+        font-weight: 700;
+        font-size: 1.01rem;
+        text-transform: capitalize;
+      }
+      &:hover {
+        transform: translateY(-5px);
+      }
+      > img {
+        width: 20px;
+        height: 20px;
+        color: var(--gold);
+      }
+    }
+  }
+}

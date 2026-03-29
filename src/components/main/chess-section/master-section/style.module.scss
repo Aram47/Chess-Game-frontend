@@ -1,0 +1,44 @@
+.cm_copy {
+  width: 50%;
+  position: absolute;
+  left: -50%;
+  transition:
+    opacity 2.5s ease,
+    transform 2.5s ease;
+  animation: slideLeft 1.5s forwards;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+
+  &.hide_text {
+    opacity: 0;
+    transform: scale(0.9) translateX(-50px);
+    pointer-events: none;
+  }
+
+  @keyframes slideLeft {
+    from {
+      left: -50%;
+    }
+    to {
+      left: 10%;
+    }
+  }
+
+  .cm_title {
+    font-size: 4.5rem;
+  }
+
+  .cm_btn_ghost {
+    border: 2px solid var(--gold);
+    border-radius: 16777200px;
+    padding: 1.125rem 1.75rem;
+    box-shadow: 0px 4px 20px 0px #e5cc7a4d;
+    margin: 0.5rem 1rem 0 0;
+
+    &:hover {
+      transform: translateY(-5px);
+      background: rgba(229, 204, 122, 0.3);
+    }
+  }
+}
