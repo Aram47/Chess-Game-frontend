@@ -56,6 +56,7 @@ export interface ISignUp {
   text1: string;
   text2: string;
   text3: string;
+  text4: string;
   subtitle?: string;
   onSubmit?: (e: React.FormEvent) => void;
   formData?: IFormData;

@@ -1,10 +1,11 @@
 import { useState } from "react";
+import { useAuth } from "../../context/AuthContext";
+import type { ISignUp } from "../../types/authType";
+
 import closeIcon from "../../assets/icons/modal/close.svg";
 // import emailIcon from "../../../public/icons/email.svg";
 import passwordIcon from "../../assets/icons/modal/password.svg";
-import { useAuth } from "../../context/AuthContext";
-
-import type { ISignUp } from "../../types/authType";
+import google from "../../assets/icons/google.svg";
 
 const InputField = ({
   label,
@@ -69,6 +70,7 @@ const Modal = ({
   text1,
   text2,
   text3,
+  text4,
   subtitle,
   formData,
   isRegister = false,
@@ -85,22 +87,20 @@ const Modal = ({
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/30 backdrop-blur-sm p-4">
       <div
-        className={`relative max-w-[448px] w-full bg-[rgba(28, 28, 28, 0.8)] rounded-2xl border border-[#2e2e2e] shadow-[0px_8px_32px_0px_rgba(28,28,28,0.5)] backdrop-blur-[100px]`}
+        className={`relative max-w-[448px] w-full rounded-2xl border border-[#2e2e2e] shadow-[0px_8px_32px_0px_#1C1C1C80] backdrop-blur-[100px] bg-[#1C1C1CCC]`}
         style={{ padding: "2rem" }}
       >
         {/* Close button */}
         <button
           onClick={onClose}
-          className="absolute right-4 top-4 text-xl text-gray-500 hover:text-[var(--text)] transition-colors"
+          className="absolute right-4 top-4 text-xl text-gray-500 hover:text-[var(--text)] transition-colors cursor-pointer"
         >
           <img src={closeIcon} alt="close-icon" />
         </button>
 
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-white text-3xl font-bold font-playfair">
-            {text1}
-          </h1>
+          <h1 className="text-white text-3xl font-bold font-barlow">{text1}</h1>
           {subtitle && (
             <p className="text-[var(--muted)] text-sm mt-2">{subtitle}</p>
           )}
@@ -232,19 +232,34 @@ const Modal = ({
         </form>
 
         {/* Switch link */}
-        <p className="text-center text-sm text-gray-500 mt-5">
-          {isReset
-            ? "Remember your password? "
-            : isRegister
-              ? "Already have an account? "
-              : "Don't have an account? "}
-          <button
-            className="text-[#c8a84b] font-semibold hover:underline"
-            onClick={onSwitch}
-          >
-            {text3}
-          </button>
-        </p>
+        <div className="flex flex-col gap-y-6">
+          <p className="text-center text-sm text-gray-500 mt-5">
+            {isReset
+              ? "Remember your password? "
+              : isRegister
+                ? "Already have an account? "
+                : "Don't have an account? "}
+            <button
+              className="text-[#c8a84b] font-semibold hover:underline cursor-pointer"
+              onClick={onSwitch}
+            >
+              {text3}
+            </button>
+          </p>
+          <div className="flex items-center gap-x-3">
+            <span className="w-[35%] h-auto border-t text-[#E5CC7A33]"></span>
+            <p className="text-[var(--muted)] font-normal text-xs leading-4">
+              or continue with
+            </p>
+            <span className="w-[35%] h-auto border-t text-[#E5CC7A33]"></span>
+          </div>
+          <div className="flex items-center justify-center gap-x-2 py-3 px-6 border-[var(--bg)] border-1 rounded-3xl bg-[var(--bg)] cursor-pointer">
+            <img src={google} alt="google" />
+            <button className="font-medium text-sm text-[var(--text)] font-barlow cursor-pointer">
+              {text4}
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );

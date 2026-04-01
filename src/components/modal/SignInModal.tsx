@@ -50,6 +50,7 @@ export default function SignInModal({
       text1="Welcome back!"
       text2="Log In"
       text3="Sign Up"
+      text4="Google"
       isOpen={onSwitchToReset}
     />
   );

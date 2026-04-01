@@ -48,6 +48,7 @@ export default function SignUpModal({ onClose, onSwitchToLogin }: ISignUp) {
       subtitle="Create an account to start mastering chess"
       text2="Create Account"
       text3="Sign In"
+      text4="Google"
     />
   );
 }
