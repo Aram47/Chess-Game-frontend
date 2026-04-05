@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import usaIcon from "../../assets/icons/flags/usaFlag.svg";
 import rusIcon from "../../assets/icons/flags/rusFlag.svg";
 import armIcon from "../../assets/icons/flags/armFlag.svg";
+import { useAuth } from "../../context/AuthContext";
 
 import style from "./header.module.scss";
 
@@ -13,6 +14,9 @@ interface HeaderType {
 const Header = ({ setActiveModal }: HeaderType) => {
   const navigate = useNavigate();
   const [showFlag, setShowFlag] = useState(false);
+  const { user } = useAuth();
+
+  console.log("Current User in Header:", user);
 
   const flags = [
     { id: "en", icon: usaIcon, alt: "usa flag" },
@@ -78,19 +82,29 @@ const Header = ({ setActiveModal }: HeaderType) => {
               </div>
             )}
           </div>
-
-          <button
-            className={style.cm_signup}
-            onClick={() => setActiveModal("signup")}
-          >
-            Sign up
-          </button>
-          <button
-            className={style.cm_signin}
-            onClick={() => setActiveModal("signin")}
-          >
-            Sign In
-          </button>
+          {user ? (
+            <div className={style.cm_user_profile}>
+              <span>Nickname</span>
+              <Link to="/profile" className={style.cm_username_btn}>
+                {user.username.charAt(0) || "User"}
+              </Link>
+            </div>
+          ) : (
+            <div>
+              <button
+                className={style.cm_signup}
+                onClick={() => setActiveModal("signup")}
+              >
+                Sign up
+              </button>
+              <button
+                className={style.cm_signin}
+                onClick={() => setActiveModal("signin")}
+              >
+                Sign In
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </header>

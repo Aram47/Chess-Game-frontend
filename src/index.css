@@ -11,6 +11,15 @@
   --font-playfair: "Playfair Display", serif;
   --font-barlow: "Barlow", sans-serif;
   --font-dm: "DM Sans", sans-serif;
+
+  /* Colors - This allows text-gold, bg-gold, etc. */
+  --color-gold: #e5cc7a;
+  --color-gold-hover: #e8ce8c;
+  --color-cream: #f0e8d0;
+  --color-app-bg: #1c1c1c;
+  --color-head: #d4af37;
+  --color-text: #f5f1e8;
+  --color-mute: #a39589;
 }
 
 :root {

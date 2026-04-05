@@ -7,7 +7,10 @@
   border-radius: 999px;
   box-shadow: 0px 8px 32px 0px #00000080;
   border: 1px solid rgba(229, 204, 122, 0.2);
-
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  
   .cm_header {
     width: 100%;
     height: 64px;
@@ -87,6 +90,7 @@
     .cm_right {
       display: flex;
       align-items: center;
+      column-gap: 1.5rem;
 
       &_flags {
         position: relative;
@@ -104,6 +108,34 @@
           display: flex;
           align-items: center;
           justify-content: center;
+        }
+      }
+
+      .cm_user_profile {
+        display: flex;
+        align-items: center;
+        column-gap: 12px;
+
+        > span {
+          color: var(--gold);
+          font-weight: 600;
+          font-size: 1rem;
+          font-family: var(--font-barlow);
+        }
+        > a {
+          width: 40px;
+          height: 40px;
+          font-weight: 600;
+          font-size: 1rem;
+          font-family: var(--font-barlow);
+          border-radius: 50%;
+          color: var(--bg);
+          background: linear-gradient(180deg, #e5cc7a 0%, #f4e09e 100%);
+          box-shadow: 0px 4px 20px 0px #e5cc7a4d;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-transform: uppercase;
         }
       }
     }
