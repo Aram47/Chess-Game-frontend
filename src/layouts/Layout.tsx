@@ -19,9 +19,13 @@ const Layout: React.FC = () => {
 
   return (
     <div className="app-container">
-      <Header setActiveModal={setActiveModal} />
+      <div className="headerWrapper">
+        <Header setActiveModal={setActiveModal} />
+      </div>
 
-      <main className={`${currentPath === "/" ? "absolute top-0 bottom-0" : "static"} main-content`}>
+      <main
+        className={`${currentPath === "/" ? "absolute top-0 bottom-0" : "static"} main-content`}
+      >
         <Outlet />
       </main>
       <div className="relative z-10 w-full max-w-md max-h-[100vh] rounded-2xl">

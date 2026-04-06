@@ -4,6 +4,7 @@
     border: 8px solid #eedda6;
     border-radius: 14px;
     position: relative;
+    
 
     .cm_board {
       width: 100%;
@@ -45,6 +46,7 @@
     [id^="chessboard-square-"] > div {
       height: auto !important;
       width: auto !important;
+      
     }
   }
  

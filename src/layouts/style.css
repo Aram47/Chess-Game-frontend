@@ -17,21 +17,26 @@
   overflow: hidden;
 } */
 
-
 .app-container {
   display: flex;
   flex-direction: column;
-  height: 100vh; 
+  height: 100vh;
   width: 100vw;
-  background: #121212; 
-  overflow-X: hidden; 
+  background: #121212;
+  overflow-x: hidden;
+}
+
+.headerWrapper {
+  position: relative;
+  width: 100%;
+  height: 110px;
+  overflow: hidden;
 }
 
 .main-content {
-  display: flex; 
+  display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center; 
+  justify-content: center;
   width: 100%;
-  background: var(--bg);
 }

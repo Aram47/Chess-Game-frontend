@@ -21,6 +21,19 @@ const ChessAnalysisUI: React.FC = () => {
     { rank: 3, move: "Nxe5", evalScore: "+0.8" },
   ];
 
+  const [counter, setCounter] = React.useState(0);
+
+  const handleMoveNavigation = (direction: "next" | "prev") => {
+    setCounter((prev) => {
+      if (direction === "next") {
+        return Math.min(prev + 1, 39);
+      }
+      return Math.max(prev - 1, 0);
+    });
+  };
+
+  const isPlaying: "white" | "black" = counter % 2 === 0 ? "white" : "black";
+
   return (
     <section className="flex flex-col grow pt-[300px] pb-16">
       <div className="max-w-3xl w-full text-white font-sans flex flex-col items-center px-4">
@@ -50,13 +63,23 @@ const ChessAnalysisUI: React.FC = () => {
             </div>
 
             <div className="bg-[#2a2a2a] rounded-xl flex items-center justify-between p-4 text-sm text-gray-300">
-              <button className="hover:text-white transition-colors">
+              <button
+                className="hover:text-white transition-colors"
+                onClick={() => handleMoveNavigation("prev")}
+              >
                 <img src={leftArrow} width={20} height={20} />
               </button>
               <span className="font-normal text-mute text-xs">
-                Move 9 • White to move
+                {isPlaying === "white"
+                  ? "Playing: White"
+                  : isPlaying === "black"
+                    ? "Playing: Black"
+                    : `Move ${counter + 1} • to move`}
               </span>
-              <button className="hover:text-white transition-colors">
+              <button
+                className="hover:text-white transition-colors"
+                onClick={() => handleMoveNavigation("next")}
+              >
                 <img src={rightArrow} width={20} height={20} />
               </button>
             </div>
@@ -109,9 +132,8 @@ const ChessAnalysisUI: React.FC = () => {
             </div>
           </div>
         </div>
-
       </div>
-        {/* Bottom Control Bar */}
+      {/* Bottom Control Bar */}
       <div className="mt-12 flex flex-wrap justify-center gap-4">
         <NavButton
           icon={<img src={firstIcon} alt="firstIcon" />}
