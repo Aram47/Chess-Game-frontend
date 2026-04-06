@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
-import Modal from "./Modal";
+import Modal from "../../hooks/Modal";
 
 interface IResetPasword {
   onClose: () => void;

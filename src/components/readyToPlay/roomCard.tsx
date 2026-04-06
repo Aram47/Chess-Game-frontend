@@ -2,8 +2,12 @@ export const RoomCard: React.FC<{
   icon: React.ReactNode;
   title: string;
   description: string;
-}> = ({ icon, title, description }) => (
-  <div className="w-full bg-[#252525] border border-[#333] hover:border-[#D4AF37] rounded-[150px] p-8 flex flex-col items-center gap-3 cursor-pointer transition-colors">
+  onClick?: () => void;
+}> = ({ icon, title, description, onClick }) => (
+  <div
+    className="w-full bg-[#252525] border border-[#333] hover:border-[#D4AF37] rounded-[150px] p-8 flex flex-col items-center gap-3 cursor-pointer transition-all duration-500 ease-in-out hover:border-[#D4AF37] hover:-translate-y-2"
+    onClick={onClick}
+  >
     <div className="w-11 h-11 rounded-full bg-[#2f2f2f] border border-[#3a3a3a] flex items-center justify-center">
       {icon}
     </div>

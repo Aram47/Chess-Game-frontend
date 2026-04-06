@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
-import Modal from "./Modal";
+import Modal from "../../hooks/Modal";
 import type { IFormData } from "../../types/authType";
 
 interface ISignUp {
@@ -30,9 +30,9 @@ export default function SignUpModal({ onClose, onSwitchToLogin }: ISignUp) {
     if (success) {
       alert("Registration successful! Please sign in.");
       await login({
-      login: formData.email,
-      password: formData.password,
-    })
+        login: formData.email,
+        password: formData.password,
+      });
     }
   };
 

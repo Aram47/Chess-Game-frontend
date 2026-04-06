@@ -35,7 +35,7 @@ const ChessAnalysisUI: React.FC = () => {
   const isPlaying: "white" | "black" = counter % 2 === 0 ? "white" : "black";
 
   return (
-    <section className="flex flex-col grow pt-[300px] pb-16">
+    <section className="flex flex-col grow pt-[170px] pb-16">
       <div className="max-w-3xl w-full text-white font-sans flex flex-col items-center px-4">
         <header className="text-center mb-12 max-w-2xl">
           <h1 className="text-6xl font-playfair font-black mb-6 tracking-tight">

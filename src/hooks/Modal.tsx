@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { useAuth } from "../../context/AuthContext";
-import type { ISignUp } from "../../types/authType";
+import { useAuth } from "../context/AuthContext";
+import type { ISignUp } from "../types/authType";
 
-import closeIcon from "../../assets/icons/modal/close.svg";
+import closeIcon from "../assets/icons/modal/close.svg";
 // import emailIcon from "../../../public/icons/email.svg";
-import passwordIcon from "../../assets/icons/modal/password.svg";
-import google from "../../assets/icons/google.svg";
+import passwordIcon from "../assets/icons/modal/password.svg";
+import google from "../assets/icons/google.svg";
 
 const InputField = ({
   label,

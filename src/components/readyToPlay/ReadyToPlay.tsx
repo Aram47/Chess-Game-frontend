@@ -1,17 +1,20 @@
 import React, { useState } from "react";
+import { usePlay } from "../../context/PlayContext";
+
 import monitor from "../../assets/icons/play/monitor.svg";
 import user from "../../assets/icons/play/person.svg";
-import plusIcon from "../../assets/icons/play/plus.svg";
-import joinIcon from "../../assets/icons/play/join.svg";
-import { RoomCard } from "./roomCard";
+
+import LivePlayer from "./player";
+import PlatformCard from "./platformCard";
 
 type Tab = "platform" | "live";
 
 const ReadyToPlay: React.FC = () => {
   const [activeTab, setActiveTab] = useState<Tab>("live");
+  const { showModal, setShowModal } = usePlay();
 
   return (
-    <section className="max-w-5xl w-full flex flex-col rounded-2xl mt-25 mx-auto font-barlow">
+    <section className="max-w-5xl w-full flex flex-col rounded-2xl mt-25 mx-auto font-barlow relative">
       <div className="flex flex-col items-center gap-y-8">
         <div className="flex flex-col items-center gap-y-8">
           <h1 className="text-5xl font-medium text-[var(--color-gold)]">
@@ -33,9 +36,7 @@ const ReadyToPlay: React.FC = () => {
             }`}
           >
             <img src={monitor} alt="Monitor" />
-            <span className="font-medium text-xl">
-                vs Platform
-            </span>
+            <span className="font-medium text-xl">vs Platform</span>
           </button>
           <button
             onClick={() => setActiveTab("live")}
@@ -51,20 +52,18 @@ const ReadyToPlay: React.FC = () => {
         </div>
       </div>
 
-      {/* Cards */}
-      <div className="flex items-center justify-center gap-x-8 mt-10">
-        {}
-        <RoomCard
-          icon={<img src={plusIcon} alt="plus-icon" />}
-          title="Create Room"
-          description="Start a private game and invite a friend."
-        />
-        <RoomCard
-          icon={<img src={joinIcon} alt="Join" />}
-          title="Join Room"
-          description="Join an existing game and make your move."
-        />
-      </div>
+      {activeTab === "live" && (
+        <LivePlayer showModal={showModal} setShowModal={setShowModal} />
+      )}
+
+      {activeTab === "platform" && (
+        <div className="fixed inset-0 top-50 z-50 flex items-start justify-center bg-black/50">
+          <PlatformCard
+            activeTab="platform"
+            onClose={() => setActiveTab("live")}
+          />
+        </div>
+      )}
     </section>
   );
 };
