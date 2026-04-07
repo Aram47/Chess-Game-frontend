@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from "react";
 import type { ReactNode } from "react";
-import { AuthContext } from "./AuthContext";
+import { AuthContext } from "../context/AuthContext";
 
 import {
   loginProvider,
@@ -50,8 +50,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setError(null);
     try {
       const result = await loginProvider({ login, password });
+      console.log("Full API Response:", result);
 
-      setUser(result.user);
+      const userData = result.user || result;
+
+      setUser(userData);
       return true;
     } catch (err) {
       setError(err instanceof Error ? err.message : "Login failed");

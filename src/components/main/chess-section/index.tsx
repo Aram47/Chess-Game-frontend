@@ -10,9 +10,9 @@ import { Chess } from "chess.js";
 import { pieces } from "./piecesChess";
 import figure from "../../../assets/icons/figure.png";
 
-import style from "./style.module.scss";
 import PlaySection from "./play/playSection";
 import MasterChessSection from "./master-section";
+import style from "./style.module.scss";
 
 const ChessMaster: FC = () => {
   const [game] = useState<Chess>(new Chess());

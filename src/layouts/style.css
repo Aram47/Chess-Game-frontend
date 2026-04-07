@@ -1,4 +1,4 @@
-.app-container {
+/* .app-container {
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -12,7 +12,30 @@
   justify-content: center; 
   width: 100%;
   height: calc(100vh - 110px);
-  position: relative;
-  margin-top: 90px;
+  position: absolute;
+  margin-top: 150px;
   overflow: hidden;
+} */
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  background: #121212;
+  overflow-x: hidden;
+}
+
+.headerWrapper {
+  position: relative;
+  width: 100%;
+  height: 110px;
+}
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
 }

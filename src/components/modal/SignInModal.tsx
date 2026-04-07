@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Modal from "./Modal";
+import Modal from "../../hooks/Modal";
 import { useAuth } from "../../context/AuthContext";
 import type { IFormData } from "../../types/authType";
 
