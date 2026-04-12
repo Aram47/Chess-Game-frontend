@@ -24,33 +24,35 @@ const Layout: React.FC = () => {
       </div>
 
       <main
-        className={`${currentPath === "/" ? "absolute top-0 bottom-0" : "static"} main-content`}
+        className={`${currentPath === "/" ? "absolute top-0 bottom-0" : "relative z-[1]"} main-content`}
       >
         <Outlet />
       </main>
-      <div className="relative z-10 w-full max-w-md max-h-[100vh] rounded-2xl">
-        {activeModal === "signup" && (
-          <SignUpModal
-            onClose={closeModal}
-            onSwitchToLogin={() => setActiveModal("signin")}
-          />
-        )}
-        {activeModal === "signin" && (
-          <SignInModal
-            onClose={closeModal}
-            onSwitchToReset={() => setActiveModal("reset")}
-            onLoginSuccess={closeModal}
-            onSwitchToRegister={() => setActiveModal("signup")}
-          />
-        )}
-        {activeModal === "reset" && (
-          <ResetPasswordModal
-            onClose={closeModal}
-            onResetSuccess={closeModal}
-            onSwitchToLogin={() => setActiveModal("signin")}
-          />
-        )}
-      </div>
+      {activeModal !== null && (
+        <div className="relative z-10 w-full max-w-md max-h-[100vh] rounded-2xl">
+          {activeModal === "signup" && (
+            <SignUpModal
+              onClose={closeModal}
+              onSwitchToLogin={() => setActiveModal("signin")}
+            />
+          )}
+          {activeModal === "signin" && (
+            <SignInModal
+              onClose={closeModal}
+              onSwitchToReset={() => setActiveModal("reset")}
+              onLoginSuccess={closeModal}
+              onSwitchToRegister={() => setActiveModal("signup")}
+            />
+          )}
+          {activeModal === "reset" && (
+            <ResetPasswordModal
+              onClose={closeModal}
+              onResetSuccess={closeModal}
+              onSwitchToLogin={() => setActiveModal("signin")}
+            />
+          )}
+        </div>
+      )}
       {/* <Footer /> */}
     </div>
   );

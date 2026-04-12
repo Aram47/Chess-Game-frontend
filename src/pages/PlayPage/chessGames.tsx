@@ -1,20 +1,21 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getMyGameHistory, type GameHistoryItem } from "../../api/history";
-import { Chess } from "chess.js";
-import { GameColumn } from "./chess";
+import type { MoveType } from "../../types/gameType";
+import { GameColumn, computePosition } from "./chess";
 import AnalyzeColumn from "./analyze";
 import AnalyzeButtons from "./AnalyzeButtons";
-import { tryApplyMove } from "../../utils/utils";
-import type { MoveType } from "../../types/gameType";
 
 import leftArrow from "../../assets/icons/analyze/leftArrow.svg";
 import rightArrow from "../../assets/icons/analyze/rightArrow.svg";
+
+type BoardOrientation = "white" | "black";
 
 export const ChessAnalysisUI: React.FC = () => {
   const [selectedGameId] = useState<string | null>(null);
   const [plyIndex, setPlyIndex] = useState(0);
   const [branchMoves, setBranchMoves] = useState<MoveType[]>([]);
+  const [orientation, setOrientation] = useState<BoardOrientation>("white");
   const [counter] = useState(0);
 
   const { data } = useQuery({
@@ -23,10 +24,15 @@ export const ChessAnalysisUI: React.FC = () => {
   });
 
   const games = data?.data ?? [];
-
   const selectedGame: GameHistoryItem | null =
     games.find((g) => g._id === selectedGameId) ?? games[0] ?? null;
   const maxPly = selectedGame?.allMoves.length ?? 0;
+
+  const { currentFen, isTerminal } = computePosition(
+    selectedGame,
+    plyIndex,
+    branchMoves,
+  );
 
   const goBack = () => {
     if (branchMoves.length > 0) {
@@ -51,60 +57,43 @@ export const ChessAnalysisUI: React.FC = () => {
     setPlyIndex(maxPly);
   };
 
-  const { currentFen, isTerminal } = useMemo(() => {
-    if (!selectedGame) {
-      return {
-        currentFen: undefined as string | undefined,
-        isTerminal: true,
-        replayFailedAtMove: null as number | null,
-      };
-    }
-    const chess = new Chess();
-    for (let i = 0; i < plyIndex; i++) {
-      if (!tryApplyMove(chess, selectedGame.allMoves[i])) {
-        return {
-          currentFen: chess.fen(),
-          isTerminal: chess.isGameOver(),
-          replayFailedAtMove: i + 1,
-        };
-      }
-    }
-    for (const move of branchMoves) {
-      if (!tryApplyMove(chess, move)) break;
-    }
-    return {
-      currentFen: chess.fen(),
-      isTerminal: chess.isGameOver(),
-      replayFailedAtMove: null,
-    };
-  }, [selectedGame, plyIndex, branchMoves]);
+  const toggleOrientation = () => {
+    setOrientation((prev) => (prev === "white" ? "black" : "white"));
+    setBranchMoves([]);
+    setPlyIndex(0);
+  };
 
   const isPlaying: "white" | "black" = counter % 2 === 0 ? "white" : "black";
 
   return (
     <section className="flex flex-col grow pt-[170px] pb-16">
-      <div className="max-w-3xl w-full text-white font-sans flex flex-col items-center px-4">
-        <header className="text-center mb-12 max-w-2xl">
-          <h1 className="text-6xl font-playfair font-black mb-6 tracking-tight">
-            <span className="text-gold">Analyze</span> Your Games
-          </h1>
-          <p className="text-mute text-lg leading-relaxed">
-            Deep dive into your games with powerful AI analysis. Identify
-            mistakes, discover improvements, and master strategic patterns with
-            real-time feedback.
-          </p>
-        </header>
+      <div className="max-w-6xl w-full text-white font-sans flex flex-col items-center px-4 mx-auto">
+        <div className="flex items-center gap-3 mb-4 self-start">
+          <span className="text-sm text-gray-400">Board view:</span>
+          <button
+            type="button"
+            onClick={toggleOrientation}
+            className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-all border ${
+              orientation === "white"
+                ? "bg-white text-black border-gray-300"
+                : "bg-[#1a1a1a] text-white border-gray-600"
+            }`}
+          >
+            <span
+              className={`w-3 h-3 rounded-full border ${
+                orientation === "white"
+                  ? "bg-white border-gray-400"
+                  : "bg-gray-900 border-gray-500"
+              }`}
+            />
+            {orientation === "white" ? "White" : "Black"}
+          </button>
+        </div>
 
-        <div className="max-w-xl w-full bg-[#1e1e1e] rounded-3xl p-8 border border-white/5 shadow-2xl flex flex-col md:flex-row gap-8">
-          <div className="flex-1 space-y-4">
-            <div className="aspect-square bg-[#312e2b] rounded-lg overflow-hidden relative border-4 border-[#262421]">
-              <GameColumn
-                fen={currentFen}
-                onMove={(move) => {
-                  // When a move is made on the board, add it to the branch
-                  setBranchMoves([...branchMoves, move]);
-                }}
-              />
+        <div className="w-full bg-[#1e1e1e] rounded-3xl p-8 border border-white/5 shadow-2xl flex flex-col md:flex-row gap-8">
+          <div className="flex-1 space-y-6">
+            <div className="aspect-square bg-[#312e2b] rounded-lg overflow-hidden relative border-4 border-[#262421] flex flex-col min-h-0">
+              <GameColumn />
 
               <div className="absolute inset-0 grid grid-cols-8 grid-rows-8 pointer-events-none p-1 text-[10px] text-gray-400">
                 <span className="col-start-1 row-start-1">8</span>
@@ -139,6 +128,10 @@ export const ChessAnalysisUI: React.FC = () => {
         </div>
 
         <AnalyzeButtons
+          setBranchMoves={setBranchMoves}
+          setPlyIndex={setPlyIndex}
+          branchMoves={branchMoves}
+          maxPly={maxPly}
           plyIndex={plyIndex}
           goBack={goBack}
           goForward={goForward}
