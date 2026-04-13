@@ -1,13 +1,19 @@
-import RecentGames from './RecentGames'
-import Results from './Results'
+import RecentGames from "./RecentGames";
+import Results from "./Results";
+import type { ProfileStats } from "../../../types/profile";
 
-const SecondSection = () => {
-  return (
-    <div className="flex flex-col lg:flex-row lg:gap-y-8 items-stretch gap-x-8">
-        <RecentGames />
-        <Results />
-    </div>
-  )
+interface SecondSectionProps {
+  recentGames: any[];
+  stats: ProfileStats;
 }
 
-export default SecondSection
+const SecondSection = ({ recentGames, stats }: SecondSectionProps) => {
+  return (
+    <div className="flex flex-col lg:flex-row lg:gap-y-8 items-stretch gap-x-8">
+      <RecentGames games={recentGames} />
+      <Results stats={stats} />
+    </div>
+  );
+};
+
+export default SecondSection;

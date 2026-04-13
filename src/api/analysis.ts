@@ -1,39 +1,9 @@
-
-import type { MoveType } from "../types/gameType";
+import type {
+  AnalyzePositionPayload,
+  AnalyzePositionResult,
+} from "../types/analyzeTypes";
+import type { ApiError } from "../types/gameType";
 import api from "./axiosIntance";
-
-export type AnalysisEvaluationKind = "cp" | "mate";
-
-export interface AnalysisEvaluation {
-  kind: AnalysisEvaluationKind;
-  value: number;
-}
-
-export interface AnalysisLine {
-  rank: number;
-  move: MoveType;
-  evaluation: AnalysisEvaluation;
-  pvUci: string[];
-}
-
-export interface AnalyzePositionPayload {
-  fen: string;
-  recommendedMovesCount?: number;
-  depth?: number;
-}
-
-export interface AnalyzePositionResult {
-  fen: string;
-  depth: number;
-  depthReached: number;
-  bestMove: MoveType | null;
-  lines: AnalysisLine[];
-}
-
-interface ApiError {
-  message: string | string[];
-  statusCode: number;
-}
 
 function toErrorMessage(errorData: ApiError, fallback: string) {
   if (Array.isArray(errorData.message)) {
@@ -46,7 +16,7 @@ export async function analyzePosition(
   payload: AnalyzePositionPayload,
 ): Promise<AnalyzePositionResult> {
   const body: Record<string, unknown> = { fen: payload.fen };
-  
+
   if (payload.recommendedMovesCount != null) {
     body.recommendedMovesCount = payload.recommendedMovesCount;
   }
@@ -56,23 +26,25 @@ export async function analyzePosition(
 
   try {
     const response = await api.post<AnalyzePositionResult>(
-      "game/position/analyze", 
-      body
+      "game/position/analyze",
+      body,
+      { withCredentials: true },
     );
 
-    console.log('data', response)
+    console.log("Full Data from API:", response.data);
+
+    console.log("Lines count:", response.data.lines?.length);
 
     return response.data;
-
   } catch (error: any) {
     const errorData: ApiError = error.response?.data;
     const status = error.response?.status;
 
     throw new Error(
       toErrorMessage(
-        errorData, 
-        `Analysis failed: ${status || 'Unknown error'}`
-      )
+        errorData,
+        `Analysis failed: ${status || "Unknown error"}`,
+      ),
     );
   }
 }
