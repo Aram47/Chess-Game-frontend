@@ -1,22 +1,51 @@
-import { useAuth } from "../../context/AuthContext";
+import { useEffect, useState } from "react";
+import { useAuth } from "../../hooks/AuthContext";
+import { getMyProfile } from "../../api/profile";
+import { listFriends } from "../../api/friends";
+import type { MyProfile, FriendshipRow } from "../../types/profile";
 
-import ThirdSection from "../../components/profile/third-section";
-import SecondSection from "../../components/profile/sec-section";
 import FirstSection from "../../components/profile/first-section";
+import SecondSection from "../../components/profile/sec-section";
+import ThirdSection from "../../components/profile/third-section";
 
 const ProfileDashboard: React.FC = () => {
   const { user } = useAuth();
+  const [profile, setProfile] = useState<MyProfile | null>(null);
+  const [friends, setFriends] = useState<FriendshipRow[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  if (!user) {
-    return <div className="text-white p-8">Loading profile...</div>;
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const [profileData, friendsData] = await Promise.all([
+          getMyProfile(),
+          listFriends(),
+        ]);
+        setProfile(profileData);
+        setFriends(friendsData);
+      } catch (err) {
+        console.error("Dashboard load error:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadData();
+  }, []);
+
+  if (loading || !profile) {
+    return <div className="text-white p-8">Loading dashboard...</div>;
   }
+
   return (
     <div className="w-full min-h-screen p-8 text-white font-barlow mx-auto flex flex-col gap-y-8 mb-10 mt-13">
-      <FirstSection user={user} />
+      {/* Pass profile to the first section */}
+      <FirstSection user={user!} profile={profile} />
 
-      <SecondSection />
+      {/* Pass recent games to the second section */}
+      <SecondSection recentGames={profile.recentGames} stats={profile.stats} />
 
-      <ThirdSection />
+      {/* Pass friends to the third section */}
+      <ThirdSection friends={friends} />
     </div>
   );
 };

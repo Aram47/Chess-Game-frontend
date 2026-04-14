@@ -1,7 +1,8 @@
 import { useState } from "react";
-import Modal from "../../hooks/Modal";
-import { useAuth } from "../../context/AuthContext";
+import Modal from "../../helpers/Modal";
+import { useAuth } from "../../hooks/AuthContext";
 import type { IFormData } from "../../types/authType";
+import { getApiUrl } from "../../api/clients";
 
 interface ISignIn {
   onClose: () => void;
@@ -40,6 +41,10 @@ export default function SignInModal({
     }
   };
 
+  const handleGoogleRegister = () => {
+    window.location.href = getApiUrl("/auth/google");
+  };
+
   return (
     <Modal
       onClose={onClose}
@@ -52,6 +57,7 @@ export default function SignInModal({
       text3="Sign Up"
       text4="Google"
       isOpen={onSwitchToReset}
+      handleGoogle={handleGoogleRegister}
     />
   );
 }

@@ -1,10 +1,11 @@
 import { createBrowserRouter } from "react-router-dom";
 import HomePage from "../pages/HomePage/page";
 import Layout from "../layouts/Layout";
-import AnalyzePage from "../pages/Analyze/page";
+import { ChessAnalysisUI } from "../pages/Analyze/page";
 import ClassesPage from "../pages/Classes/page";
 import ProfileDashboard from "../pages/Profile/page";
 import PlayPage from "../pages/PlayPage/page";
+import AuthCallback from "../hooks/AuthCallback";
 
 export const router = createBrowserRouter([
   {
@@ -21,7 +22,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/analyze",
-        element: <AnalyzePage />,
+        element: <ChessAnalysisUI />,
       },
       {
         path: "/classes",
@@ -30,6 +31,10 @@ export const router = createBrowserRouter([
       {
         path: "/profile",
         element: <ProfileDashboard />,
+      },
+      {
+        path: "/auth/callback",
+        element: <AuthCallback />, 
       },
     ],
   },

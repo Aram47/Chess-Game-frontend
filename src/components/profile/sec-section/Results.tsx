@@ -1,38 +1,84 @@
-const resultData = [
-  {
-    id: 1,
-    title: "Match Results",
-    total: 342,
-    totalLabel: "Total Games",
-    stats: [
-      { label: "Wins", count: 229, percentage: "67.0%", color: "#57E341" },
-      { label: "Losses", count: 78, percentage: "22.8%", color: "#7F0E0E" },
-      { label: "Draws", count: 35, percentage: "10.2%", color: "#676767" },
-    ],
-  },
-  {
-    id: 2,
-    title: "Problems Solved",
-    total: 587,
-    totalLabel: "Total Solved",
-    stats: [
-      { label: "Easy", count: 342, percentage: "58.3%", color: "#57E341" },
-      { label: "Medium", count: 156, percentage: "26.6%", color: "#B7A362" },
-      { label: "Hard", count: 89, percentage: "15.2%", color: "#7F0E0E" },
-    ],
-  },
-];
+import type { ProfileStats } from "../../../types/profile";
 
-const Results = () => {
+interface ResultsProps {
+  stats: ProfileStats;
+}
+
+const Results = ({ stats }: ResultsProps) => {
+  // Helper to calculate percentages and format data for the UI
+  const formatData = (stats: ProfileStats) => {
+    const totalGames = stats.wins + stats.losses + stats.draws || 0;
+
+    const getPercent = (val: number, total: number) =>
+      total > 0 ? ((val / total) * 100).toFixed(1) + "%" : "0%";
+
+    return [
+      {
+        id: 1,
+        title: "Match Results",
+        total: totalGames,
+        totalLabel: "Total Games",
+        stats: [
+          {
+            label: "Wins",
+            count: stats.wins,
+            percentage: getPercent(stats.wins, totalGames),
+            color: "#307D24",
+          },
+          {
+            label: "Losses",
+            count: stats.losses,
+            percentage: getPercent(stats.losses, totalGames),
+            color: "#AD1414",
+          },
+          {
+            label: "Draws",
+            count: stats.draws,
+            percentage: getPercent(stats.draws, totalGames),
+            color: "#676767",
+          },
+        ],
+      },
+      {
+        id: 2,
+        title: "Problems Solved",
+        total: stats.solvedProblemsCount,
+        totalLabel: "Total Solved",
+        stats: [
+          {
+            label: "Easy",
+            count: stats.solvedProblemsCount,
+            percentage: "100%",
+            color: "#307D24",
+          },
+
+          {
+            label: "Medium",
+            count: stats.solvedProblemsCount,
+            percentage: getPercent(stats.losses, totalGames),
+            color: "#B7A362",
+          },
+          {
+            label: "Hard",
+            count: stats.solvedProblemsCount,
+            percentage: getPercent(stats.draws, totalGames),
+            color: "#AD1414",
+          },
+        ],
+      },
+    ];
+  };
+
+  const dynamicData = formatData(stats);
+
   return (
-    <section className="flex flex-col gap-y-4 w-full bg-[#1C1C1C] border border-[#2E2E2E] rounded-2xl p-6 h-full">
-      {resultData.map((section, index) => (
+    <section className="flex flex-col gap-y-4 w-full bg-[#1C1C1C] border border-[#CEB86E33] rounded-2xl p-6 h-full">
+      {dynamicData.map((section, index) => (
         <div key={section.id} className="flex flex-col gap-y-8">
-          <h2>{section.title}</h2>
+          <h2 className="text-lg font-semibold text-[#F0EDE8]">{section.title}</h2>
           <div className="flex gap-x-12 items-center py-4">
             {/* LEFT SIDE: The Doughnut Chart */}
             <div className="relative w-[160px] h-[160px] flex items-center justify-center shrink-0">
-              {/* LAYER 1: The Color Tracks */}
               <div className="absolute inset-0 rounded-full overflow-hidden">
                 <div
                   className="absolute inset-0"
@@ -41,28 +87,10 @@ const Results = () => {
                       "conic-gradient(from 180deg at 50% 50%, rgba(102, 112, 128, 0) 0deg, #57E341 234deg, #57E341 360deg)",
                   }}
                 />
-                <div
-                  className="absolute inset-0"
-                  style={{
-                    background:
-                      "conic-gradient(from 0deg at 50% 50%, #676767 -76.15deg, rgba(102, 112, 128, 0) 178.71deg, #676767 268.24deg, #676767 283.85deg, rgba(102, 112, 128, 0) 538.71deg)",
-                    mixBlendMode: "lighten",
-                  }}
-                />
-                <div
-                  className="absolute inset-0"
-                  style={{
-                    background:
-                      "conic-gradient(from 270deg at 50% 50%, #7F0E0E -19.85deg, rgba(102, 112, 128, 0) 267.44deg, #7F0E0E 340.15deg, rgba(102, 112, 128, 0) 627.44deg)",
-                    mixBlendMode: "lighten",
-                  }}
-                />
               </div>
 
-              {/* LAYER 2: Inner Hole */}
               <div className="absolute inset-[8px] bg-[#1C1C1C] rounded-full z-10" />
 
-              {/* LAYER 3: Center Text */}
               <div className="relative z-20 flex flex-col items-center justify-center text-center">
                 <h2 className="text-3xl font-light text-white leading-none">
                   {section.total}
@@ -72,6 +100,7 @@ const Results = () => {
                 </p>
               </div>
             </div>
+
             {/* RIGHT SIDE: Stats Labels */}
             <div className="flex flex-1 justify-between pr-8">
               {section.stats.map((stat, idx) => (
@@ -87,7 +116,13 @@ const Results = () => {
                   </div>
                   <div className="flex items-baseline gap-x-2">
                     <span
-                      className={`${stat.label === "Wins" ? "text-[#307D24]" : stat.label === "Losses" ? "text-[#AD1414]" : stat.label === "Easy" ? "text-[#307D24]" : stat.label === "Medium" ? "text-[#B7A362]" : stat.label === "Hard" ? "text-[#AD1414]" : "text-[#787878]"} text-md font-semibold`}
+                      className={`${
+                        ["Easy", "Medium", "Hard"].includes(stat.label)
+                          ? "text-[#307D24]"
+                          : stat.label === "Losses"
+                            ? "text-[#AD1414]"
+                            : "text-[#787878]"
+                      } text-md font-semibold`}
                     >
                       {stat.count}
                     </span>
@@ -99,8 +134,8 @@ const Results = () => {
               ))}
             </div>
           </div>
-          {index === resultData.length - 1 ? null : (
-            <div className="w-full h-px border-t-1 solid bg-[#CEB86E33]"></div>
+          {index === dynamicData.length - 1 ? null : (
+            <div className="w-full h-px border-t border-[#CEB86E33]"></div>
           )}
         </div>
       ))}

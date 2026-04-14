@@ -19,7 +19,7 @@ const PlayModal = ({
 }: PlayModalProps) => {
   return (
     <div
-      className={`relative w-full rounded-2xl bg-[#1e1e1e] border border-[#333] p-6 ${className ?? "max-w-sm"}`}
+      className={`relative w-full h-[70vh] rounded-2xl bg-[#1e1e1e] border border-[#333] p-6 ${className ?? "max-w-3xl"}`}
       style={style}
     >
       <div className="flex flex-col gap-2">

@@ -3,7 +3,7 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import usaIcon from "../../assets/icons/flags/usaFlag.svg";
 import rusIcon from "../../assets/icons/flags/rusFlag.svg";
 import armIcon from "../../assets/icons/flags/armFlag.svg";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../hooks/AuthContext";
 
 import style from "./header.module.scss";
 

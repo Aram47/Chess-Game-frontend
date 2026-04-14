@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from "react";
 import type { ReactNode } from "react";
-import { AuthContext } from "../context/AuthContext";
+import { AuthContext } from "../hooks/AuthContext";
 
 import {
   loginProvider,
@@ -111,6 +111,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     <AuthContext.Provider
       value={{
         user,
+        setUser,
         isLoggedIn,
         loading,
         error,
