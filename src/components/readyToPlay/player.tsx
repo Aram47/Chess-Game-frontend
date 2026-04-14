@@ -1,4 +1,4 @@
-import PlayModal from "../../hooks/PlayModal";
+import PlayModal from "../../helpers/PlayModal";
 import { activeRooms } from "./data";
 import { RoomCard } from "./roomCard";
 
@@ -39,7 +39,7 @@ const LivePlayer = ({ showModal, setShowModal }: LivePlayerProps) => {
       {showModal === "join" && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 ">
           <PlayModal onClose={() => setShowModal(null)} title="Active Rooms">
-            <div className="flex flex-col gap-y-4 overflow-y-auto max-h-[400px] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+            <div className="flex flex-col gap-y-4 overflow-y-auto max-h-[500px] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
               {activeRooms.map((room) => (
                 <div
                   key={room.id}

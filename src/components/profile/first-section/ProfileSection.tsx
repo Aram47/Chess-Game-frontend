@@ -7,9 +7,8 @@ interface ProfileSectionProps {
 
 const ProfileSection = ({ profile }: ProfileSectionProps) => {
   return (
-    <div className="w-[23%] bg-[#1C1C1C] border border-[#2E2E2E] rounded-2xl p-6 flex flex-col items-center gap-y-6">
+    <div className="w-[23%] bg-[#1C1C1C] border border-[#CEB86E33] rounded-2xl p-6 flex flex-col items-center gap-y-6">
       <div className="flex flex-col items-center gap-y-3">
-        {/* Use profile data for the avatar initial */}
         <div className="w-[54px] h-[54px] bg-[#B7A362] rounded-full flex items-center justify-center text-[#50472B] text-4xl font-normal">
           {profile.username.charAt(0).toUpperCase()}
         </div>
@@ -33,7 +32,6 @@ const ProfileSection = ({ profile }: ProfileSectionProps) => {
 
       <div className="w-full h-[1px] bg-[#CEB86E33]"></div>
 
-      {/* Only show Edit button if auth provider allows it (e.g., local users) */}
       <button
         className="w-full py-2.5 bg-[#E5CC7A] text-[#1C1C1C] rounded-full font-semibold flex items-center justify-center gap-x-3 hover:bg-[#d4ba69] transition-all text-sm"
         style={{ boxShadow: "0px 4px 20px 0px #E5CC7A4D" }}

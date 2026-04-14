@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../hooks/AuthContext";
 import { getMyProfile } from "../../api/profile";
 import { listFriends } from "../../api/friends";
 import type { MyProfile, FriendshipRow } from "../../types/profile";

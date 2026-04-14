@@ -11,7 +11,7 @@ export const SectionWrapper = ({
   complete?: string;
   className?: string;
 }) => (
-    <div className={`w-full bg-[#1C1C1C] border border-[#2E2E2E] rounded-2xl p-6 h-full flex flex-col gap-y-6 min-h-[261px] ${className || ''}`}>
+    <div className={`w-full bg-[#1C1C1C] border border-[#CEB86E33] rounded-2xl p-6 h-full flex flex-col gap-y-6 min-h-[261px] ${className || ''}`}>
       <div className="flex justify-between items-center">
         <h3 className="text-gray-400 text-lg font-medium flex flex-col ">
           {title}{" "}

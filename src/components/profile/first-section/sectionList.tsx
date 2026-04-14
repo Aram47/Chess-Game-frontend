@@ -1,5 +1,5 @@
 import { Achievement } from "./achievement";
-import { SectionWrapper } from "../../../hooks/sectionWrapper";
+import { SectionWrapper } from "../../../helpers/sectionWrapper";
 import figure from "../../../assets/icons/figures/figure.png";
 import problems from "../../../assets/icons/profile/problems.png";
 import grandmaster from "../../../assets/icons/profile/grandmaster.png";

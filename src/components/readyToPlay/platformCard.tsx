@@ -1,4 +1,4 @@
-import PlayModal from "../../hooks/PlayModal";
+import PlayModal from "../../helpers/PlayModal";
 
 const PlatformCard = ({
   activeTab,

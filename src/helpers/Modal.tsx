@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../hooks/AuthContext";
 import type { ISignUp } from "../types/authType";
 
 import closeIcon from "../assets/icons/modal/close.svg";
@@ -79,6 +79,7 @@ const Modal = ({
   resetEmail = "",
   setResetEmail,
   isOpen,
+  handleGoogle,
 }: ISignUp) => {
   const { loading } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
@@ -253,7 +254,10 @@ const Modal = ({
             </p>
             <span className="w-[35%] h-auto border-t text-[#E5CC7A33]"></span>
           </div>
-          <div className="flex items-center justify-center gap-x-2 py-3 px-6 border-[var(--bg)] border-1 rounded-3xl bg-[var(--bg)] cursor-pointer">
+          <div
+            className="flex items-center justify-center gap-x-2 py-3 px-6 border-[var(--bg)] border-1 rounded-3xl bg-[var(--bg)] cursor-pointer"
+            onClick={handleGoogle}
+          >
             <img src={google} alt="google" />
             <button className="font-medium text-sm text-[var(--text)] font-barlow cursor-pointer">
               {text4}

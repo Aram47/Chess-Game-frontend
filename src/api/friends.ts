@@ -7,7 +7,6 @@ import type {
 } from "../types/profile";
 import { getErrorMessage } from "./profile";
 
-/** Lists all accepted friends for the "Friends Online" sidebar */
 export async function listFriends(): Promise<FriendshipRow[]> {
   try {
     const { data } = await api.get<FriendshipRow[]>("user-service/friends");

@@ -1,5 +1,7 @@
-import { SectionWrapper } from "../../../hooks/sectionWrapper";
+import { SectionWrapper } from "../../../helpers/sectionWrapper";
 import search from "../../../assets/icons/profile/search.svg";
+import people from "../../../assets/icons/profile/people.svg";
+
 import type { FriendshipRow } from "../../../types/profile";
 
 interface InGameProps {
@@ -7,7 +9,6 @@ interface InGameProps {
 }
 
 const InGame = ({ friends }: InGameProps) => {
-    console.log("InGame friends:", friends); // Debug log to check the friends data
   return (
     <div className="w-full flex-1">
       <SectionWrapper title="Friends Online">
@@ -20,15 +21,24 @@ const InGame = ({ friends }: InGameProps) => {
           />
           <input
             placeholder="Search friends..."
-            className="w-full rounded-lg pl-10 py-2 bg-[#232323] text-xs focus:outline-none border border-transparent focus:border-[#E5CC7A]"
+            className="w-full rounded-lg pl-10 py-2 bg-[#252525] text-xs focus:outline-none border border-transparent focus:border-[#E5CC7A] rounded-lg"
           />
         </div>
 
         <div className="flex flex-col gap-3">
           {friends.length === 0 ? (
-            <div className="text-center py-10 bg-[#232323] rounded-xl">
-              <p className="text-gray-500 text-sm">No friends yet</p>
-              <button className="border border-[#B7A362] text-[#B7A362] px-4 py-1 rounded-full mt-2 text-xs hover:bg-[#B7A362] hover:text-black transition-all">
+            <div className="text-center py-10 rounded-xl">
+              <div className="w-[42px] h-[42px] rounded-full flex justify-center items-center border border-[#E5CC7A26] mx-auto bg-[#E5CC7A14]">
+                <img src={people} alt="people" width={24} height={24} />
+              </div>
+              <div className="flex flex-col gap-y-2 mt-4">
+                <p className="text-[#F0EDE8] text-sm">No friends yet</p>
+                <p className="text-[#888888]">
+                  Connect with other players to see when they're online
+                </p>
+              </div>
+
+              <button className="border border-[#E5CC7A] text-[#CFCFCF] px-6 py-2.5 mt-4 rounded-full font-semibold text-xs cursor-pointer transition-transform duration-400 hover:-translate-y-[2px] hover:bg-[#E5CC7A1A]">
                 Find Players
               </button>
             </div>
@@ -36,7 +46,7 @@ const InGame = ({ friends }: InGameProps) => {
             friends.map((f) => (
               <div
                 key={f.id}
-                className="bg-[#232323] p-3 rounded-xl flex items-center justify-between border border-transparent hover:border-[#E5CC7A33]"
+                    className="bg-[#232323] p-3 rounded-xl flex items-center justify-between border-1 border-solid border-[#CEB86E33]"
               >
                 <div className="flex items-center gap-3">
                   <div className="w-8 h-8 rounded-full bg-[#B7A362] flex items-center justify-center text-xs text-black">

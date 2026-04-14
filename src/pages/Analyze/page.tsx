@@ -1,28 +1,20 @@
-import { useEffect, useMemo, useState, type CSSProperties } from "react";
+import { useMemo, useState, type CSSProperties } from "react";
 import { Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import { Chess } from "chess.js";
 import { getMyGameHistory, type GameHistoryItem } from "../../api/history";
 import { GameColumn } from "./chess";
-import AnalyzeColumn from "./analyze";
+import AnalyzeColumn from "../../components/analyze/analyze";
+import AnalyzeButtons from "../../components/analyze/AnalyzeButtons";
 import { tryApplyMove } from "../../utils/utils";
-import type { MoveType } from "../../types/gameType";
-import { useQuery } from "@tanstack/react-query";
 import { analyzePosition } from "../../api/analysis";
+import type { MoveType } from "../../types/gameType";
 
-// Icons
-import leftArrow from "../../assets/icons/analyze/leftArrow.svg";
-import rightArrow from "../../assets/icons/analyze/rightArrow.svg";
 import leftIcon from "../../assets/icons/analyze/left.svg";
-import play from "../../assets/icons/analyze/play.svg";
-import skipBack from "../../assets/icons/analyze/skipBack.svg";
-import skipNext from "../../assets/icons/analyze/skipNext.svg";
-// import { formatEngineEvaluation } from "../../lib/format-engine-eval";
-// import type { AnalysisLine } from "../../types/analyzeTypes";
+
 
 export const ChessAnalysisUI: React.FC = () => {
-  const [games, setGames] = useState<GameHistoryItem[]>([]);
-  const [isLoadingHistory, setIsLoadingHistory] = useState(true);
-  const [historyError, setHistoryError] = useState<string | null>(null);
+  const [games] = useState<GameHistoryItem[]>([]);
 
   const [selectedGameId, setSelectedGameId] = useState<string | null>(null);
   const [plyIndex, setPlyIndex] = useState(0);
@@ -35,13 +27,6 @@ export const ChessAnalysisUI: React.FC = () => {
     queryKey: ["game-history"],
     queryFn: () => getMyGameHistory(1, 50),
   });
-
-  useEffect(() => {
-    getMyGameHistory(1, 50)
-      .then((res) => setGames(res.data))
-      .catch((err) => setHistoryError(err.message))
-      .finally(() => setIsLoadingHistory(false));
-  }, []);
 
   const selectedGame = useMemo(() => {
     return games.find((g) => g._id === selectedGameId) ?? games[0] ?? null;
@@ -67,12 +52,7 @@ export const ChessAnalysisUI: React.FC = () => {
     };
   }, [selectedGame, plyIndex, branchMoves]);
 
-  const analysisEnabled = Boolean(
-    currentFen &&
-    selectedGame &&
-    !isLoadingHistory && // Use the local state instead of historyQuery
-    !isTerminal,
-  );
+  const analysisEnabled = Boolean(currentFen && selectedGame && !isTerminal);
 
   //   const handleDrop = (source: string, target: string) => {
   //     setBranchMoves([
@@ -82,45 +62,45 @@ export const ChessAnalysisUI: React.FC = () => {
   //     return true;
   //   };
 
-//   function truncatePv(tokens: string[], max = 6): string {
-//     if (tokens.length <= max) return tokens.join(" ");
-//     return `${tokens.slice(0, max).join(" ")} …`;
-//   }
+  //   function truncatePv(tokens: string[], max = 6): string {
+  //     if (tokens.length <= max) return tokens.join(" ");
+  //     return `${tokens.slice(0, max).join(" ")} …`;
+  //   }
 
-//   function moveToSan(fen: string, move: MoveType): string {
-//     try {
-//       const c = new Chess(fen);
-//       const m = c.move(move);
-//       return m ? m.san : `${move.from}-${move.to}`;
-//     } catch {
-//       return `${move.from}-${move.to}`;
-//     }
-//   }
+  //   function moveToSan(fen: string, move: MoveType): string {
+  //     try {
+  //       const c = new Chess(fen);
+  //       const m = c.move(move);
+  //       return m ? m.san : `${move.from}-${move.to}`;
+  //     } catch {
+  //       return `${move.from}-${move.to}`;
+  //     }
+  //   }
 
-//   const renderLineRow = (line: AnalysisLine) => {
-//     const san = currentFen
-//       ? moveToSan(currentFen, line.move)
-//       : `${line.move.from}-${line.move.to}`;
-//     return (
-//       <div
-//         key={line.rank}
-//         className="rounded border border-border/60 bg-muted/30 px-2 py-1.5 text-xs space-y-0.5"
-//       >
-//         <div className="flex items-center justify-between gap-1">
-//           <span className="font-medium truncate">
-//             #{line.rank} {san}
-//             {line.move.promotion ? ` (${line.move.promotion})` : ""}
-//           </span>
-//           <span className="tabular-nums text-muted-foreground shrink-0">
-//             {formatEngineEvaluation(line.evaluation)}
-//           </span>
-//         </div>
-//         <p className="text-[10px] leading-tight text-muted-foreground font-mono break-all line-clamp-2">
-//           {truncatePv(line.pvUci)}
-//         </p>
-//       </div>
-//     );
-//   };
+  //   const renderLineRow = (line: AnalysisLine) => {
+  //     const san = currentFen
+  //       ? moveToSan(currentFen, line.move)
+  //       : `${line.move.from}-${line.move.to}`;
+  //     return (
+  //       <div
+  //         key={line.rank}
+  //         className="rounded border border-border/60 bg-muted/30 px-2 py-1.5 text-xs space-y-0.5"
+  //       >
+  //         <div className="flex items-center justify-between gap-1">
+  //           <span className="font-medium truncate">
+  //             #{line.rank} {san}
+  //             {line.move.promotion ? ` (${line.move.promotion})` : ""}
+  //           </span>
+  //           <span className="tabular-nums text-muted-foreground shrink-0">
+  //             {formatEngineEvaluation(line.evaluation)}
+  //           </span>
+  //         </div>
+  //         <p className="text-[10px] leading-tight text-muted-foreground font-mono break-all line-clamp-2">
+  //           {truncatePv(line.pvUci)}
+  //         </p>
+  //       </div>
+  //     );
+  //   };
 
   const analysisQuery = useQuery({
     queryKey: ["position-analyze", currentFen, analysisDepth, analysisLines],
@@ -173,13 +153,6 @@ export const ChessAnalysisUI: React.FC = () => {
     setPlyIndex(maxPly);
   };
 
-  if (isLoadingHistory)
-    return (
-      <div className="w-full h-screen flex items-center justify-center bg-[#1b1a17] text-gold">
-        Loading...
-      </div>
-    );
-
   return (
     <section className="w-full flex flex-col grow pt-[170px] pb-16 bg-[#1b1a17]">
       <div className="text-white font-sans flex flex-col px-8 w-full">
@@ -211,35 +184,12 @@ export const ChessAnalysisUI: React.FC = () => {
               maxPly={maxPly}
             />
 
-            <div className="flex items-center justify-center gap-4 mt-4">
-              <button
-                onClick={goFirst}
-                className="p-3 bg-[#262421] rounded-full hover:bg-[#333] transition-all"
-              >
-                <img src={skipBack} alt="first" />
-              </button>
-              <button
-                onClick={goBack}
-                className="p-3 bg-[#262421] rounded-full hover:bg-[#333] transition-all"
-              >
-                <img src={leftArrow} alt="back" />
-              </button>
-              <button className="p-3 bg-[#262421] rounded-full hover:bg-[#333] transition-all">
-                <img src={play} alt="play" />
-              </button>
-              <button
-                onClick={goForward}
-                className="p-3 bg-[#262421] rounded-full hover:bg-[#333] transition-all"
-              >
-                <img src={rightArrow} alt="forward" />
-              </button>
-              <button
-                onClick={goLast}
-                className="p-3 bg-[#262421] rounded-full hover:bg-[#333] transition-all"
-              >
-                <img src={skipNext} alt="last" />
-              </button>
-            </div>
+            <AnalyzeButtons
+              goBack={goBack}
+              goForward={goForward}
+              goFirst={goFirst}
+              goLast={goLast}
+            />
           </div>
 
           <AnalyzeColumn

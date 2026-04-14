@@ -31,6 +31,7 @@ export interface RefreshResponse {
 
 export interface AuthContextType {
   user: UserProfile | null;
+  setUser: React.Dispatch<React.SetStateAction<UserProfile | null>>;
   isLoggedIn: boolean;
   loading: boolean;
   error: string | null;
@@ -66,4 +67,5 @@ export interface ISignUp {
   setResetEmail?: (email: string) => void;
   setFormData?: React.Dispatch<React.SetStateAction<IFormData>>;
   isOpen?: () => void;
+  handleGoogle: () => void;
 }

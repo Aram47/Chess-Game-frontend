@@ -1,4 +1,4 @@
-import { SectionWrapper } from "../../../hooks/sectionWrapper";
+import { SectionWrapper } from "../../../helpers/sectionWrapper";
 
 export interface Game {
   opponentName?: string;
@@ -18,7 +18,12 @@ const RecentGames = ({ games }: RecentGamesProps) => {
     <SectionWrapper title="Recent Games" extra="Your latest matches">
       <div className="flex flex-col gap-4">
         {!games || games.length === 0 ? (
-          <p className="text-gray-500 text-center py-4">No games played yet.</p>
+          <div>
+           
+            <p className="text-gray-500 text-center py-4">
+              No games played yet.
+            </p>
+          </div>
         ) : (
           games.map((game, i) => (
             <div

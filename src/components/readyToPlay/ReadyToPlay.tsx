@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { usePlay } from "../../context/PlayContext";
+import { usePlay } from "../../hooks/PlayContext";
 
 import monitor from "../../assets/icons/play/monitor.svg";
 import user from "../../assets/icons/play/person.svg";

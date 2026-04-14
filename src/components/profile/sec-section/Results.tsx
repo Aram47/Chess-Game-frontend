@@ -23,13 +23,13 @@ const Results = ({ stats }: ResultsProps) => {
             label: "Wins",
             count: stats.wins,
             percentage: getPercent(stats.wins, totalGames),
-            color: "#57E341",
+            color: "#307D24",
           },
           {
             label: "Losses",
             count: stats.losses,
             percentage: getPercent(stats.losses, totalGames),
-            color: "#7F0E0E",
+            color: "#AD1414",
           },
           {
             label: "Draws",
@@ -44,14 +44,25 @@ const Results = ({ stats }: ResultsProps) => {
         title: "Problems Solved",
         total: stats.solvedProblemsCount,
         totalLabel: "Total Solved",
-        // Note: If your API provides easy/med/hard breakdown, map it here.
-        // Otherwise, this uses total count.
         stats: [
           {
-            label: "Solved",
+            label: "Easy",
             count: stats.solvedProblemsCount,
             percentage: "100%",
+            color: "#307D24",
+          },
+
+          {
+            label: "Medium",
+            count: stats.solvedProblemsCount,
+            percentage: getPercent(stats.losses, totalGames),
             color: "#B7A362",
+          },
+          {
+            label: "Hard",
+            count: stats.solvedProblemsCount,
+            percentage: getPercent(stats.draws, totalGames),
+            color: "#AD1414",
           },
         ],
       },
@@ -61,10 +72,10 @@ const Results = ({ stats }: ResultsProps) => {
   const dynamicData = formatData(stats);
 
   return (
-    <section className="flex flex-col gap-y-4 w-full bg-[#1C1C1C] border border-[#2E2E2E] rounded-2xl p-6 h-full">
+    <section className="flex flex-col gap-y-4 w-full bg-[#1C1C1C] border border-[#CEB86E33] rounded-2xl p-6 h-full">
       {dynamicData.map((section, index) => (
         <div key={section.id} className="flex flex-col gap-y-8">
-          <h2 className="text-lg font-semibold">{section.title}</h2>
+          <h2 className="text-lg font-semibold text-[#F0EDE8]">{section.title}</h2>
           <div className="flex gap-x-12 items-center py-4">
             {/* LEFT SIDE: The Doughnut Chart */}
             <div className="relative w-[160px] h-[160px] flex items-center justify-center shrink-0">
@@ -106,7 +117,7 @@ const Results = ({ stats }: ResultsProps) => {
                   <div className="flex items-baseline gap-x-2">
                     <span
                       className={`${
-                        ["Wins", "Easy", "Solved"].includes(stat.label)
+                        ["Easy", "Medium", "Hard"].includes(stat.label)
                           ? "text-[#307D24]"
                           : stat.label === "Losses"
                             ? "text-[#AD1414]"
