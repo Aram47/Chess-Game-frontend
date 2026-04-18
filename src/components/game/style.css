@@ -1,23 +1,13 @@
-[id^="chessboard-square-"] {
-  background-image: none !important;
-}
-
-[id^="chessboard-square-"][data-square-color="light"] {
-  background-color: #eeeed2 !important;
-}
-
-[id^="chessboard-square-"][data-square-color="dark"] {
+.chessboard .dark-square {
   background-color: #769656 !important;
 }
 
+.chessboard .light-square {
+  background-color: #eeeed2 !important;
+}
 
 /* [id^="chessboard-piece"],
 [data-piece],
 #chessboard svg {
   display: none !important;
 } */
-
-#chessboard span {
-  color: #829769 !important;
-  opacity: 0.8;
-}

@@ -124,7 +124,6 @@ export const ChessGamePage: React.FC = () => {
         <div className="w-full flex items-start gap-8">
           <div className="flex-1 flex flex-col gap-4">
             {user ? (
-              // Only logged-in users see the board
               <GameColumn
                 fen={fen}
                 opponentName="Bot"
@@ -140,7 +139,6 @@ export const ChessGamePage: React.FC = () => {
                 winner={winner}
               />
             ) : (
-              // Logged-out users see this block instead of the board
               <div className="relative w-full h-[600px] bg-[#1c1c1c] flex flex-col justify-center items-center rounded-3xl border-2 border-dashed border-[#CEB86E33]">
                 <div className="max-w-[300px] text-center space-y-6">
                   <p className="text-[#A39589] text-lg">
@@ -156,13 +154,10 @@ export const ChessGamePage: React.FC = () => {
                   </button>
                 </div>
 
-                {/* The SignInModal is a separate popup. 
-         Closing it returns the user to THIS screen, not the game.
-      */}
                 {showModalAuth && (
                   <SignInModal
                     onClose={() => setShowModalAuth(false)}
-                    onLoginSuccess={() => setShowModalAuth(false)} // Page will re-render automatically when 'user' state changes
+                    onLoginSuccess={() => setShowModalAuth(false)}
                     onSwitchToRegister={() => {}}
                     onSwitchToReset={() => {}}
                   />

@@ -66,7 +66,7 @@ export const GameColumn = ({
   };
 
   return (
-    <div className="flex flex-col gap-4 border-[#CEB86E33] border rounded-[20px] p-8 bg-[#FFFFFF0D]">
+    <div className="flex flex-col gap-8 border-[#CEB86E33] border rounded-[20px] p-8 bg-[#FFFFFF0D]">
       {/* Bot Info */}
       <div className="flex items-center justify-between bg-[#1C1C1C4D] px-4 py-3 rounded-[20px]">
         <div className="flex items-center gap-x-3">
@@ -82,7 +82,9 @@ export const GameColumn = ({
         </div>
 
         <p className="text-xl text-[#A39589] bg-[#0000004D] py-2 px-4 rounded-[10px]">
-          {formatTime(timers[opponentSideLabel.toLowerCase() as "white" | "black"])}
+          {formatTime(
+            timers[opponentSideLabel.toLowerCase() as "white" | "black"],
+          )}
         </p>
       </div>
 
@@ -98,6 +100,8 @@ export const GameColumn = ({
               return true;
             },
             squareStyles,
+            darkSquareStyle: { backgroundColor: "#769656" },
+            lightSquareStyle: { backgroundColor: "#EEEED2" },
           }}
         />
 
@@ -125,7 +129,7 @@ export const GameColumn = ({
       {/* Player Info */}
       <div className="flex items-center justify-between bg-[#1C1C1C4D] px-4 py-3 rounded-3xl">
         <div className="flex items-center gap-x-3">
-          <div className="w-10 h-10 border-2 border-[#1C1C1C] flex items-center justify-center rounded-full">
+          <div className="w-10 h-10 border-2 border-[#FFFFFF] flex items-center justify-center rounded-full">
             <span className="text-2xl text-[#FFFFFF]">♚</span>
           </div>
           <div className="flex flex-col">
@@ -135,7 +139,9 @@ export const GameColumn = ({
         </div>
 
         <p className="text-xl text-[#1C1C1C] bg-[#E5CC7A] py-2 px-4 rounded-[10px]">
-          {formatTime(timers[playerSideLabel.toLowerCase() as "white" | "black"])}
+          {formatTime(
+            timers[playerSideLabel.toLowerCase() as "white" | "black"],
+          )}
         </p>
       </div>
     </div>

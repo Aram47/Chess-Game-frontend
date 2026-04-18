@@ -3,9 +3,6 @@ import { Loader2 } from "lucide-react";
 import type { GameHistoryItem, MoveType } from "../../types/gameType";
 import FirstStep from "./firstStep";
 import SecondStep from "./secStep";
-// import SecondStep from "./secStep";
-
-// import type { AnalyzePositionResult } from "../../types/analyzeTypes";
 
 interface Props {
   currentFen: string | undefined;
@@ -54,19 +51,20 @@ const GameHistory = ({
                 {displayedMoves.map((move, index) => {
                   const isWhite = index % 2 === 0;
 
-                  // Destructure directly from the move object
-                  // This replaces the old 'if (typeof move === "object")' logic
                   const { from, to } = move;
 
                   return (
                     <div className="flex flex-col gap-y-2">
-                      <FirstStep
-                        setPlyIndex={setPlyIndex}
-                        index={index}
-                        from={from}
-                        isWhite={isWhite}
-                      />
-                      <SecondStep index={index} to={to} isWhite={isWhite} />
+                      {isWhite ? (
+                        <FirstStep
+                          setPlyIndex={setPlyIndex}
+                          index={index}
+                          from={from}
+                          isWhite={true}
+                        />
+                      ) : (
+                        <SecondStep index={index} to={to} />
+                      )}
                     </div>
                   );
                 })}
