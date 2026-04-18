@@ -12,7 +12,7 @@ export const FriendsList = () => {
   }
 
   return (
-    <div className="bg-[#1C1C1C] border border-[#CEB86E33] rounded-2xl p-4">
+    <div className="bg-[#1C1C1C] border border-[#CEB86E33] rounded-[20px] p-4">
       <h3 className="text-white mb-4 font-bold">Friends ({friends.length})</h3>
 
       <div className="flex flex-col gap-y-3">

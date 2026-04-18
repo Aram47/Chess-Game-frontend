@@ -49,7 +49,7 @@
 //   return labels;
 // }
 
-// export function computePosition(
+// function computePosition(
 //   selectedGame: GameHistoryItem | null,
 //   plyIndex: number,
 //   branchMoves: MoveType[],

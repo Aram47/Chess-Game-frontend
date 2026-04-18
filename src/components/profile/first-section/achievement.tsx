@@ -7,7 +7,7 @@ export const Achievement = ({
   unlocked,
 }: AchievementProps) => (
   <div
-    className={`w-[90px] h-[90px] flex flex-col items-center justify-center p-3 gap-y-3 rounded-2xl border ${unlocked ? "bg-[#2A261D] border-[#E5CC7A33]" : "bg-[#1C1C1C] border-[#E5CC7A33] opacity-40"}`}
+    className={`w-[90px] h-[90px] flex flex-col items-center justify-center p-3 gap-y-3 rounded-[20px] border ${unlocked ? "bg-[#2A261D] border-[#E5CC7A33]" : "bg-[#1C1C1C] border-[#E5CC7A33] opacity-40"}`}
   >
     <div>{icon}</div>
     <div className="flex items-center gap-x-1">

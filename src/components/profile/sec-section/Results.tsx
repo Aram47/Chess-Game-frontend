@@ -5,7 +5,6 @@ interface ResultsProps {
 }
 
 const Results = ({ stats }: ResultsProps) => {
-  // Helper to calculate percentages and format data for the UI
   const formatData = (stats: ProfileStats) => {
     const totalGames = stats.wins + stats.losses + stats.draws || 0;
 
@@ -72,10 +71,12 @@ const Results = ({ stats }: ResultsProps) => {
   const dynamicData = formatData(stats);
 
   return (
-    <section className="flex flex-col gap-y-4 w-full bg-[#1C1C1C] border border-[#CEB86E33] rounded-2xl p-6 h-full">
+    <section className="flex flex-col gap-y-4 w-full bg-[#1C1C1C] border border-[#CEB86E33] rounded-[20px] p-6 h-full">
       {dynamicData.map((section, index) => (
         <div key={section.id} className="flex flex-col gap-y-8">
-          <h2 className="text-lg font-semibold text-[#F0EDE8]">{section.title}</h2>
+          <h2 className="text-lg font-semibold text-[#F0EDE8]">
+            {section.title}
+          </h2>
           <div className="flex gap-x-12 items-center py-4">
             {/* LEFT SIDE: The Doughnut Chart */}
             <div className="relative w-[160px] h-[160px] flex items-center justify-center shrink-0">

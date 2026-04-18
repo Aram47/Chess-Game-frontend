@@ -7,7 +7,7 @@ interface ProfileSectionProps {
 
 const ProfileSection = ({ profile }: ProfileSectionProps) => {
   return (
-    <div className="w-[23%] bg-[#1C1C1C] border border-[#CEB86E33] rounded-2xl p-6 flex flex-col items-center gap-y-6">
+    <div className="w-[23%] bg-[#1C1C1C] border border-[#CEB86E33] rounded-[20px] p-6 flex flex-col items-center gap-y-6">
       <div className="flex flex-col items-center gap-y-3">
         <div className="w-[54px] h-[54px] bg-[#B7A362] rounded-full flex items-center justify-center text-[#50472B] text-4xl font-normal">
           {profile.username.charAt(0).toUpperCase()}

@@ -1,20 +1,5 @@
-import type { MoveType } from "../types/gameType";
+import type { GameHistoryItem } from "../types/gameType";
 import api from "./axiosIntance";
-
-export interface GameHistoryItem {
-  _id: string;
-  fen: string;
-  white: string;
-  black: string;
-  gameCreatedAt: number;
-  finishedAt: number;
-  winnerColor: "white" | "black" | "draw";
-  winnerId?: string;
-  isBot: boolean;
-  isCheckmate: boolean;
-  isDraw: boolean;
-  allMoves: MoveType[];
-}
 
 export interface GameHistoryResponse {
   data: GameHistoryItem[];

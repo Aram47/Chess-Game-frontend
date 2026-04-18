@@ -51,6 +51,7 @@ function getServicePathAndCleanPath(path: string): {
   return { servicePath: API_PATH, endpointPath: cleanPath };
 }
 
+
 export function getApiUrl(path: string): string {
   if (path.startsWith("http://") || path.startsWith("https://")) {
     return path;

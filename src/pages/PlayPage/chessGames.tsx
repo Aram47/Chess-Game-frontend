@@ -1,10 +1,8 @@
-// import { useState } from "react";
+// import { useState, type SetStateAction } from "react";
 // import { useQuery } from "@tanstack/react-query";
 // import { getMyGameHistory, type GameHistoryItem } from "../../api/history";
 // import type { MoveType } from "../../types/gameType";
-// import { GameColumn, computePosition } from "./chess";
-// import AnalyzeColumn from "./analyze";
-// import AnalyzeButtons from "./AnalyzeButtons";
+// import { GameColumn } from "./chess";
 
 // import leftArrow from "../../assets/icons/analyze/leftArrow.svg";
 // import rightArrow from "../../assets/icons/analyze/rightArrow.svg";
@@ -93,7 +91,26 @@
 //         <div className="w-full bg-[#1e1e1e] rounded-3xl p-8 border border-white/5 shadow-2xl flex flex-col md:flex-row gap-8">
 //           <div className="flex-1 space-y-6">
 //             <div className="aspect-square bg-[#312e2b] rounded-lg overflow-hidden relative border-4 border-[#262421] flex flex-col min-h-0">
-//               <GameColumn />
+//               <GameColumn
+//                 plyIndex={0}
+//                 setPlyIndex={function (value: SetStateAction<number>): void {
+//                   throw new Error("Function not implemented.");
+//                 }}
+//                 branchMoves={[]}
+//                 setBranchMoves={function (
+//                   value: SetStateAction<MoveType[]>,
+//                 ): void {
+//                   throw new Error("Function not implemented.");
+//                 }}
+//                 selectedGame={null}
+//                 setSelectedGameId={function (
+//                   value: SetStateAction<string | null>,
+//                 ): void {
+//                   throw new Error("Function not implemented.");
+//                 }}
+//                 games={[]}
+//                 orientation={"white"}
+//               />
 
 //               <div className="absolute inset-0 grid grid-cols-8 grid-rows-8 pointer-events-none p-1 text-[10px] text-gray-400">
 //                 <span className="col-start-1 row-start-1">8</span>
@@ -120,24 +137,7 @@
 //               </button>
 //             </div>
 //           </div>
-//           <AnalyzeColumn
-//             currentFen={currentFen}
-//             isTerminal={isTerminal}
-//             selectedGameId={selectedGame?._id}
-//           />
 //         </div>
-
-//         <AnalyzeButtons
-//           setBranchMoves={setBranchMoves}
-//           setPlyIndex={setPlyIndex}
-//           branchMoves={branchMoves}
-//           maxPly={maxPly}
-//           plyIndex={plyIndex}
-//           goBack={goBack}
-//           goForward={goForward}
-//           goFirst={goFirst}
-//           goLast={goLast}
-//         />
 //       </div>
 //     </section>
 //   );

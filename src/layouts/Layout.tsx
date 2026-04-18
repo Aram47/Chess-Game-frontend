@@ -29,7 +29,7 @@ const Layout: React.FC = () => {
         <Outlet />
       </main>
       {activeModal !== null && (
-        <div className="relative z-10 w-full max-w-md max-h-[100vh] rounded-2xl">
+        <div className="relative z-10 w-full max-w-md max-h-[100vh] rounded-[20px]">
           {activeModal === "signup" && (
             <SignUpModal
               onClose={closeModal}

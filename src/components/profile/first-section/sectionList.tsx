@@ -41,6 +41,11 @@ const SectionList = () => {
             label="Expert"
             unlocked={true}
           />
+           <Achievement
+            icon={<span style={{ fontSize: "25px" }}>🔥</span>}
+            label="Master"
+            unlocked={false}
+          />
           <Achievement
             icon={
               <img src={grandmaster} alt="grandmaster" width={35} height={35} />
