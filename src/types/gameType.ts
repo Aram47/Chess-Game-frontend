@@ -4,6 +4,14 @@ export type MoveType = {
   promotion?: string;
 };
 
+export type PlayerColor = "w" | "b";
+export type GameStatus =
+  | "idle" 
+  | "playing" 
+  | "checkmate" // Game over via checkmate
+  | "stalemate" // Game over via stalemate
+  | "draw";
+
 export type BotColor = "white" | "black";
 export type BotLevel = "easy" | "medium" | "hard";
 
@@ -57,4 +65,13 @@ export interface ApiError {
   message: string | string[];
   statusCode: number;
   error?: string;
+}
+
+export interface GameHistoryItem {
+  _id: string;
+  white: string;
+  black: string;
+  allMoves: (string | MoveType)[];
+  fen: string;
+  timestamp: string;
 }

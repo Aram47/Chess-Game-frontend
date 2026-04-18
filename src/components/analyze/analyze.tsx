@@ -94,13 +94,13 @@ const AnalyzeColumn: React.FC<AnalyzeColumnProps> = ({
           </div>
         )}
 
-        {isTerminal && (
+        {/* {isTerminal && (
           <div className="flex items-center justify-center py-10">
             <span className="text-gray-500 text-sm italic">
               Game Over — No analysis available
             </span>
           </div>
-        )}
+        )} */}
       </div>
 
       {/* */}

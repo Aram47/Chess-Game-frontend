@@ -10,6 +10,8 @@ interface GameColumnProps {
   plyIndex: number;
   maxPly: number;
   squareStyles: Record<string, CSSProperties>;
+  arrows?: [string, string][];
+  onDrop?: (source: string, target: string) => boolean;
 }
 
 export function GameColumn({
@@ -46,7 +48,7 @@ export function GameColumn({
           </div>
         </div>
         {gameStatus && (
-          <div className="bg-[#EF66661A] text-[#AD1414] px-4 py-1 rounded-lg text-sm">
+          <div className="bg-[#EF66661A] text-[#AD1414] px-4 py-2 rounded-lg text-sm">
             {gameStatus}
           </div>
         )}

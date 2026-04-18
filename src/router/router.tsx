@@ -6,6 +6,7 @@ import ClassesPage from "../pages/Classes/page";
 import ProfileDashboard from "../pages/Profile/page";
 import PlayPage from "../pages/PlayPage/page";
 import AuthCallback from "../hooks/AuthCallback";
+import { ChessGamePage } from "../components/game/Game";
 
 export const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ export const router = createBrowserRouter([
         element: <PlayPage />,
       },
       {
+        path: "/play/game",
+        element: <ChessGamePage />,
+      },
+      {
         path: "/analyze",
         element: <ChessAnalysisUI />,
       },
@@ -34,8 +39,16 @@ export const router = createBrowserRouter([
       },
       {
         path: "/auth/callback",
-        element: <AuthCallback />, 
+        element: <AuthCallback />,
       },
+    //   {
+    //     path: "/play/bot",
+    //     element: <ChessBotGamePage />,
+    //   },
+    //   {
+    //     path: "/play/game/bot?color=black&level=3",
+    //     element: <ChessBotGamePage />,
+    //   },
     ],
   },
 ]);

@@ -1,4 +1,4 @@
-import { useMemo, useState, type CSSProperties } from "react";
+import { useEffect, useMemo, useState, type CSSProperties } from "react";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { Chess } from "chess.js";
@@ -12,14 +12,13 @@ import type { MoveType } from "../../types/gameType";
 
 import leftIcon from "../../assets/icons/analyze/left.svg";
 
-
 export const ChessAnalysisUI: React.FC = () => {
   const [games] = useState<GameHistoryItem[]>([]);
 
   const [selectedGameId, setSelectedGameId] = useState<string | null>(null);
   const [plyIndex, setPlyIndex] = useState(0);
   const [branchMoves, setBranchMoves] = useState<MoveType[]>([]);
-
+  const [analysisArrows, setAnalysisArrows] = useState<[string, string][]>([]);
   const [analysisDepth] = useState(12);
   const [analysisLines] = useState(3);
 
@@ -54,13 +53,14 @@ export const ChessAnalysisUI: React.FC = () => {
 
   const analysisEnabled = Boolean(currentFen && selectedGame && !isTerminal);
 
-  //   const handleDrop = (source: string, target: string) => {
-  //     setBranchMoves([
-  //       ...branchMoves,
-  //       { from: source, to: target, promotion: "q" },
-  //     ]);
-  //     return true;
-  //   };
+  const handleDrop = (source: string, target: string) => {
+    setBranchMoves((prev) => [
+      ...prev,
+      { from: source, to: target, promotion: "q" },
+    ]);
+
+    return true;
+  };
 
   //   function truncatePv(tokens: string[], max = 6): string {
   //     if (tokens.length <= max) return tokens.join(" ");
@@ -111,8 +111,19 @@ export const ChessAnalysisUI: React.FC = () => {
         recommendedMovesCount: analysisLines,
       }),
     enabled: analysisEnabled,
-    staleTime: 30_000,
+    staleTime: 30000,
   });
+
+  useEffect(() => {
+    if (!analysisQuery.data) return;
+
+    const arrows = analysisQuery.data.lines.map((line: any) => [
+      line.move.from,
+      line.move.to,
+    ]);
+
+    setAnalysisArrows(arrows);
+  }, [analysisQuery.data]);
 
   const squareStyles = useMemo(() => {
     const styles: Record<string, CSSProperties> = {};
@@ -135,19 +146,21 @@ export const ChessAnalysisUI: React.FC = () => {
     return styles;
   }, [analysisQuery.data?.bestMove, branchMoves]);
 
-  //   const maxPly = selectedGame?.allMoves.length ?? 0;
   const maxPly = 40;
 
   const goBack = () =>
     branchMoves.length > 0
       ? setBranchMoves((b) => b.slice(0, -1))
       : setPlyIndex((p) => Math.max(0, p - 1));
+
   const goForward = () =>
     branchMoves.length === 0 && plyIndex < maxPly && setPlyIndex((p) => p + 1);
+
   const goFirst = () => {
     setBranchMoves([]);
     setPlyIndex(0);
   };
+
   const goLast = () => {
     setBranchMoves([]);
     setPlyIndex(maxPly);
@@ -172,16 +185,14 @@ export const ChessAnalysisUI: React.FC = () => {
         <div className="w-full grid grid-cols-1 lg:grid-cols-[1.8fr_1fr] gap-8">
           <div className="flex flex-col gap-4">
             <GameColumn
-              fen={currentFen}
-              onMove={(move) => setBranchMoves([...branchMoves, move])}
-              opponentName={selectedGame?.black}
-              playerName={selectedGame?.white}
-              gameStatus={
-                selectedGame?.winnerColor === "draw" ? "Draw" : "Finished"
-              }
+              fen={currentFen ?? ""}
+              opponentName="White"
+              playerName="Black"
+              arrows={analysisArrows}
+              onDrop={handleDrop}
+              plyIndex={0}
+              maxPly={0}
               squareStyles={squareStyles}
-              plyIndex={plyIndex}
-              maxPly={maxPly}
             />
 
             <AnalyzeButtons

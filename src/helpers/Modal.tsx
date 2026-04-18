@@ -88,7 +88,7 @@ const Modal = ({
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/30 backdrop-blur-sm p-4">
       <div
-        className={`relative max-w-[448px] w-full rounded-2xl border border-[#2e2e2e] shadow-[0px_8px_32px_0px_#1C1C1C80] backdrop-blur-[100px] bg-[#1C1C1CCC]`}
+        className={`relative max-w-[448px] w-full rounded-[20px] border border-[#2e2e2e] shadow-[0px_8px_32px_0px_#1C1C1C80] backdrop-blur-[100px] bg-[#1C1C1CCC]`}
         style={{ padding: "2rem" }}
       >
         {/* Close button */}

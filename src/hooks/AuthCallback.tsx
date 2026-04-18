@@ -6,6 +6,7 @@ const AuthCallback = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const { setUser } = useAuth();
+  
   useEffect(() => {
     const userJson = searchParams.get("user");
 
