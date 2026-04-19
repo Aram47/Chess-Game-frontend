@@ -75,3 +75,12 @@ export interface GameHistoryItem {
   fen: string;
   timestamp: string;
 }
+
+export interface Game {
+  opponentName?: string;
+  elo?: number;
+  mode?: string;
+  result: "win" | "loss" | "draw";
+  moves: number;
+  time?: string;
+}

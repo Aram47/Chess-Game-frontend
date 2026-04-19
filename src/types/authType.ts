@@ -57,7 +57,7 @@ export interface ISignUp {
   text1: string;
   text2: string;
   text3: string;
-  text4: string;
+  text4?: string;
   subtitle?: string;
   onSubmit?: (e: React.FormEvent) => void;
   formData?: IFormData;
@@ -67,5 +67,5 @@ export interface ISignUp {
   setResetEmail?: (email: string) => void;
   setFormData?: React.Dispatch<React.SetStateAction<IFormData>>;
   isOpen?: () => void;
-  handleGoogle: () => void;
+  handleGoogle?: () => void;
 }

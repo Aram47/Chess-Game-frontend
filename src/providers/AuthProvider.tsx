@@ -99,11 +99,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const logout = useCallback(async () => {
     try {
       await logoutProvider();
-    } catch {
-      // ignore
+    } catch (err) {
+      console.error("Logout error:", err);
     } finally {
       setUser(null);
       setError(null);
+      window.location.href = "/";
     }
   }, []);
 

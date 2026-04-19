@@ -6,6 +6,7 @@ export interface ProfileStats {
   wins: number;
   losses: number;
   draws: number;
+  stats: string;
 }
 
 export interface PublicProfile {
@@ -60,4 +61,14 @@ export interface FriendshipRow {
 export interface PendingFriendships {
   incoming: FriendshipRow[];
   outgoing: FriendshipRow[];
+}
+
+export interface ProfileContextType {
+  profile: MyProfile | null;
+  friends: FriendshipRow[];
+  isOpen: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  loading: boolean;
+  refreshProfile: () => Promise<void>;
+  updateProfile: (data: { username?: string; email?: string }) => Promise<void>;
 }

@@ -2,7 +2,7 @@ import React from "react";
 
 interface NavButtonProps {
   text?: string;
-  icon: React.ReactNode;
+  icon?: React.ReactNode;
   onClick?: () => void;
   className?: string;
 }
