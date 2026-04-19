@@ -54,7 +54,7 @@ const GameHistory = ({
                   const { from, to } = move;
 
                   return (
-                    <div className="flex flex-col gap-y-2">
+                    <div key={index} className="flex flex-col gap-y-2">
                       {isWhite ? (
                         <FirstStep
                           setPlyIndex={setPlyIndex}

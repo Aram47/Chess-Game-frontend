@@ -1,66 +1,25 @@
-import { useEffect, useState } from "react";
-import { getMyProfile, updateMyProfile } from "../api/profile";
-import { listFriends } from "../api/friends";
-import type { MyProfile, FriendshipRow } from "../types/profile";
+import { useState } from "react";
 import { ProfileContext } from "../hooks/ProfileContext";
+import { useFriends } from "../helpers/useFriends";
+import { useProfileApi, useUpdateProfile } from "../helpers/useProfile";
 
 export const ProfileProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [profile, setProfile] = useState<MyProfile | null>(null);
-  const [friends, setFriends] = useState<FriendshipRow[]>([]);
-  const [loading, setLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
 
-    const fetchData = async () => {
-      try {
-        const [profileData, friendsData] = await Promise.all([
-          getMyProfile(),
-          listFriends(),
-        ]);
-        setProfile(profileData);
-        setFriends(friendsData);
-      } catch (err) {
-        console.error("Dashboard load error:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const { data: profile, isLoading: profileLoading, refetch } = useProfileApi();
+  const { data: friends = [], isLoading: friendsLoading } = useFriends();
+  const updateMutation = useUpdateProfile();
 
-//   const fetchData = async () => {
-//     try {
-//       const data = await getMyProfile();
-//       setProfile(data);
-//     } catch (err) {
-//       console.error("Dashboard load error:", err);
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
+  const loading = profileLoading || friendsLoading;
 
-//   const friendsList = async () => {
-//     try {
-//       const data = await listFriends();
-//       console.log('friends data', data)
-//       setFriends(data);
-//     } catch (err) {
-//       console.error("Dashboard load error:", err);
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
+  const updateProfile = async (data: { username?: string; email?: string }) => {
+    await updateMutation.mutateAsync(data);
+  };
 
-//   useEffect(() => {
-//     friendsList();
-//   }, []);
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const updateProfile = async (data: Partial<MyProfile>) => {
-    await updateMyProfile(data);
-    await fetchData();
+  const refreshProfile = async () => {
+    await refetch();
   };
 
   return (
@@ -68,10 +27,10 @@ export const ProfileProvider: React.FC<{ children: React.ReactNode }> = ({
       value={{
         isOpen,
         setIsOpen,
-        profile,
+        profile: profile ?? null,
         friends,
         loading,
-        refreshProfile: fetchData,
+        refreshProfile,
         updateProfile,
       }}
     >

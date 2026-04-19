@@ -3,14 +3,15 @@ import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "../../hooks/AuthContext";
 import { Chess } from "chess.js";
-import { useChessGame } from "../../hooks/useChessGame";
-import { getMyGameHistory, getMyGameHistoryItem } from "../../api/history";
+import { getMyGameHistoryItem } from "../../api/history";
 
 import GameHistory from "./gameHistory";
 import GameButtons from "./GameButtons";
 import { GameColumn } from "./gameColumn";
 import SignInModal from "../modal/SignInModal";
 import leftIcon from "../../assets/icons/analyze/left.svg";
+import { useGameHistory } from "../../helpers/useGameHistory";
+import { useGame } from "../../hooks/GameContext";
 
 export const ChessGamePage: React.FC = () => {
   const {
@@ -25,18 +26,14 @@ export const ChessGamePage: React.FC = () => {
     moveHistory,
     winner,
     level,
-  } = useChessGame("easy");
+  } = useGame();
 
   const { user } = useAuth();
+  const historyQuery = useGameHistory();
   const [showModalAuth, setShowModalAuth] = useState(false);
 
   const [selectedGameId, setSelectedGameId] = useState<string | null>(null);
   const [plyIndex, setPlyIndex] = useState(0);
-
-  const historyQuery = useQuery({
-    queryKey: ["game-history"],
-    queryFn: () => getMyGameHistory(1, 50),
-  });
 
   const startGameAgainstBot = useCallback(() => {
     const color = Math.random() > 0.5 ? "w" : "b";
@@ -184,4 +181,3 @@ export const ChessGamePage: React.FC = () => {
     </section>
   );
 };
-

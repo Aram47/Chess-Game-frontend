@@ -1,11 +1,7 @@
-import { listFriends } from "../../../api/friends";
-import { useQuery } from "@tanstack/react-query";
+import { useFriends } from "../../../helpers/useFriends";
 
 export const FriendsList = () => {
-  const { data: friends = [], isLoading } = useQuery({
-    queryKey: ["friends"],
-    queryFn: listFriends,
-  });
+  const { data: friends = [], isLoading } = useFriends();
 
   if (isLoading) {
     return <p className="text-gray-500 p-4">Loading friends...</p>;
