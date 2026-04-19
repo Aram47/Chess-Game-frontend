@@ -3,6 +3,7 @@ import { router } from "./router/router";
 import { AuthProvider } from "./providers/AuthProvider";
 import { PlayProvider } from "./providers/PlayProvider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ProfileProvider } from "./providers/ProfileProvider";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -17,9 +18,11 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <PlayProvider>
-          <RouterProvider router={router} />
-        </PlayProvider>
+        <ProfileProvider>
+          <PlayProvider>
+            <RouterProvider router={router} />
+          </PlayProvider>
+        </ProfileProvider>
       </AuthProvider>
     </QueryClientProvider>
   );

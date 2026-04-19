@@ -2,6 +2,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Barlow:wght@400;700;900&family=Playfair+Display:ital,wght@0,700;1,700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols+2&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400..700;1,400..700&display=swap");
 
 @import "./assets/css/repeated.css";
 
@@ -11,6 +12,7 @@
   --font-playfair: "Playfair Display", serif;
   --font-barlow: "Barlow", sans-serif;
   --font-dm: "DM Sans", sans-serif;
+  --font-arimo: "Arimo", sans-serif;
 
   /* Colors - This allows text-gold, bg-gold, etc. */
   --color-gold: #e5cc7a;
@@ -44,6 +46,7 @@
   --font_heading: "Playfair Display", serif;
   --font_arial: "Noto Sans Symbols 2", sans-serif;
   --font-dm: "DM Sans", sans-serif;
+  --font-arimo: "Arimo", sans-serif;
 
   font-size: 16px var(--sans);
   letter-spacing: 0.18px;

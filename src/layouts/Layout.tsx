@@ -4,8 +4,8 @@ import Header from "../components/header/Header";
 import SignUpModal from "../components/modal/SignUpModal";
 import SignInModal from "../components/modal/SignInModal";
 import ResetPasswordModal from "../components/modal/PasswordModal";
-// import Footer from "../components/footer/Footer";
 
+import SettingsModal from "../components/settings/SettingsHistory";
 import "./style.css";
 
 const Layout: React.FC = () => {
@@ -14,13 +14,18 @@ const Layout: React.FC = () => {
   const [activeModal, setActiveModal] = useState<
     "signup" | "signin" | "reset" | null
   >(null);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   const closeModal = () => setActiveModal(null);
 
   return (
     <div className="app-container">
       <div className="headerWrapper">
-        <Header setActiveModal={setActiveModal} />
+        <Header
+          setActiveModal={setActiveModal}
+          isSettingsOpen={isSettingsOpen}
+          setIsSettingsOpen={setIsSettingsOpen}
+        />
       </div>
 
       <main
@@ -53,7 +58,9 @@ const Layout: React.FC = () => {
           )}
         </div>
       )}
-      {/* <Footer /> */}
+      {isSettingsOpen && (
+        <SettingsModal onClose={() => setIsSettingsOpen(false)} />
+      )}
     </div>
   );
 };
