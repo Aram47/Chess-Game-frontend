@@ -1,8 +1,8 @@
 import type { UseQueryResult } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 import type { GameHistoryItem, MoveType } from "../../types/gameType";
-import FirstStep from "./firstStep";
-import SecondStep from "./secStep";
+import FirstStep from "./steps/firstStep";
+import SecondStep from "./steps/secStep";
 
 interface Props {
   currentFen: string | undefined;

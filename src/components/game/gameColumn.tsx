@@ -1,5 +1,10 @@
 import { Chessboard } from "react-chessboard";
 import { useEffect, useState } from "react";
+import { BOARD_THEMES, type BoardTheme } from "./board-theme/boardThemes";
+import { figurePieces } from "./chess-figures/FiguresChess";
+import GameButtons from "./GameButtons";
+
+import "./style.scss";
 
 export const GameColumn = ({
   opponentName,
@@ -14,6 +19,9 @@ export const GameColumn = ({
   level,
   isBotThinking,
   winner,
+  boardTheme,
+  startGameAgainstBot,
+  setBoardTheme,
 }: {
   opponentName?: string;
   playerName?: string;
@@ -27,6 +35,9 @@ export const GameColumn = ({
   level: string;
   isBotThinking: boolean;
   winner: "you" | "bot" | "draw" | null;
+  boardTheme?: BoardTheme;
+  setBoardTheme: React.Dispatch<React.SetStateAction<BoardTheme>>;
+  startGameAgainstBot: () => void;
 }) => {
   const [timers, setTimers] = useState({ white: 600, black: 600 });
 
@@ -34,6 +45,7 @@ export const GameColumn = ({
   const playerSideLabel = playerColor === "w" ? "White" : "Black";
   const opponentSideLabel = playerColor === "w" ? "Black" : "White";
   const activeTurn = fen.split(" ")[1] === "b" ? "black" : "white";
+  const theme = boardTheme ?? BOARD_THEMES[0];
 
   const squareStyles: Record<string, any> = {};
   if (lastMove) {
@@ -90,20 +102,24 @@ export const GameColumn = ({
 
       {/* Board */}
       <div className="relative overflow-hidden rounded-xl max-w-[600px] w-full mx-auto">
-        <Chessboard
-          options={{
-            position: fen,
-            boardOrientation,
-            onPieceDrop: ({ sourceSquare, targetSquare }) => {
-              if (!targetSquare || !isPlayerTurn || isBotThinking) return false;
-              void onDrop(sourceSquare, targetSquare);
-              return true;
-            },
-            squareStyles,
-            darkSquareStyle: { backgroundColor: "#769656" },
-            lightSquareStyle: { backgroundColor: "#EEEED2" },
-          }}
-        />
+        <div className="board">
+          <Chessboard
+            options={{
+              position: fen,
+              boardOrientation,
+              onPieceDrop: ({ sourceSquare, targetSquare }) => {
+                if (!targetSquare || !isPlayerTurn || isBotThinking)
+                  return false;
+                void onDrop(sourceSquare, targetSquare);
+                return true;
+              },
+              pieces: figurePieces,
+              squareStyles,
+              darkSquareStyle: { backgroundColor: theme.dark, color: theme.light },
+              lightSquareStyle: { backgroundColor: theme.light, color: theme.dark },
+            }}
+          />
+        </div>
 
         {gameStatus !== "playing" && gameStatus !== "idle" && (
           <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-black/80">
@@ -144,6 +160,15 @@ export const GameColumn = ({
           )}
         </p>
       </div>
+      <div className="bg-[#0000004D] rounded-xl justify-center p-4 text-sm text-[#F7EFD6] max-w-[70%] w-full mx-auto text-center">
+        <p className="font-normal text-xs text-[#F7EFD6] ">
+          {activeTurn === "white" ? "White to move" : "Black to move"}
+        </p>
+      </div>
+      <GameButtons
+        goFirst={startGameAgainstBot}
+        onThemeChange={setBoardTheme}
+      />
     </div>
   );
 };
