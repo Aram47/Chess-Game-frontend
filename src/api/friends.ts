@@ -124,3 +124,18 @@ export async function rejectFriendRequest(id: number): Promise<FriendshipRow> {
   }
   return response.data;
 }
+
+export async function listPendingFriends(): Promise<PendingFriendships> {
+  const response = await api.get("user-service/friends/pending", {
+    method: "GET",
+  });
+  if (!response.ok) {
+    throw new Error(
+      await readApiErrorMessage(
+        response.data,
+        `Failed to load friend requests (${response.status})`,
+      ),
+    );
+  }
+  return response.data;
+}

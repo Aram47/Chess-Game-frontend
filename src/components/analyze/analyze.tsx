@@ -1,9 +1,10 @@
 import React from "react";
-import { formatEngineEvaluation } from "../../lib/format-engine-eval";
+import { formatEngineEvaluation } from "../../lib/analysis/format-engine-eval";
 import { type UseQueryResult } from "@tanstack/react-query";
 import type { AnalyzePositionResult } from "../../types/analyzeTypes";
 
-import type { GameHistoryItem } from "../../api/history";
+import type { GameHistoryItem } from "../../types/gameType";
+
 import { Bot, Loader2 } from "lucide-react";
 
 interface AnalyzeColumnProps {

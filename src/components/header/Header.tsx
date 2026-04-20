@@ -10,6 +10,7 @@ import settingsIcon from "../../assets/icons/header/settings.svg";
 import logoutIcon from "../../assets/icons/header/logout.svg";
 
 import style from "./header.module.scss";
+import NotificationBell from "../notification/notificationBell";
 
 interface HeaderType {
   setActiveModal: (type: "signup" | "signin" | null) => void;
@@ -90,6 +91,12 @@ const Header = ({ setActiveModal, setIsSettingsOpen }: HeaderType) => {
             </div>
             {user ? (
               <div className={style.cm_user_profile}>
+                <NotificationBell
+                  isLoggedIn={!!user}
+                  onNotification={(event) => {
+                    console.log("Notification event:", event.eventType, event.parsedData);
+                  }}
+                />
                 <span>Nickname</span>
                 <button
                   className={style.cm_btn}
