@@ -6,8 +6,8 @@ export type MoveType = {
 
 export type PlayerColor = "w" | "b";
 export type GameStatus =
-  | "idle" 
-  | "playing" 
+  | "idle"
+  | "playing"
   | "checkmate" // Game over via checkmate
   | "stalemate" // Game over via stalemate
   | "draw";
@@ -74,6 +74,10 @@ export interface GameHistoryItem {
   allMoves: (string | MoveType)[];
   fen: string;
   timestamp: string;
+  winnerColor: "white" | "black" | "draw";
+  winnerId?: string;
+  isBot: boolean;
+  finishedAt: number;
 }
 
 export interface Game {

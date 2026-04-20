@@ -15,7 +15,6 @@ export const useUpdateProfile = () => {
   return useMutation({
     mutationFn: updateMyProfile,
     onSuccess: () => {
-      // ONLY invalidate the profile query, not the friends query
       queryClient.invalidateQueries({ queryKey: ["profile"] });
     },
   });
