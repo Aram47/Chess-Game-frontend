@@ -1,25 +1,28 @@
-import { useCallback, useRef, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
+import { GameContext } from "../hooks/GameContext";
 import { Chess } from "chess.js";
 import { startGameWithBot, makeMoveInGameWithBot } from "../api/game";
 import type { PlayerColor, GameStatus, MoveType } from "../types/gameType";
+import type { GameLevel, WinnerLabel } from "../types/playType";
 
-type GameLevel = "easy" | "medium" | "hard";
-type WinnerLabel = "you" | "bot" | "draw" | null;
-
-export function useChessGame(initialLevel: GameLevel = "medium") {
+export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const chessRef = useRef(new Chess());
   const isStartingRef = useRef(false);
+
   const [roomId, setRoomId] = useState<string | null>(null);
   const [gameStatus, setGameStatus] = useState<GameStatus>("idle");
   const [playerColor, setPlayerColor] = useState<PlayerColor>("w");
   const [fen, setFen] = useState(chessRef.current.fen());
-  const [level, setLevel] = useState<GameLevel>(initialLevel);
+  const [level, setLevel] = useState<GameLevel>("medium");
   const [isBotThinking, setIsBotThinking] = useState(false);
   const [lastMove, setLastMove] = useState<{ from: string; to: string } | null>(
     null,
   );
   const [moveHistory, setMoveHistory] = useState<MoveType[]>([]);
   const [winner, setWinner] = useState<WinnerLabel>(null);
+  const [showModal, setShowModal] = useState<string | null>(null);
 
   const resolveWinnerLabel = useCallback(
     (winnerColor?: "white" | "black" | "draw"): WinnerLabel => {
@@ -34,7 +37,7 @@ export function useChessGame(initialLevel: GameLevel = "medium") {
   const syncState = useCallback((newFen?: string) => {
     const chess = chessRef.current;
     if (newFen) {
-      chess.load(newFen); // Load the specific FEN from backend
+      chess.load(newFen);
     }
 
     setFen(chess.fen());
@@ -58,7 +61,6 @@ export function useChessGame(initialLevel: GameLevel = "medium") {
         setRoomId(data.roomId);
         setPlayerColor(color);
 
-        // CRITICAL: Update the chess engine with the backend's starting FEN
         chessRef.current = new Chess(data.fen);
 
         if (data.botMove) {
@@ -100,14 +102,12 @@ export function useChessGame(initialLevel: GameLevel = "medium") {
 
         const response = await makeMoveInGameWithBot(roomId, movePayload);
 
-        // FIX 1: Store the movePayload object for the player
         setMoveHistory((prev) => [...prev, movePayload]);
 
         if ("botMove" in response && response.botMove) {
           const botMove = response.botMove;
           setLastMove({ from: botMove.from, to: botMove.to });
 
-          // FIX 2: Store the botMove object directly
           setMoveHistory((prev) => [...prev, botMove]);
         } else {
           setLastMove({ from: source, to: target });
@@ -141,7 +141,7 @@ export function useChessGame(initialLevel: GameLevel = "medium") {
         setIsBotThinking(false);
       }
     },
-    [roomId, gameStatus, isBotThinking, syncState],
+    [gameStatus, roomId, isBotThinking, resolveWinnerLabel, syncState],
   );
 
   const resetGame = useCallback(() => {
@@ -164,21 +164,30 @@ export function useChessGame(initialLevel: GameLevel = "medium") {
     [chooseSide, resetGame],
   );
 
-  return {
-    fen,
-    gameStatus,
-    playerColor,
-    isBotThinking,
-    onDrop,
-    chooseSide,
-    startNewGame,
-    resetGame,
-    isPlayerTurn:
-      gameStatus === "playing" && chessRef.current.turn() === playerColor,
-    lastMove,
-    moveHistory,
-    winner,
-    level,
-    setLevel,
-  };
-}
+  const isPlayerTurn =
+    gameStatus === "playing" && chessRef.current.turn() === playerColor;
+
+  return (
+    <GameContext.Provider
+      value={{
+        fen,
+        gameStatus,
+        playerColor,
+        isBotThinking,
+        isPlayerTurn,
+        onDrop,
+        startNewGame,
+        resetGame,
+        lastMove,
+        moveHistory,
+        winner,
+        level,
+        setLevel,
+        showModal,
+        setShowModal,
+      }}
+    >
+      {children}
+    </GameContext.Provider>
+  );
+};

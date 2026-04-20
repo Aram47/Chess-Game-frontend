@@ -5,7 +5,6 @@ import type {
   UpdateProfileRequest,
 } from "../types/profile";
 
-// Helper to extract error messages
 export function getErrorMessage(error: any, fallback: string): string {
   const serverMessage = error.response?.data?.message;
   if (Array.isArray(serverMessage)) return serverMessage.join(", ");
@@ -13,9 +12,6 @@ export function getErrorMessage(error: any, fallback: string): string {
   return fallback;
 }
 
-/** * Fetches the current user's profile, including stats
- * for the "Match Results" and "Recent Games" widgets.
- */
 export async function getMyProfile(): Promise<MyProfile> {
   try {
     const { data } = await api.get<MyProfile>("user-service/profile/me");
@@ -39,7 +35,6 @@ export async function updateMyProfile(
   }
 }
 
-/** Fetches another user's public data (for the Top 10 Leaderboard or search results) */
 export async function getPublicProfile(userId: number): Promise<PublicProfile> {
   try {
     const { data } = await api.get<PublicProfile>(

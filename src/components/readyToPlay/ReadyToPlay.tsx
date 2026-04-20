@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-// import { usePlay } from "../../hooks/PlayContext";
 
 import monitor from "../../assets/icons/play/platform.svg";
 import user from "../../assets/icons/play/player.svg";

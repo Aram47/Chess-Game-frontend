@@ -7,10 +7,38 @@ import type {
 } from "../types/profile";
 import { getErrorMessage } from "./profile";
 
+interface ApiErrorBody {
+  message?: string | string[];
+  statusCode?: number;
+}
+
+export async function readApiErrorMessage(
+  response: Response,
+  fallback: string,
+): Promise<string> {
+  try {
+    const data = (await response.json()) as ApiErrorBody;
+    if (Array.isArray(data.message)) return data.message.join(", ");
+    if (typeof data.message === "string") return data.message;
+  } catch {
+    /* ignore */
+  }
+  return fallback;
+}
+
+export const profileQueryKeys = {
+  me: ["profile", "me"] as const,
+  public: (id: number) => ["profile", "public", id] as const,
+  friends: ["friends", "list"] as const,
+  friendsPending: ["friends", "pending"] as const,
+  userSearch: (q: string, limit: number) =>
+    ["users", "search", q, limit] as const,
+};
+
 export async function listFriends(): Promise<FriendshipRow[]> {
   try {
-    const { data } = await api.get<FriendshipRow[]>("user-service/friends");
-    return data;
+    const res = await api.get("user-service/friends");
+    return res.data;
   } catch (err) {
     throw new Error(getErrorMessage(err, "Failed to load friends list"));
   }
@@ -65,4 +93,34 @@ export async function removeFriendship(id: number): Promise<void> {
   } catch (err) {
     throw new Error(getErrorMessage(err, "Action failed"));
   }
+}
+
+export async function acceptFriendRequest(id: number): Promise<FriendshipRow> {
+  const response = await api.patch(`user-service/friends/${id}/accept`, {
+    method: "PATCH",
+  });
+  if (!response.ok) {
+    throw new Error(
+      await readApiErrorMessage(
+        response.data,
+        `Could not accept request (${response.status})`,
+      ),
+    );
+  }
+  return response.data;
+}
+
+export async function rejectFriendRequest(id: number): Promise<FriendshipRow> {
+  const response = await api.patch(`user-service/friends/${id}/reject`, {
+    method: "PATCH",
+  });
+  if (!response.ok) {
+    throw new Error(
+      await readApiErrorMessage(
+        response.data,
+        `Could not reject request (${response.status})`,
+      ),
+    );
+  }
+  return response.data;
 }

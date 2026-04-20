@@ -9,7 +9,6 @@
   top: 30%;
   right: 5%;
   opacity: 0;
-  pointer-events: none;
   animation: slideInFromRight 1.5s ease forwards;
   animation-delay: 9s;
 
@@ -32,10 +31,15 @@
     cursor: pointer;
 
     .cm_start {
+      display: flex;
+      align-items: center;
+      gap: 8px;
       font-size: 1rem;
       font-weight: 700;
       cursor: pointer;
       transition: all 0.18s;
+      text-decoration: none;
+      border: none;
     }
 
     .cm_primary {

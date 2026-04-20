@@ -1,12 +1,10 @@
-import { useState } from "react";
 import { useAuth } from "../hooks/AuthContext";
+import { PasswordField } from "./PasswordField";
+import { InputField } from "./InputField";
 import type { ISignUp } from "../types/authType";
 
 import closeIcon from "../assets/icons/modal/close.svg";
-
 import google from "../assets/icons/google.svg";
-import { PasswordToggleIcon } from "./passwordToggleIcon";
-import { InputField } from "./InputField";
 
 const Modal = ({
   onClose,
@@ -27,8 +25,6 @@ const Modal = ({
   handleGoogle,
 }: ISignUp) => {
   const { loading } = useAuth();
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/30 backdrop-blur-sm p-4 overflow-y-auto">
@@ -97,47 +93,28 @@ const Modal = ({
                   }
                 />
 
-                <InputField
+                <PasswordField
                   label="Password"
-                  type={showPassword ? "text" : "password"}
                   placeholder="Enter your password"
                   value={formData?.password ?? ""}
-                  onChange={(e) =>
-                    setFormData?.({ ...formData!, password: e.target.value })
-                  }
-                  rightElement={
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword(!showPassword)}
-                      className="hover:text-gray-300 transition-colors cursor-pointer"
-                    >
-                      <PasswordToggleIcon visible={showPassword} />
-                    </button>
+                  onChange={(val) =>
+                    setFormData?.((prev) => ({
+                      ...prev,
+                      password: val,
+                    }))
                   }
                 />
 
                 {isRegister && (
-                  <InputField
+                  <PasswordField
                     label="Confirm Password"
-                    type={showConfirmPassword ? "text" : "password"}
                     placeholder="Confirm your password"
                     value={formData?.confirmPassword ?? ""}
-                    onChange={(e) =>
+                    onChange={(val) =>
                       setFormData?.({
                         ...formData!,
-                        confirmPassword: e.target.value,
+                        confirmPassword: val,
                       })
-                    }
-                    rightElement={
-                      <button
-                        type="button"
-                        onClick={() =>
-                          setShowConfirmPassword(!showConfirmPassword)
-                        }
-                        className="hover:text-gray-300 transition-colors cursor-pointer"
-                      >
-                        <PasswordToggleIcon visible={showConfirmPassword} />
-                      </button>
                     }
                   />
                 )}
