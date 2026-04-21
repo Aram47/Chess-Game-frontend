@@ -6,12 +6,12 @@ import { Chess } from "chess.js";
 import { getMyGameHistoryItem } from "../../api/history";
 
 import GameHistory from "./gameHistory";
-import GameButtons from "./GameButtons";
 import { GameColumn } from "./gameColumn";
 import SignInModal from "../modal/SignInModal";
 import leftIcon from "../../assets/icons/analyze/left.svg";
 import { useGameHistory } from "../../helpers/useGameHistory";
 import { useGame } from "../../hooks/GameContext";
+import { BOARD_THEMES, type BoardTheme } from "./board-theme/boardThemes";
 
 export const ChessGamePage: React.FC = () => {
   const {
@@ -31,6 +31,7 @@ export const ChessGamePage: React.FC = () => {
   const { user } = useAuth();
   const historyQuery = useGameHistory();
   const [showModalAuth, setShowModalAuth] = useState(false);
+  const [boardTheme, setBoardTheme] = useState<BoardTheme>(BOARD_THEMES[0]);
 
   const [selectedGameId, setSelectedGameId] = useState<string | null>(null);
   const [plyIndex, setPlyIndex] = useState(0);
@@ -134,6 +135,9 @@ export const ChessGamePage: React.FC = () => {
                 level={level}
                 isBotThinking={isBotThinking}
                 winner={winner}
+                boardTheme={boardTheme}
+                startGameAgainstBot={startGameAgainstBot}
+                setBoardTheme={setBoardTheme}
               />
             ) : (
               <div className="relative w-full h-[600px] bg-[#1c1c1c] flex flex-col justify-center items-center rounded-3xl border-2 border-dashed border-[#CEB86E33]">
@@ -161,8 +165,6 @@ export const ChessGamePage: React.FC = () => {
                 )}
               </div>
             )}
-
-            <GameButtons goFirst={startGameAgainstBot} />
           </div>
 
           <GameHistory

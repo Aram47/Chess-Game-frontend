@@ -1,0 +1,34 @@
+.board {
+  width: 100%;
+  border-radius: 4px;
+  overflow: hidden;
+  transform: none !important;
+  filter: none !important;
+  transform-style: flat;
+
+  span[style*="color"] {
+    color: inherit !important;
+  }
+}
+
+.board .chess-icon {
+  width: 100%;
+  height: 100%;
+  object-fit: none;
+}
+
+@media (max-width: 1024px) {
+  .board .chess-icon,
+  img {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .board .chess-icon,
+  img {
+    width: 100%;
+    height: 100%;
+  }
+}

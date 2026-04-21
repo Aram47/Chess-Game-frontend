@@ -10,7 +10,7 @@ import settingsIcon from "../../assets/icons/header/settings.svg";
 import logoutIcon from "../../assets/icons/header/logout.svg";
 
 import style from "./header.module.scss";
-import NotificationBell from "../notification/notificationBell";
+import NotificationBell from "../notification/NotificationBell";
 
 interface HeaderType {
   setActiveModal: (type: "signup" | "signin" | null) => void;
@@ -18,7 +18,7 @@ interface HeaderType {
   setIsSettingsOpen: (open: boolean) => void;
 }
 
-const Header = ({ setActiveModal, setIsSettingsOpen }: HeaderType) => {
+const Header = ({ setActiveModal, isSettingsOpen, setIsSettingsOpen }: HeaderType) => {
   const navigate = useNavigate();
   const [showFlag, setShowFlag] = useState(false);
   const { user, logout } = useAuth();
@@ -39,7 +39,12 @@ const Header = ({ setActiveModal, setIsSettingsOpen }: HeaderType) => {
 
   return (
     <>
-      <header className={`${style.cm_container} ${style.headerAnimate}`}>
+      <header
+        data-modal-open={isSettingsOpen ? "true" : "false"}
+        className={`${style.cm_container} ${style.headerAnimate} transition-shadow duration-300 ${
+          isSettingsOpen ? "shadow-none" : "shadow-[your-existing-shadow-class]"
+        }`}
+      >
         <div className={style.cm_header}>
           <div className={style.cm_left}>
             <span className={style.cm_logo} onClick={() => navigate("/")}>
@@ -94,7 +99,11 @@ const Header = ({ setActiveModal, setIsSettingsOpen }: HeaderType) => {
                 <NotificationBell
                   isLoggedIn={!!user}
                   onNotification={(event) => {
-                    console.log("Notification event:", event.eventType, event.parsedData);
+                    console.log(
+                      "Notification event:",
+                      event.eventType,
+                      event.parsedData,
+                    );
                   }}
                 />
                 <span>Nickname</span>
