@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { ProfileContext } from "../hooks/ProfileContext";
-import { useFriends } from "../helpers/useFriends";
-import { useProfileApi, useUpdateProfile } from "../helpers/useProfile";
+import { ProfileContext } from "../context/ProfileContext";
+import { useFriends } from "../hooks/useFriends";
+import { useProfileApi, useUpdateProfile } from "../hooks/useProfile";
 
 export const ProfileProvider: React.FC<{ children: React.ReactNode }> = ({
   children,

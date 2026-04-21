@@ -1,5 +1,7 @@
 import type { CSSProperties } from "react";
 import { Chessboard } from "react-chessboard";
+import { figurePieces } from "../../components/game/chess-figures/FiguresChess";
+import { BOARD_THEMES, type BoardTheme } from "../../components/game/board-theme/boardThemes";
 
 interface GameColumnProps {
   fen: string | undefined;
@@ -12,22 +14,26 @@ interface GameColumnProps {
   squareStyles: Record<string, CSSProperties>;
   arrows?: [string, string][];
   onDrop?: (source: string, target: string) => boolean;
+  boardTheme: BoardTheme
 }
 
 export function GameColumn({
   fen,
-  onMove,
   opponentName,
   playerName,
   gameStatus,
   plyIndex,
   maxPly,
   squareStyles,
+  boardTheme,
 }: GameColumnProps) {
-  function onDrop(sourceSquare: string, targetSquare: string) {
-    onMove({ from: sourceSquare, to: targetSquare, promotion: "q" });
-    return true;
-  }
+  const theme = boardTheme ?? BOARD_THEMES[0];
+  const boardOrientation = "white";
+
+  //   function onDrop(sourceSquare: string, targetSquare: string) {
+  //     onMove({ from: sourceSquare, to: targetSquare, promotion: "q" });
+  //     return true;
+  //   }
 
   return (
     <div className="flex flex-col gap-4 border-[#CEB86E33] border rounded-xl p-8 font-barlow bg-[#FFFFFF0D]">
@@ -57,11 +63,20 @@ export function GameColumn({
       {/* The Board */}
       <div className="overflow-hidden relative rounded-xl max-w-[600px] w-full mx-auto">
         <Chessboard
-          position={fen ?? "start"}
-          onPieceDrop={onDrop}
-          customDarkSquareStyle={{ backgroundColor: "#769656" }}
-          customLightSquareStyle={{ backgroundColor: "#EEEED2" }}
-          customSquareStyles={squareStyles}
+          options={{
+            position: fen,
+            boardOrientation,
+            pieces: figurePieces,
+            squareStyles,
+            darkSquareStyle: {
+              backgroundColor: theme.dark,
+              color: theme.light,
+            },
+            lightSquareStyle: {
+              backgroundColor: theme.light,
+              color: theme.dark,
+            },
+          }}
         />
       </div>
 

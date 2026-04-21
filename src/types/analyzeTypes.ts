@@ -1,9 +1,14 @@
-import type { MoveType } from "./gameType";
+import type { Dispatch, SetStateAction } from "react";
+import type { GameHistoryItem } from "./gameType";
 
-export type AnalysisEvaluationKind = "cp" | "mate";
+export type MoveType = {
+  from: string;
+  to: string;
+  promotion?: string;
+};
 
 export interface AnalysisEvaluation {
-  kind: AnalysisEvaluationKind;
+  kind: "cp" | "mate";
   value: number;
 }
 
@@ -20,15 +25,18 @@ export interface AnalyzePositionPayload {
   depth?: number;
 }
 
-export interface AnalyzePositionResult {
-  fen: string;
-  depth: number;
+export interface AnalyzePositionResult extends AnalyzePositionPayload {
   depthReached: number;
   bestMove: MoveType | null;
   lines: AnalysisLine[];
 }
 
-export interface ApiError {
-  message: string | string[];
-  statusCode: number;
+export interface AnalysisContextType {
+  games: GameHistoryItem[];
+  setGames: Dispatch<SetStateAction<GameHistoryItem[]>>;
+  selectedGameId: string | null;
+  selectedGame: GameHistoryItem | null;
+  setSelectedGameId: (id: string | null) => void;
+  plyIndex: number;
+  setPlyIndex: Dispatch<SetStateAction<number>>;
 }

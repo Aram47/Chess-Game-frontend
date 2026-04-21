@@ -1,3 +1,5 @@
+import type { Dispatch, SetStateAction } from "react";
+
 export type MoveType = {
   from: string;
   to: string;
@@ -78,6 +80,7 @@ export interface GameHistoryItem {
   winnerId?: string;
   isBot: boolean;
   finishedAt: number;
+  setGames?: Dispatch<SetStateAction<GameHistoryItem[]>>;
 }
 
 export interface Game {

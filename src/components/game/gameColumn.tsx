@@ -1,10 +1,20 @@
 import { Chessboard } from "react-chessboard";
 import { useEffect, useState } from "react";
+import type { CSSProperties } from "react";
 import { BOARD_THEMES, type BoardTheme } from "./board-theme/boardThemes";
 import { figurePieces } from "./chess-figures/FiguresChess";
 import GameButtons from "./GameButtons";
 
 import "./style.scss";
+import AnalyzeButtons from "../analyze/AnalyzeButtons";
+import { useLocation } from "react-router-dom";
+
+type AnalyzeControls = {
+  goBack: () => void;
+  goForward: () => void;
+  goFirst: () => void;
+  goLast: () => void;
+};
 
 export const GameColumn = ({
   opponentName,
@@ -22,6 +32,7 @@ export const GameColumn = ({
   boardTheme,
   startGameAgainstBot,
   setBoardTheme,
+  analyzeControls,
 }: {
   opponentName?: string;
   playerName?: string;
@@ -30,15 +41,18 @@ export const GameColumn = ({
   isPlayerTurn: boolean;
   lastMove: { from: string; to: string } | null;
   gameStatus: string;
-  resetGame: () => void;
-  playerColor: "w" | "b";
-  level: string;
-  isBotThinking: boolean;
+  resetGame?: () => void;
+  playerColor?: "w" | "b";
+  level?: string;
+  isBotThinking?: boolean;
   winner: "you" | "bot" | "draw" | null;
   boardTheme?: BoardTheme;
   setBoardTheme: React.Dispatch<React.SetStateAction<BoardTheme>>;
-  startGameAgainstBot: () => void;
+  startGameAgainstBot?: () => void;
+  analyzeControls?: AnalyzeControls;
 }) => {
+  const location = useLocation();
+  const isAnalysis = location.pathname.startsWith("/analyze");
   const [timers, setTimers] = useState({ white: 600, black: 600 });
 
   const boardOrientation = playerColor === "w" ? "white" : "black";
@@ -47,7 +61,7 @@ export const GameColumn = ({
   const activeTurn = fen.split(" ")[1] === "b" ? "black" : "white";
   const theme = boardTheme ?? BOARD_THEMES[0];
 
-  const squareStyles: Record<string, any> = {};
+  const squareStyles: Record<string, CSSProperties> = {};
   if (lastMove) {
     squareStyles[lastMove.from] = {
       backgroundColor: "rgba(225, 200, 100, 0.4)",
@@ -115,8 +129,14 @@ export const GameColumn = ({
               },
               pieces: figurePieces,
               squareStyles,
-              darkSquareStyle: { backgroundColor: theme.dark, color: theme.light },
-              lightSquareStyle: { backgroundColor: theme.light, color: theme.dark },
+              darkSquareStyle: {
+                backgroundColor: theme.dark,
+                color: theme.light,
+              },
+              lightSquareStyle: {
+                backgroundColor: theme.light,
+                color: theme.dark,
+              },
             }}
           />
         </div>
@@ -165,10 +185,14 @@ export const GameColumn = ({
           {activeTurn === "white" ? "White to move" : "Black to move"}
         </p>
       </div>
-      <GameButtons
-        goFirst={startGameAgainstBot}
-        onThemeChange={setBoardTheme}
-      />
+      {isAnalysis && analyzeControls ? (
+        <AnalyzeButtons {...analyzeControls} />
+      ) : (
+        <GameButtons
+          goFirst={startGameAgainstBot}
+          onThemeChange={setBoardTheme}
+        />
+      )}
     </div>
   );
 };

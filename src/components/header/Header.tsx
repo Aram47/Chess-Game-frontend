@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
-import { useAuth } from "../../hooks/AuthContext";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 // import SettingsModal from "../settings/SettingsHistory";
 import usaIcon from "../../assets/icons/flags/usaFlag.svg";
 import rusIcon from "../../assets/icons/flags/rusFlag.svg";
@@ -18,10 +18,16 @@ interface HeaderType {
   setIsSettingsOpen: (open: boolean) => void;
 }
 
-const Header = ({ setActiveModal, isSettingsOpen, setIsSettingsOpen }: HeaderType) => {
+const Header = ({
+  setActiveModal,
+  isSettingsOpen,
+  setIsSettingsOpen,
+}: HeaderType) => {
   const navigate = useNavigate();
-  const [showFlag, setShowFlag] = useState(false);
   const { user, logout } = useAuth();
+  const location = useLocation();
+  const isHomePage = location.pathname === "/";
+  const [showFlag, setShowFlag] = useState(false);
 
   const flags = [
     { id: "en", icon: usaIcon, alt: "usa flag" },
@@ -41,9 +47,10 @@ const Header = ({ setActiveModal, isSettingsOpen, setIsSettingsOpen }: HeaderTyp
     <>
       <header
         data-modal-open={isSettingsOpen ? "true" : "false"}
-        className={`${style.cm_container} ${style.headerAnimate} transition-shadow duration-300 ${
-          isSettingsOpen ? "shadow-none" : "shadow-[your-existing-shadow-class]"
-        }`}
+        className={`
+            ${style.cm_container} transition-shadow duration-300
+            ${isSettingsOpen ? "shadow-none" : "shadow-[your-existing-shadow-class]"} 
+            ${!isHomePage ? "static transform-none" : style.headerAnimate}`}
       >
         <div className={style.cm_header}>
           <div className={style.cm_left}>
@@ -144,23 +151,6 @@ const Header = ({ setActiveModal, isSettingsOpen, setIsSettingsOpen }: HeaderTyp
                     </button>
                   </div>
                 )}
-
-                {/* {isOpen && (
-                <div>
-                    <Link to="/profile">
-                        <img src="" alt="" />
-                        <span>Profile</span>
-                    </Link>
-                    <button onClick={() => {}}>
-                        <img src="" alt="" />
-                        <span>Settings</span>
-                    </button>
-                    <Link to="/profile">
-                        <img src="" alt="" />
-                        <span>Log Out</span>
-                    </Link>
-                    </div>
-              )} */}
               </div>
             ) : (
               <div>

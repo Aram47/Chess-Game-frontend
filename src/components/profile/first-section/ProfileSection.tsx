@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useProfile } from "../../../hooks/ProfileContext";
+import { useProfile } from "../../../context/ProfileContext";
 
 import camera from "../../../assets/icons/profile/camera.svg";
 import editIcon from "../../../assets/icons/profile/edit.svg";

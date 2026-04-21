@@ -1,4 +1,4 @@
-import { useAuth } from "../hooks/AuthContext";
+import { useAuth } from "../context/AuthContext";
 import { PasswordField } from "./PasswordField";
 import { InputField } from "./InputField";
 import type { ISignUp } from "../types/authType";
