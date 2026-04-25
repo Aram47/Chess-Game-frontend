@@ -1,3 +1,5 @@
+import type { Dispatch, SetStateAction } from "react";
+
 export type MoveType = {
   from: string;
   to: string;
@@ -8,8 +10,8 @@ export type PlayerColor = "w" | "b";
 export type GameStatus =
   | "idle"
   | "playing"
-  | "checkmate" // Game over via checkmate
-  | "stalemate" // Game over via stalemate
+  | "checkmate"
+  | "stalemate"
   | "draw";
 
 export type BotColor = "white" | "black";
@@ -78,6 +80,7 @@ export interface GameHistoryItem {
   winnerId?: string;
   isBot: boolean;
   finishedAt: number;
+  setGames?: Dispatch<SetStateAction<GameHistoryItem[]>>;
 }
 
 export interface Game {

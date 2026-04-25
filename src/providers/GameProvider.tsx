@@ -1,5 +1,5 @@
 import React, { useCallback, useRef, useState } from "react";
-import { GameContext } from "../hooks/GameContext";
+import { GameContext } from "../context/GameContext";
 import { Chess } from "chess.js";
 import { startGameWithBot, makeMoveInGameWithBot } from "../api/game";
 import type { PlayerColor, GameStatus, MoveType } from "../types/gameType";

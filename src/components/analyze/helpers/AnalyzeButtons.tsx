@@ -1,10 +1,10 @@
-import { NavButton } from "../../helpers/buttons";
+import { NavButton } from "../../../helpers/buttons";
 
-import play from "../../assets/icons/analyze/play.svg";
-import skipBack from "../../assets/icons/analyze/skipBack.svg";
-import skipNext from "../../assets/icons/analyze/skipNext.svg";
-import leftArrow from "../../assets/icons/analyze/leftArrow.svg";
-import rightArrow from "../../assets/icons/analyze/rightArrow.svg";
+import play from "../../../assets/icons/analyze/play.svg";
+import skipBack from "../../../assets/icons/analyze/skipBack.svg";
+import skipNext from "../../../assets/icons/analyze/skipNext.svg";
+import leftArrow from "../../../assets/icons/analyze/leftArrow.svg";
+import rightArrow from "../../../assets/icons/analyze/rightArrow.svg";
 
 interface AnalyzeButtonsProps {
   plyIndex?: number;

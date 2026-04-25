@@ -1,16 +1,16 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { useAuth } from "../../hooks/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 import { Chess } from "chess.js";
 import { getMyGameHistoryItem } from "../../api/history";
 
 import GameHistory from "./gameHistory";
-import { GameColumn } from "./gameColumn";
+import { GameColumn } from "./GameColumn";
 import SignInModal from "../modal/SignInModal";
 import leftIcon from "../../assets/icons/analyze/left.svg";
-import { useGameHistory } from "../../helpers/useGameHistory";
-import { useGame } from "../../hooks/GameContext";
+import { useGameHistory } from "../../hooks/useGameHistory";
+import { useGame } from "../../context/GameContext";
 import { BOARD_THEMES, type BoardTheme } from "./board-theme/boardThemes";
 
 export const ChessGamePage: React.FC = () => {

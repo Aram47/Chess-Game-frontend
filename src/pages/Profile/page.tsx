@@ -1,4 +1,4 @@
-import { useProfile } from "../../hooks/ProfileContext";
+import { useProfile } from "../../context/ProfileContext";
 import FirstSection from "../../components/profile/first-section";
 import SecondSection from "../../components/profile/sec-section";
 import ThirdSection from "../../components/profile/third-section";

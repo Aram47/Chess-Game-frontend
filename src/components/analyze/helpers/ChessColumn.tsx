@@ -1,13 +1,13 @@
-import { useLocation } from "react-router-dom";
 import { Chessboard } from "react-chessboard";
-import { useEffect, useState } from "react";
 import type { CSSProperties } from "react";
-import AnalyzeButtons from "../analyze/helpers/AnalyzeButtons";
-import { BOARD_THEMES, type BoardTheme } from "./board-theme/boardThemes";
-import { figurePieces } from "../../helpers/chess-figures/FiguresChess";
-import GameButtons from "./GameButtons";
+import {
+  BOARD_THEMES,
+  type BoardTheme,
+} from "../../game/board-theme/boardThemes";
+import { figurePieces } from "../../../helpers/chess-figures/FiguresChess";
 
-import "../../assets/css/style.scss";
+// import "./style.scss";
+import AnalyzeButtons from "./AnalyzeButtons";
 
 type AnalyzeControls = {
   goBack: () => void;
@@ -16,7 +16,7 @@ type AnalyzeControls = {
   goLast: () => void;
 };
 
-export const GameColumn = ({
+export const ChessColumn = ({
   opponentName,
   playerName,
   fen,
@@ -26,12 +26,9 @@ export const GameColumn = ({
   gameStatus,
   resetGame,
   playerColor,
-  level,
   isBotThinking,
   winner,
   boardTheme,
-  startGameAgainstBot,
-  setBoardTheme,
   analyzeControls,
 }: {
   opponentName?: string;
@@ -43,24 +40,18 @@ export const GameColumn = ({
   gameStatus: string;
   resetGame?: () => void;
   playerColor?: "w" | "b";
-  level?: string;
   isBotThinking?: boolean;
   winner: "you" | "bot" | "draw" | null;
   boardTheme?: BoardTheme;
-  setBoardTheme: React.Dispatch<React.SetStateAction<BoardTheme>>;
-  startGameAgainstBot?: () => void;
   analyzeControls?: AnalyzeControls;
 }) => {
-  const location = useLocation();
-  const isAnalysis = location.pathname.startsWith("/analyze");
-  const [timers, setTimers] = useState({ white: 600, black: 600 });
-
+  const winnerPlayer = winner ? "Win" : "Loss";
   const boardOrientation = playerColor === "w" ? "white" : "black";
   const playerSideLabel = playerColor === "w" ? "White" : "Black";
   const opponentSideLabel = playerColor === "w" ? "Black" : "White";
-  const activeTurn = fen.split(" ")[1] === "b" ? "black" : "white";
   const theme = boardTheme ?? BOARD_THEMES[0];
 
+  const count = 40;
   const squareStyles: Record<string, CSSProperties> = {};
   if (lastMove) {
     squareStyles[lastMove.from] = {
@@ -68,28 +59,6 @@ export const GameColumn = ({
     };
     squareStyles[lastMove.to] = { backgroundColor: "rgba(225, 200, 100, 0.6)" };
   }
-
-  useEffect(() => {
-    if (gameStatus !== "playing") return;
-
-    const timer = setInterval(() => {
-      setTimers((prev) => {
-        if (prev[activeTurn] <= 0) return prev;
-        return {
-          ...prev,
-          [activeTurn]: prev[activeTurn] - 1,
-        };
-      });
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, [gameStatus, activeTurn]);
-
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${mins}:${secs.toString().padStart(2, "0")}`;
-  };
 
   return (
     <div className="flex flex-col gap-8 border-[#CEB86E33] border rounded-[20px] p-8 bg-[#FFFFFF0D]">
@@ -101,16 +70,14 @@ export const GameColumn = ({
           </div>
           <div className="flex flex-col ">
             <h3 className="text-gold capitalize">
-              {opponentName || "Platform"} {`(${level})`}
+              {opponentName || "Platform"}
             </h3>
             <p className="text-[#A39589] text-sm">{`Playing ${opponentSideLabel}`}</p>
           </div>
         </div>
 
-        <p className="text-xl text-[#A39589] bg-[#0000004D] py-2 px-4 rounded-[10px]">
-          {formatTime(
-            timers[opponentSideLabel.toLowerCase() as "white" | "black"],
-          )}
+        <p className="text-xl text-[#AD1414] bg-[#EF66661A] py-2 px-4 rounded-[10px]">
+          {winnerPlayer}
         </p>
       </div>
 
@@ -173,26 +140,17 @@ export const GameColumn = ({
             <p className="text-[#A39589]">{`Playing ${playerSideLabel}`}</p>
           </div>
         </div>
+      </div>
+      <div className="flex items-center gap-x-3">
+        <div className="bg-[#0000004D] rounded-[20px] justify-center p-4 text-sm text-[#F7EFD6] w-full mx-auto text-center">
+          <p className="font-normal text-xs text-[#F7EFD6]">Moves 0/{count}</p>
+        </div>
+        <button className="w-[184px] bg-[linear-gradient(180deg,#E5CC7A_0%,#F4E09E_100%)] rounded-full text-[#1C1C1C] font-semibold text-sm hover:shadow-[0px_4px_20px_0px_#E5CC7A4D] py-3">
+          Analyze
+        </button>
+      </div>
 
-        <p className="text-xl text-[#1C1C1C] bg-[#E5CC7A] py-2 px-4 rounded-[10px]">
-          {formatTime(
-            timers[playerSideLabel.toLowerCase() as "white" | "black"],
-          )}
-        </p>
-      </div>
-      <div className="bg-[#0000004D] rounded-xl justify-center p-4 text-sm text-[#F7EFD6] max-w-[70%] w-full mx-auto text-center">
-        <p className="font-normal text-xs text-[#F7EFD6] ">
-          {activeTurn === "white" ? "White to move" : "Black to move"}
-        </p>
-      </div>
-      {isAnalysis && analyzeControls ? (
-        <AnalyzeButtons {...analyzeControls} />
-      ) : (
-        <GameButtons
-          goFirst={startGameAgainstBot}
-          onThemeChange={setBoardTheme}
-        />
-      )}
+      {analyzeControls && <AnalyzeButtons {...analyzeControls} />}
     </div>
   );
 };

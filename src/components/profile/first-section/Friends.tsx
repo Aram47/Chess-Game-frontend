@@ -1,4 +1,4 @@
-import { useFriends } from "../../../helpers/useFriends";
+import { useFriends } from "../../../hooks/useFriends";
 
 export const FriendsList = () => {
   const { data: friends = [], isLoading } = useFriends();
