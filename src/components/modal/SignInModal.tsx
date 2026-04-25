@@ -6,9 +6,9 @@ import { getApiUrl } from "../../api/clients";
 
 interface ISignIn {
   onClose: () => void;
-  onLoginSuccess: () => void;
-  onSwitchToRegister: () => void;
-  onSwitchToReset: () => void;
+  onLoginSuccess?: () => void;
+  onSwitchToRegister?: () => void;
+  onSwitchToReset?: () => void;
 }
 
 export default function SignInModal({

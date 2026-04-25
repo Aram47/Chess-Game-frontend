@@ -1,5 +1,5 @@
 import type { GameHistoryItem } from "../../types/gameType";
-import { AnalyzeIcon } from "./AnalyzeIcon";
+import { AnalyzeIcon } from "./helpers/AnalyzeIcon";
 
 interface NotPlayedProps {
   games: GameHistoryItem[];

@@ -1,19 +1,21 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+import { useChessAnalysis } from "../../context/ChessAnalysisContext";
+import { ChessAnalysisProvider } from "../../providers/AnalysisProvider";
 import { getMyGameHistory } from "../../api/history";
-import AnalyzeColumn from "../../components/analyze/AnalyzeColumn";
+import AnalyzeColumn from "../../components/analyze/containers/AnalyzeColumn";
+import LeftColumn from "../../components/analyze/containers/LeftColumn";
 
 import leftIcon from "../../assets/icons/analyze/left.svg";
-import LeftColumn from "../../components/analyze/LeftColumn";
-import { ChessAnalysisProvider } from "../../providers/AnalysisProvider";
-import { useChessAnalysis } from "../../context/ChessAnalysisContext";
-import { useEffect } from "react";
-// import AllPlayedGames from "../../components/analyze/AllPlayedGames";
+import NotPlayed from "../../components/analyze/NotPlayed";
+import ChessAnalysisHero from "../../components/analyze/FirstAnalyzePage";
+import { useAuth } from "../../context/AuthContext";
 
 const AnalysisContent = () => {
   const { setGames, games, selectedGameId, setSelectedGameId } =
     useChessAnalysis();
-
+    
   const { isLoading } = useQuery({
     queryKey: ["game-history"],
     queryFn: async () => {
@@ -42,38 +44,42 @@ const AnalysisContent = () => {
         <div className="flex flex-col gap-4">
           <LeftColumn />
         </div>
-        <AnalyzeColumn />
+        <AnalyzeColumn winner={null} />
       </div>
     );
   }
   return (
     <div className="px-8 animate-in slide-in-from-bottom-4 duration-500">
-      {/* <AllPlayedGames games={games} /> */}
-      <LeftColumn />
-      <AnalyzeColumn />
+      <NotPlayed games={games} />
     </div>
   );
 };
 
 export const ChessAnalysisUI = () => {
+  const { user } = useAuth();
+
   return (
     <ChessAnalysisProvider>
-      <section className="w-full flex flex-col grow pt-[100px] pb-16 bg-[#1b1a17]">
-        <header className="w-full text-center mb-8">
-          <h1 className="text-6xl text-gold font-playfair font-black">
-            Game Analysis
-          </h1>
-        </header>
-        <div className="px-8 mb-8">
-          <Link
-            to="/"
-            className="w-[72px] flex justify-center border-2 border-[#E5CC7A] py-2.5 rounded-3xl"
-          >
-            <img src={leftIcon} alt="back" />
-          </Link>
-        </div>
-        <AnalysisContent />
-      </section>
+      {!user ? (
+        <ChessAnalysisHero />
+      ) : (
+        <section className="w-full flex flex-col grow pt-[100px] pb-16 bg-[#1b1a17]">
+          <header className="w-full text-center mb-8">
+            <h1 className="text-6xl text-gold font-playfair font-black">
+              Game Analysis
+            </h1>
+          </header>
+          <div className="px-8 mb-8">
+            <Link
+              to="/"
+              className="w-[72px] flex justify-center border-2 border-[#E5CC7A] py-2.5 rounded-3xl"
+            >
+              <img src={leftIcon} alt="back" />
+            </Link>
+          </div>
+          <AnalysisContent />
+        </section>
+      )}
     </ChessAnalysisProvider>
   );
 };

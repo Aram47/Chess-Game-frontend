@@ -10,8 +10,8 @@ export type PlayerColor = "w" | "b";
 export type GameStatus =
   | "idle"
   | "playing"
-  | "checkmate" // Game over via checkmate
-  | "stalemate" // Game over via stalemate
+  | "checkmate"
+  | "stalemate"
   | "draw";
 
 export type BotColor = "white" | "black";

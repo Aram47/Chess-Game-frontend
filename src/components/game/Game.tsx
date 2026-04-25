@@ -6,7 +6,7 @@ import { Chess } from "chess.js";
 import { getMyGameHistoryItem } from "../../api/history";
 
 import GameHistory from "./gameHistory";
-import { GameColumn } from "./gameColumn";
+import { GameColumn } from "./GameColumn";
 import SignInModal from "../modal/SignInModal";
 import leftIcon from "../../assets/icons/analyze/left.svg";
 import { useGameHistory } from "../../hooks/useGameHistory";

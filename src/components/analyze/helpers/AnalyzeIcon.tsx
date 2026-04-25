@@ -1,4 +1,4 @@
-import type { GameHistoryItem } from "../../types/gameType";
+import type { GameHistoryItem } from "../../../types/gameType";
 
 interface AnalyzeIconProps {
   games: GameHistoryItem[];

@@ -1,17 +1,18 @@
 // components/analyze/LeftColumn.tsx
 import { useMemo, useState } from "react";
 import { Chess } from "chess.js";
-import { useChessAnalysis } from "../../context/ChessAnalysisContext";
-import { GameColumn } from "../game/gameColumn";
-import { tryApplyMove } from "../../utils/utils";
-import type { MoveType } from "../../types/gameType";
-import type { BoardTheme } from "../game/board-theme/boardThemes";
-import { BOARD_THEMES } from "../game/board-theme/boardThemes";
+import { useChessAnalysis } from "../../../context/ChessAnalysisContext";
+import { ChessColumn } from "../helpers/ChessColumn";
+// import { GameColumn } from "../game/gameColumn";
+import { tryApplyMove } from "../../../utils/utils";
+import type { MoveType } from "../../../types/gameType";
+import type { BoardTheme } from "../../game/board-theme/boardThemes";
+import { BOARD_THEMES } from "../../game/board-theme/boardThemes";
 
 const LeftColumn = () => {
   const { selectedGame, plyIndex, setPlyIndex } = useChessAnalysis();
   const [branchMoves, setBranchMoves] = useState<MoveType[]>([]);
-  const [boardTheme, setBoardTheme] = useState<BoardTheme>(BOARD_THEMES[0]);
+  const [boardTheme] = useState<BoardTheme>(BOARD_THEMES[0]);
 
   const currentFen = useMemo(() => {
     if (!selectedGame) return "";
@@ -40,22 +41,19 @@ const LeftColumn = () => {
 
   return (
     <div className="flex flex-col gap-4">
-      <GameColumn
+      <ChessColumn
         fen={currentFen}
         opponentName={selectedGame?.isBot ? "Engine" : "Opponent"}
-        playerName="You"
+        playerName="Me"
         onDrop={() => false}
         isPlayerTurn={false}
         lastMove={null}
         gameStatus={"playing"}
         resetGame={() => undefined}
         playerColor={"w"}
-        level={""}
         isBotThinking={false}
         winner={null}
         boardTheme={boardTheme}
-        setBoardTheme={setBoardTheme}
-        startGameAgainstBot={() => undefined}
         analyzeControls={{
           goBack: () =>
             branchMoves.length > 0

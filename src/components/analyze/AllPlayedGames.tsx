@@ -1,6 +1,6 @@
 import { useSearchParams } from "react-router-dom";
 import type { GameHistoryItem } from "../../types/gameType";
-import { AnalyzeIcon } from "./AnalyzeIcon";
+import { AnalyzeIcon } from "./helpers/AnalyzeIcon";
 import { useChessAnalysis } from "../../context/ChessAnalysisContext";
 
 interface AllPlayedGamesProps {
@@ -31,7 +31,7 @@ const AllPlayed = ({ games }: AllPlayedGamesProps) => {
         <div
           key={i}
           onClick={() => handleGameSelect(game._id)}
-          className="bg-[#232323] py-2.5 px-3 rounded-xl flex items-center justify-between"
+          className="w-full bg-[#1C1C1C4D] py-2.5 px-3 rounded-xl flex items-center justify-between mt-4"
         >
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-full bg-[#E5CC7A] flex items-center justify-center text-[#1c1c1c] font-bold">
@@ -81,14 +81,19 @@ const AllPlayedGames = ({ games }: AllPlayedGamesProps) => {
           <h2 className="text-[#E5CC7A] font-normal text-xl">Game History</h2>
           <span className="text-[#A39589]">{games.length} games</span>
         </div>
-        <AllPlayed games={games} />
-        <div className="flex-1 flex flex-col items-center justify-center w-full gap-y-2">
-          <AnalyzeIcon games={games} />
-          <p className="text-[#EEDDA6] font-medium text-xl">No Game Selected</p>
-          <p className="text-[#A39589] text-md font-normal">
-            Select a game from the history to analyze its moves
-          </p>
-        </div>
+        {!games ? (
+          <div className="flex-1 flex flex-col items-center justify-center w-full gap-y-2">
+            <AnalyzeIcon games={games} />
+            <p className="text-[#EEDDA6] font-medium text-xl">
+              No Game Selected
+            </p>
+            <p className="text-[#A39589] text-md font-normal">
+              Select a game from the history to analyze its moves
+            </p>
+          </div>
+        ) : (
+          <AllPlayed games={games} />
+        )}
       </div>
     </section>
   );
