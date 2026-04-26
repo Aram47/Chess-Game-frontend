@@ -3,7 +3,14 @@ export interface AchievementProps {
   label: string;
   count?: string;
   unlocked: boolean;
+  text?: string;
 }
+
+export interface AchievementItem extends AchievementProps {
+  text?: string;
+  label: string;
+}
+
 export interface FriendProps {
   name: string;
   username: string;
