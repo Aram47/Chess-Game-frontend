@@ -27,7 +27,7 @@ export const SectionWrapper = ({
       </h3>
 
       {complete && (
-        <div className="bg-[#B7A362] rounded-md flex justify-center items-center font-medium text-sm py-2.5 px-4.5 text-[#1A1100]">
+        <div className="flex justify-center items-center font-medium text-sm py-2.5 px-4.5 text-[#E5CC7A]">
           {complete}
         </div>
       )}
