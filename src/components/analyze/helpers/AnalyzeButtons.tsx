@@ -41,7 +41,7 @@ const AnalyzeButtons: React.FC<AnalyzeButtonsProps> = ({
       <NavButton
         onClick={goForward}
         icon={<img src={rightArrow} alt="forward" />}
-        className="p-3 bg-[#262421] rounded-full hover:bg-[#333] transition-all cursor-pointer"
+            className="bg-[#262421] rounded-full border-1 border-[#CEB86E33] py-2.5 px-6 hover:bg-[#333] transition-all cursor-pointer"
       />
       <NavButton
         onClick={goLast}

@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useAuth } from "../../context/AuthContext";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { useChessAnalysis } from "../../context/ChessAnalysisContext";
@@ -10,12 +11,11 @@ import LeftColumn from "../../components/analyze/containers/LeftColumn";
 import leftIcon from "../../assets/icons/analyze/left.svg";
 import NotPlayed from "../../components/analyze/NotPlayed";
 import ChessAnalysisHero from "../../components/analyze/FirstAnalyzePage";
-import { useAuth } from "../../context/AuthContext";
 
 const AnalysisContent = () => {
   const { setGames, games, selectedGameId, setSelectedGameId } =
     useChessAnalysis();
-    
+
   const { isLoading } = useQuery({
     queryKey: ["game-history"],
     queryFn: async () => {
@@ -40,11 +40,13 @@ const AnalysisContent = () => {
 
   if (selectedGameId) {
     return (
-      <div className="w-full grid grid-cols-1 lg:grid-cols-[1.8fr_1fr] gap-8 px-8 animate-in fade-in duration-500">
-        <div className="flex flex-col gap-4">
+      <div className="flex flex-col lg:flex-row items-stretch gap-8 px-8">
+        <div className="lg:w-[64%]">
           <LeftColumn />
         </div>
-        <AnalyzeColumn winner={null} />
+        <div className="lg:w-[36%]">
+          <AnalyzeColumn winner={null} />
+        </div>
       </div>
     );
   }

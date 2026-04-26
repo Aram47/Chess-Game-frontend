@@ -46,7 +46,7 @@ const AnalyzeColumn = ({
   const winnerPlayer = winner ? "Win" : "Loss";
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-6 h-full">
       {/* All Moves */}
       <div className="bg-[#262421] border border-[#CEB86E33] rounded-xl p-6">
         <h2 className="text-[#FCFAF2] mb-4 text-xs tracking-widest uppercase">
@@ -62,14 +62,14 @@ const AnalyzeColumn = ({
             No moves recorded
           </p>
         ) : (
-          <div className="max-h-[400px] overflow-y-auto pr-1 space-y-1">
+          <div className="max-h-[600px] overflow-y-auto pr-1 space-y-1 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
             {movePairs.map((pair, i) => (
               <div
                 key={i}
-                className="grid grid-cols-[28px_1fr_1fr] items-center gap-1"
+                className="grid grid-cols-[60px_1fr_1fr] items-center gap-2"
               >
                 {/* Move number */}
-                <span className="text-[#676767] text-xs text-right pr-1">
+                <span className="text-center font-mono bg-[#00000033] rounded-[10px] px-6 py-3 text-[#4a4540] font-mono text-md">
                   {i + 1}.
                 </span>
 
@@ -77,11 +77,7 @@ const AnalyzeColumn = ({
                 <button
                   ref={plyIndex === pair.whitePly ? activeRef : null}
                   onClick={() => setPlyIndex(pair.whitePly)}
-                  className={`text-left text-xs font-mono px-3 py-1.5 rounded-md transition-all ${
-                    plyIndex === pair.whitePly
-                      ? "bg-[#E5CC7A] text-[#1C1C1C] font-bold"
-                      : "bg-white/5 text-[#F7F7F7] hover:bg-white/10"
-                  }`}
+                  className="text-left font-mono px-4 py-2.5 border-1 border-[#E5CC7A1A] transition-all duration-150 cursor-pointer bg-[#00000033] rounded-[10px] text-[#E5CC7A]"
                 >
                   {pair.white}
                 </button>
@@ -91,11 +87,7 @@ const AnalyzeColumn = ({
                   <button
                     ref={plyIndex === pair.blackPly ? activeRef : null}
                     onClick={() => setPlyIndex(pair.blackPly)}
-                    className={`text-left text-xs font-mono px-3 py-1.5 rounded-md transition-all ${
-                      plyIndex === pair.blackPly
-                        ? "bg-[#E5CC7A] text-[#1C1C1C] font-bold"
-                        : "bg-white/5 text-[#F7F7F7] hover:bg-white/10"
-                    }`}
+                    className="text-left font-mono px-4 py-2.5 rounded transition-all duration-150 border-1 border-[#E5CC7A1A] cursor-pointer bg-[#00000033] rounded-[10px]"
                   >
                     {pair.black}
                   </button>
@@ -112,13 +104,13 @@ const AnalyzeColumn = ({
       {!selectedGame ? (
         <AllPlayedGames games={games} />
       ) : (
-        <div className="bg-[#262421] border border-[#CEB86E33] rounded-xl p-8">
+        <div className="bg-[#262421] border border-[#CEB86E33] rounded-xl p-8 flex flex-col flex-1">
           <div className="flex justify-between">
             <h2 className="text-gold mb-4 text-xs font-bold">Game History</h2>
             <p className="text-[#A39589] font-normal">{games.length} games</p>
           </div>
 
-          <div className="space-y-4 max-h-[300px] overflow-y-auto mt-4">
+          <div className="space-y-4 overflow-y-auto mt-4">
             {games.map((game) => (
               <button
                 key={game._id}

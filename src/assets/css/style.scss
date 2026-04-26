@@ -1,5 +1,6 @@
 .board {
   width: 100%;
+  height: 100%;
   border-radius: 4px;
   overflow: hidden;
   transform: none !important;
@@ -14,16 +15,20 @@
   }
 }
 
+
+
 .board .chess-icon {
-  width: 100%;
   height: 100%;
-  object-fit: none;
+  display: block !important;
+  object-fit: contain !important;
+  pointer-events: none;
+  padding: 8px;
 }
-img.chess-icon {
-  width: 30px !important;
-  height: 38px !important;
-  object-fit: contain !important; // Ensures the SVG doesn't stretch weirdly
-  pointer-events: none; // Prevents ghosting during drag if not handled
+
+[data-piece] {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 @media (max-width: 1024px) {

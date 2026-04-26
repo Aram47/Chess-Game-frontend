@@ -16,17 +16,17 @@ import whitePawn from "../../assets/icons/figures/game/whitePawn.svg";
 import "../../assets/css/style.scss";
 
 export const figurePieces: ChessboardOptions["pieces"] = {
-  wK: () => <img src={whiteKing} alt="whiteKing" className="chess-icon" />,
-  wQ: () => <img src={whiteQueen} alt="whiteQueen" className="chess-icon" />,
-  wP: () => <img src={whitePawn} alt="whitePawn" className="chess-icon" />,
-  wB: () => <img src={whiteBishop} alt="whiteBishop" className="chess-icon" />,
-  wN: () => <img src={whiteKnight} alt="whiteKnight" className="chess-icon" />,
-  wR: () => <img src={whiteRook} alt="whiteRook" className="chess-icon" />,
+  wK: ({ squareWidth }) => <img src={whiteKing} alt="wK" style={{ width: squareWidth, height: squareWidth }} className="chess-icon" />,
+  wQ: ({ squareWidth }) => <img src={whiteQueen} alt="wQ" style={{ width: squareWidth, height: squareWidth }} className="chess-icon" />,
+  wP: ({ squareWidth }) => <img src={whitePawn} alt="wP" style={{ width: squareWidth, height: squareWidth }} className="chess-icon" />,
+  wB: ({ squareWidth }) => <img src={whiteBishop} alt="wB" style={{ width: squareWidth, height: squareWidth }} className="chess-icon" />,
+  wN: ({ squareWidth }) => <img src={whiteKnight} alt="wN" style={{ width: squareWidth, height: squareWidth }} className="chess-icon" />,
+  wR: ({ squareWidth }) => <img src={whiteRook} alt="wR" style={{ width: squareWidth, height: squareWidth }} className="chess-icon" />,
 
-  bK: () => <img src={king} alt="king" className="chess-icon" />,
-  bQ: () => <img src={queen} alt="queen" className="chess-icon" />,
-  bP: () => <img src={pawn} alt="pawn" className="chess-icon" />,
-  bB: () => <img src={bishop} alt="bishop" className="chess-icon" />,
-  bN: () => <img src={knight} alt="knight" className="chess-icon" />,
-  bR: () => <img src={rook} alt="rook" className="chess-icon" />,
+  bK: ({ squareWidth }) => <img src={king} alt="bK" style={{ width: squareWidth, height: squareWidth }} className="chess-icon" />,
+  bQ: ({ squareWidth }) => <img src={queen} alt="bQ" style={{ width: squareWidth, height: squareWidth }} className="chess-icon" />,
+  bP: ({ squareWidth }) => <img src={pawn} alt="bP" style={{ width: squareWidth, height: squareWidth }} className="chess-icon" />,
+  bB: ({ squareWidth }) => <img src={bishop} alt="bB" style={{ width: squareWidth, height: squareWidth }} className="chess-icon" />,
+  bN: ({ squareWidth }) => <img src={knight} alt="bN" style={{ width: squareWidth, height: squareWidth }} className="chess-icon" />,
+  bR: ({ squareWidth }) => <img src={rook} alt="bR" style={{ width: squareWidth, height: squareWidth }} className="chess-icon" />,
 };

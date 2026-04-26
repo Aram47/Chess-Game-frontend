@@ -1,11 +1,11 @@
 import { Chessboard } from "react-chessboard";
-import type { CSSProperties } from "react";
+import { useState, type CSSProperties } from "react";
 import {
   BOARD_THEMES,
   type BoardTheme,
 } from "../../game/board-theme/boardThemes";
 import { figurePieces } from "../../../helpers/chess-figures/FiguresChess";
-
+import controls from "../../../assets/icons/analyze/controls.svg";
 // import "./style.scss";
 import AnalyzeButtons from "./AnalyzeButtons";
 
@@ -50,8 +50,7 @@ export const ChessColumn = ({
   const playerSideLabel = playerColor === "w" ? "White" : "Black";
   const opponentSideLabel = playerColor === "w" ? "Black" : "White";
   const theme = boardTheme ?? BOARD_THEMES[0];
-
-  const count = 40;
+  const [showPiece, setShowPiece] = useState(false);
   const squareStyles: Record<string, CSSProperties> = {};
   if (lastMove) {
     squareStyles[lastMove.from] = {
@@ -136,18 +135,69 @@ export const ChessColumn = ({
             <span className="text-2xl text-[#FFFFFF]">♚</span>
           </div>
           <div className="flex flex-col">
-            <h3 className="text-white">{playerName || "Me"}</h3>
+            <h3 className="text-[#E5CC7A]">{playerName || "Me"}</h3>
             <p className="text-[#A39589]">{`Playing ${playerSideLabel}`}</p>
           </div>
         </div>
       </div>
       <div className="flex items-center gap-x-3">
         <div className="bg-[#0000004D] rounded-[20px] justify-center p-4 text-sm text-[#F7EFD6] w-full mx-auto text-center">
-          <p className="font-normal text-xs text-[#F7EFD6]">Moves 0/{count}</p>
+          <p className="font-normal text-xs text-[#F7EFD6]">Current Move: </p>
         </div>
-        <button className="w-[184px] bg-[linear-gradient(180deg,#E5CC7A_0%,#F4E09E_100%)] rounded-full text-[#1C1C1C] font-semibold text-sm hover:shadow-[0px_4px_20px_0px_#E5CC7A4D] py-3">
+        <button
+          className="w-[184px] bg-[linear-gradient(180deg,#E5CC7A_0%,#F4E09E_100%)] rounded-full text-[#1C1C1C] font-semibold text-sm hover:shadow-[0px_4px_20px_0px_#E5CC7A4D] py-3 cursor-pointer"
+          onClick={() => setShowPiece(!showPiece)}
+        >
           Analyze
         </button>
+      </div>
+      <div className="flex flex-col items-center gap-y-6 font-barlow">
+        <h2 className="text-[#A39589]">
+          Get AI nsights and best move suggestions as you navigate
+        </h2>
+        {showPiece && (
+          <div className="flex flex-col gap-y-4 bg-[#FFFFFF0D] py-3 px-4 rounded-[20px]">
+            <div className="flex items-center gap-x-3">
+              <div className="w-10 h-10 flex items-center justify-center rounded-full bg-[#3A92F91A]">
+                <span className="text-xl text-[#3A92F9]">AI</span>
+              </div>
+              <div className="flex flex-col">
+                <h3 className="text-[#CFCFCF] font-normal">
+                  AI Best Move Suggestion
+                </h3>
+                <div className="text-[#A39589] flex items-center gap-x-6">
+                  <p className="text-sm">
+                    <span className="text-[#676767]">Played: </span>
+                    <span>{playerSideLabel}</span>
+                  </p>
+                  <p className="text-sm">
+                    <span className="text-[#676767]">Better: </span>
+                    <span>{playerSideLabel}</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div>
+              <span className="text-[#E5CC7A] ml-[52px]">
+                By replacing <b className="text-[#CFCFCF]">Qe2</b> with{" "}
+                <b className="text-[#CFCFCF]">Nf3</b>, you would gain:
+              </span>
+            </div>
+            <div className="flex items-start gap-x-2 py-3 px-4 bg-[#1C1C1C4D] rounded-[8px]">
+              <img src={controls} alt="controls" width={16} height={16} />
+              <p className="text-[#A39589] font-medium text-xs">
+                The knight on f3 controls the center, supports other pieces, and
+                prepares castling. Bringing out the queen early makes it a
+                target for developing moves like Nc3 or Bc4, forcing you to move
+                it again and losing time.
+              </p>
+            </div>
+          </div>
+        )}
+
+        <p className="text-[#A39589]">
+          Use ← &nbsp; → arrow keys to navigate moves
+        </p>
       </div>
 
       {analyzeControls && <AnalyzeButtons {...analyzeControls} />}

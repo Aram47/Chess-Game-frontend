@@ -4,6 +4,7 @@ import { figurePieces } from "../../helpers/chess-figures/FiguresChess";
 import SignInModal from "../modal/SignInModal";
 
 import "../../assets/css/style.scss";
+import { BOARD_THEMES, type BoardTheme } from "../game/board-theme/boardThemes";
 
 const MOVES = [
   ["e4", "e5"],
@@ -22,6 +23,8 @@ const MOVES = [
 export default function ChessAnalysisHero() {
   const [currentMove, setCurrentMove] = useState(8);
   const [activeModal, setActiveModal] = useState(false);
+  const [boardTheme] = useState<BoardTheme>(BOARD_THEMES[0]);
+  const theme = boardTheme ?? BOARD_THEMES[0];
 
   const squareStyles: Record<string, CSSProperties> = {};
 
@@ -39,8 +42,14 @@ export default function ChessAnalysisHero() {
                       boardOrientation: "white",
                       squareStyles,
                       pieces: figurePieces,
-                      lightSquareStyle: { background: "#EEEED2" },
-                      darkSquareStyle: { background: "#769656" },
+                      darkSquareStyle: {
+                        backgroundColor: theme.dark,
+                        color: theme.light,
+                      },
+                      lightSquareStyle: {
+                        backgroundColor: theme.light,
+                        color: theme.dark,
+                      },
                     }}
                   />
                 </div>
@@ -88,13 +97,13 @@ export default function ChessAnalysisHero() {
 
                       <button
                         onClick={() => setCurrentMove(i * 2)}
-                        className={`text-left text-[6px] font-mono px-1.5 py-1 border-1 border-[#E5CC7A1A] transition-all duration-150 cursor-pointer bg-[#00000033] rounded-[5px] text-[#E5CC7A]`}
+                        className="text-left text-[6px] font-mono px-1.5 py-1 border-1 border-[#E5CC7A1A] transition-all duration-150 cursor-pointer bg-[#00000033] rounded-[5px] text-[#E5CC7A]"
                       >
                         {w}
                       </button>
                       <button
                         onClick={() => setCurrentMove(i * 2 + 1)}
-                        className={`text-left text-[6px] font-mono px-1.5 py-1 rounded transition-all duration-150 border-1 border-[#E5CC7A1A] cursor-pointer bg-[#00000033] rounded-[5px]`}
+                        className="text-left text-[6px] font-mono px-1.5 py-1 rounded transition-all duration-150 border-1 border-[#E5CC7A1A] cursor-pointer bg-[#00000033] rounded-[5px]"
                       >
                         {b}
                       </button>
