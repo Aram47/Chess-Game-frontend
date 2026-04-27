@@ -7,6 +7,8 @@ import ProfileDashboard from "../pages/Profile/page";
 import PlayPage from "../pages/PlayPage/page";
 import AuthCallback from "../context/AuthCallback";
 import { ChessGamePage } from "../components/game/Game";
+import ProblemsPage from "../pages/Problems/Page";
+import SolveProblem from "../components/problems/solve-problem/SolveProblem";
 
 export const router = createBrowserRouter([
   {
@@ -41,6 +43,15 @@ export const router = createBrowserRouter([
         path: "/auth/callback",
         element: <AuthCallback />,
       },
+      {
+        path: "/problems",
+        element: <ProblemsPage />,
+      },
+      {
+        path: "/problems/id",
+        element: <SolveProblem />,
+      },
+
       //   {
       //     path: "/play/bot",
       //     element: <ChessBotGamePage />,
