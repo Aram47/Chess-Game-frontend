@@ -97,7 +97,7 @@ const ProblemsPage: React.FC = () => {
 
   const handleSolve = (problem: Problem): void => {
     console.log("Opening problem:", problem.name);
-    navigate("/problems/id");
+    navigate("/problems/id", { state: { problem } });
   };
 
   return (
@@ -113,7 +113,9 @@ const ProblemsPage: React.FC = () => {
           setThemeFilter(value as "All" | ProblemTheme)
         }
         diffFilter={diffFilter}
-        setDiffFilter={(value: "All" | Difficulty) => setDiffFilter(value as "All" | Difficulty)}
+        setDiffFilter={(value: "All" | Difficulty) =>
+          setDiffFilter(value as "All" | Difficulty)
+        }
       />
       {/* ── Problems grid ── */}
       <section
