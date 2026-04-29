@@ -69,9 +69,7 @@ const Header = ({
               <li>
                 <NavLink to="/analyze">Analyze</NavLink>
               </li>
-              <li>
-                <NavLink to="#">Classes</NavLink>
-              </li>
+
               <li>
                 <NavLink to="#">About</NavLink>
               </li>

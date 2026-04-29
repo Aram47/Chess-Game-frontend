@@ -2,12 +2,11 @@ import { createBrowserRouter } from "react-router-dom";
 import HomePage from "../pages/HomePage/page";
 import Layout from "../layouts/Layout";
 import { ChessAnalysisUI } from "../pages/Analyze/page";
-import ClassesPage from "../pages/Classes/page";
 import ProfileDashboard from "../pages/Profile/page";
 import PlayPage from "../pages/PlayPage/page";
 import AuthCallback from "../context/AuthCallback";
 import { ChessGamePage } from "../components/game/Game";
-import ProblemsPage from "../pages/Problems/Page";
+import ProblemsPage from "../pages/Problems/Page2";
 import SolveProblem from "../components/problems/solve-problem/SolveProblem";
 
 export const router = createBrowserRouter([
@@ -31,10 +30,7 @@ export const router = createBrowserRouter([
         path: "/analyze",
         element: <ChessAnalysisUI />,
       },
-      {
-        path: "/classes",
-        element: <ClassesPage />,
-      },
+     
       {
         path: "/profile",
         element: <ProfileDashboard />,

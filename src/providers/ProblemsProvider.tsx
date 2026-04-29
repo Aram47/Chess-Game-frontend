@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { ProblemsContext } from "../context/ProblemsContext";
 import { Chess } from "chess.js";
 import { problemsApi } from "../api/problems";
-import type { ChessProblem } from "../types/problems";
+import type { ChessProblem, GetProblemsParams } from "../types/problems";
 
 export const ProblemsProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
@@ -18,10 +18,10 @@ export const ProblemsProvider: React.FC<{ children: React.ReactNode }> = ({
     setFen(chessRef.current.fen());
   }, []);
 
-  const fetchProblems = useCallback(async () => {
+  const fetchProblems = useCallback(async (filters: GetProblemsParams = {}) => {
     setIsLoading(true);
     try {
-      const response = await problemsApi.getProblems();
+      const response = await problemsApi.getProblems(filters);
       setProblems(response.data);
     } catch (error) {
       console.error("Failed to fetch problems:", error);
@@ -30,19 +30,39 @@ export const ProblemsProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   }, []);
 
-//   useEffect(() => {
-//     const delayDebounceFn = setTimeout(async () => {
-//       const difficultyLevel =
-//         searchTerm === "Easy" ||
-//         searchTerm === "Medium" ||
-//         searchTerm === "Hard"
-//           ? searchTerm
-//           : undefined;
-//       void fetchProblems(difficultyLevel);
-//     }, 500);
+  const stepProblemById = async (
+    id: number,
+    move: { from: string; to: string; promotion?: string },
+  ) => {
+    setIsLoading(true);
+    try {
+      const updatedProblem = await problemsApi.submitMove(id, move);
 
-//     return () => clearTimeout(delayDebounceFn);
-//   }, [fetchProblems, searchTerm]);
+      setProblems((prev) =>
+        prev.map((p) => (p.id === id ? { ...p, ...updatedProblem } : p)),
+      );
+      return updatedProblem;
+    } catch (err) {
+      console.error("Failed to make move:", err);
+      throw err;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  //   useEffect(() => {
+  //     const delayDebounceFn = setTimeout(async () => {
+  //       const difficultyLevel =
+  //         searchTerm === "Easy" ||
+  //         searchTerm === "Medium" ||
+  //         searchTerm === "Hard"
+  //           ? searchTerm
+  //           : undefined;
+  //       void fetchProblems(difficultyLevel);
+  //     }, 500);
+
+  //     return () => clearTimeout(delayDebounceFn);
+  //   }, [fetchProblems, searchTerm]);
 
   return (
     <ProblemsContext.Provider
@@ -55,6 +75,7 @@ export const ProblemsProvider: React.FC<{ children: React.ReactNode }> = ({
         setSearchTerm,
         fetchProblems,
         isLoading,
+        stepProblemById,
       }}
     >
       {children}

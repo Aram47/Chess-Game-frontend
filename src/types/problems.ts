@@ -9,6 +9,8 @@ export interface ChessProblem {
   difficultyLevel: ProblemDifficultyLevel;
   isPayable: boolean;
   isActive: boolean;
+  moves?: MoveType[];
+  tag?: string;
 }
 
 export interface ProblemCategory {
@@ -28,7 +30,7 @@ export interface GetProblemsParams {
   limit?: number;
   difficultyLevel?: ProblemDifficultyLevel;
   categoryId?: number;
-  themeId?: number;     // Added
+  themeId?: number;
   isPayable?: boolean;
 }
 
@@ -64,5 +66,9 @@ export interface ProblemsContextType {
   searchTerm: string;
   setSearchTerm: Dispatch<SetStateAction<string>>;
   fetchProblems: (query?: ProblemDifficultyLevel) => Promise<void>;
+  stepProblemById: (
+    id: number,
+    move: { from: string; to: string; promotion?: string },
+  ) => Promise<any>;
   isLoading: boolean;
 }
