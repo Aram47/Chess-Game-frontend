@@ -1,41 +1,61 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import { ProblemCard } from "../../components/problems/ProblemCard";
 import SelectProblems from "../../components/problems/SelectProblems";
 
 import { useNavigate } from "react-router-dom";
 import { useProblems } from "../../context/ProblemsContext";
-import type {
-  ChessProblem,
-  ProblemDifficultyLevel,
-} from "../../types/problems";
+import type { ChessProblem, GetProblemsParams } from "../../types/problems";
+
+import { problemsApi } from "../../api/problems";
+import {
+  DIFFICULTY_MAP,
+  type Difficulty,
+  type ProblemTheme,
+} from "../../types/problemType";
 import "../../assets/css/style.scss";
 
 const ProblemsPage: React.FC = () => {
   const navigate = useNavigate();
-  const [themeFilter, setThemeFilter] = useState<"All" | string>("All");
-  const [diffFilter, setDiffFilter] = useState<"All" | ProblemDifficultyLevel>(
-    "All",
-  );
-  const { problems, fetchProblems, isLoading, setFen } = useProblems();
+  const [themeFilter, setThemeFilter] = useState<ProblemTheme | "All">("All");
+  const [diffFilter, setDiffFilter] = useState<"All" | Difficulty>("All");
+  const { problems, fetchProblems, setProblems, isLoading, setFen } =
+    useProblems();
+
+  const loadFiltered = useCallback(async () => {
+    const params: GetProblemsParams = {};
+
+    if (diffFilter !== "All") {
+      params.difficultyLevel = DIFFICULTY_MAP[diffFilter as Difficulty];
+    }
+
+    try {
+      const result = await problemsApi.getProblems(params);
+      setProblems(result.data);
+    } catch (err) {
+      console.error("API Error:", err);
+    }
+  }, [diffFilter, setProblems]);
+
+  useEffect(() => {
+    loadFiltered();
+  }, [loadFiltered]);
 
   useEffect(() => {
     void fetchProblems();
   }, [fetchProblems]);
 
-  const filteredProblems: ChessProblem[] = useMemo(
-    () =>
-      problems.filter((p) => {
-        const matchTheme =
-          themeFilter === "All" || p.category.name === themeFilter;
-        const matchDiff =
-          diffFilter === "All" || p.difficultyLevel === diffFilter;
-        return matchTheme && matchDiff;
-      }),
-    [diffFilter, problems, themeFilter],
-  );
-
-  console.log('prob', problems)
+  //   const filteredProblems: ChessProblem[] = useMemo(
+  //     () =>
+  //       problems.filter((p) => {
+  //         const matchTheme =
+  //           themeFilter === "All" || p.category.name === themeFilter;
+  //         const matchDiff =
+  //           diffFilter === "All" || p.difficultyLevel === diffFilter;
+  //         return matchTheme && matchDiff;
+  //       }),
+  //     [diffFilter, problems, themeFilter],
+  //   );
 
   const handleSolve = (problem: ChessProblem): void => {
     setFen(problem.fen);
@@ -68,7 +88,7 @@ const ProblemsPage: React.FC = () => {
             Loading problems...
           </p>
         )}
-        {filteredProblems.map((problem) => (
+        {problems.map((problem) => (
           <ProblemCard
             key={problem.id}
             problem={problem}
@@ -76,9 +96,9 @@ const ProblemsPage: React.FC = () => {
           />
         ))}
       </section>
-      {filteredProblems.length ? (
+      {problems.length ? (
         <div className="col-span-full text-center text-[#8a8478] mt-3 text-[15px]">
-          Showing {filteredProblems.length} problems
+          Showing {problems.length} problems
         </div>
       ) : (
         <p className="col-span-full text-center text-[#8a8478] mt-3 text-[15px]">

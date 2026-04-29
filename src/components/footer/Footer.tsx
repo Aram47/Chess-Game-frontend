@@ -14,7 +14,6 @@ const footerData = [
   {
     title: "Learn",
     links: [
-      { label: "Chess Classes", href: "/learn/classes" },
       { label: "Video Library", href: "/learn/videos" },
       { label: "Articles", href: "/learn/articles" },
       { label: "Opening Database", href: "/learn/openings" },

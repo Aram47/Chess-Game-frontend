@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { GetProblemsParams } from "../types/problems";
 import { problemsApi } from "../api/problems";
 
@@ -18,5 +18,25 @@ export const useProblemByIdQuery = (id: number) => {
     queryFn: () => problemsApi.getProblemById(id),
     refetchOnWindowFocus: false,
     enabled: !!id,
+  });
+};
+
+export const useSubmitMoveMutation = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({
+      id,
+      move,
+    }: {
+      id: number;
+      move: { from: string; to: string };
+    }) => problemsApi.submitMove(id, move),
+    onSuccess: (updatedProblem) => {
+      // Update the cache so the history updates automatically
+      queryClient.setQueryData(
+        [PROBLEMS_QUERY_KEY, updatedProblem.id],
+        updatedProblem,
+      );
+    },
   });
 };
