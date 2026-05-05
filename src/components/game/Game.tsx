@@ -1,55 +1,59 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useState, useCallback, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { useAuth } from "../../context/AuthContext";
 import { Chess } from "chess.js";
-import { getMyGameHistoryItem } from "../../api/history";
 
-import GameHistory from "./gameHistory";
-import { GameColumn } from "./GameColumn";
-import SignInModal from "../modal/SignInModal";
-import leftIcon from "../../assets/icons/analyze/left.svg";
-import { useGameHistory } from "../../hooks/useGameHistory";
 import { useGame } from "../../context/GameContext";
+import { useAuth } from "../../context/AuthContext";
+import { useGameHistory } from "../../hooks/useGameHistory";
+import { getMyGameHistoryItem } from "../../api/history";
 import { BOARD_THEMES, type BoardTheme } from "./board-theme/boardThemes";
 
-export const ChessGamePage: React.FC = () => {
-  const {
-    fen,
-    gameStatus,
-    playerColor,
-    onDrop,
-    startNewGame,
-    isPlayerTurn,
-    isBotThinking,
-    lastMove,
-    moveHistory,
-    winner,
-    level,
-  } = useGame();
+import { GameColumn } from "./GameColumn";
+import GameHistory from "./gameHistory";
+import SignInModal from "../modal/SignInModal";
+import leftIcon from "../../assets/icons/analyze/left.svg";
 
-  const { user } = useAuth();
-  const historyQuery = useGameHistory();
-  const [showModalAuth, setShowModalAuth] = useState(false);
-  const [boardTheme, setBoardTheme] = useState<BoardTheme>(BOARD_THEMES[0]);
+// ─── Sub-components ───────────────────────────────────────────────────────────
 
-  const [selectedGameId, setSelectedGameId] = useState<string | null>(null);
-  const [plyIndex, setPlyIndex] = useState(0);
+interface LockedBoardProps {
+  onLogin: () => void;
+}
 
-  const startGameAgainstBot = useCallback(() => {
-    const color = Math.random() > 0.5 ? "w" : "b";
-    void startNewGame(color);
-  }, [startNewGame]);
+const LockedBoard: React.FC<LockedBoardProps> = ({ onLogin }) => (
+  <div className="relative w-full h-[600px] bg-[#1c1c1c] flex flex-col justify-center items-center rounded-3xl border-2 border-dashed border-[#CEB86E33]">
+    <div className="max-w-[300px] text-center space-y-6">
+      <p className="text-[#A39589] text-lg">
+        The game is locked. Please log in to start playing.
+      </p>
+      <button
+        onClick={onLogin}
+        className="w-full bg-[#E5CC7A] text-black py-3 rounded-xl font-bold hover:scale-105 transition-transform"
+      >
+        Login / Register
+      </button>
+    </div>
+  </div>
+);
 
-  useEffect(() => {
-    startGameAgainstBot();
-  }, [startGameAgainstBot]);
+interface ConnectionBadgeProps {
+  status: string;
+}
 
-  const historyList = useMemo(
-    () => historyQuery.data?.data ?? [],
-    [historyQuery.data],
-  );
+const ConnectionBadge: React.FC<ConnectionBadgeProps> = ({ status }) => (
+  <span
+    className={`text-sm ${status === "connected" ? "text-green-500" : "text-red-500"}`}
+  >
+    ● {status === "connected" ? "Connected" : "Connecting..."}
+  </span>
+);
 
+
+function useHistoryReplay(
+  selectedGameId: string | null,
+  historyList: { _id: string; allMoves?: unknown[] }[],
+  plyIndex: number,
+) {
   const effectiveId = selectedGameId ?? historyList[0]?._id;
 
   const { data: activeGame } = useQuery({
@@ -58,12 +62,9 @@ export const ChessGamePage: React.FC = () => {
     enabled: !!effectiveId,
   });
 
-  const selectedGame = useMemo(() => {
+  const selectedGame: typeof activeGame | null = useMemo(() => {
     if (activeGame) return activeGame;
-
-    const placeholder = historyList.find((g) => g._id === effectiveId);
-
-    return placeholder ?? null;
+    return historyList.find((g) => g._id === effectiveId) as typeof activeGame ?? null;
   }, [activeGame, historyList, effectiveId]);
 
   const { currentFen, isTerminal } = useMemo(() => {
@@ -77,27 +78,81 @@ export const ChessGamePage: React.FC = () => {
       for (let i = 0; i < plyIndex; i++) {
         const move = selectedGame.allMoves[i];
         if (!move) break;
-
-        const result = chess.move(move);
-
-        if (!result) {
+        if (!chess.move(move)) {
           console.warn(`Invalid move at index ${i}`, move);
           break;
         }
       }
     } catch (e) {
-      console.error("Chess error:", e);
+      console.error("Chess replay error:", e);
     }
 
-    return {
-      currentFen: chess.fen(),
-      isTerminal: chess.isGameOver(),
-    };
+    return { currentFen: chess.fen(), isTerminal: chess.isGameOver() };
   }, [selectedGame, plyIndex]);
+
+  return { selectedGame, currentFen, isTerminal };
+}
+
+export const ChessGamePage: React.FC = () => {
+  const { user } = useAuth();
+  const {
+    fen,
+    gameStatus,
+    playerColor,
+    isLiveGame,
+    isBotThinking,
+    lastMove,
+    moveHistory,
+    winner,
+    level,
+    socketStatus,
+    onDrop,
+    startNewGame,
+    isPlayerTurn,
+    findMatch,
+  } = useGame();
+
+  const historyQuery = useGameHistory();
+
+  const [showModalAuth, setShowModalAuth] = useState(false);
+  const [boardTheme, setBoardTheme] = useState<BoardTheme>(BOARD_THEMES[0]);
+  const [selectedGameId, setSelectedGameId] = useState<string | null>(null);
+  const [plyIndex, setPlyIndex] = useState(0);
+
+  const historyList = useMemo(
+    () => historyQuery.data?.data ?? [],
+    [historyQuery.data],
+  );
+
+  const { selectedGame, currentFen, isTerminal } = useHistoryReplay(
+    selectedGameId,
+    historyList,
+    plyIndex,
+  );
+
+  const startGameAgainstBot = useCallback(() => {
+    const color = Math.random() > 0.5 ? "w" : "b";
+    void startNewGame("medium", color);
+  }, [startNewGame]);
+
+  useEffect(() => {
+    if (user && !isLiveGame && gameStatus === "idle") {
+      startGameAgainstBot();
+    }
+  }, [user, isLiveGame, gameStatus, startGameAgainstBot]);
+
+  const handleStartLiveMatch = useCallback(() => {
+    if (!user) {
+      setShowModalAuth(true);
+      return;
+    }
+    findMatch();
+  }, [user, findMatch]);
 
   return (
     <section className="w-full flex flex-col grow pt-[170px] pb-16 bg-[#1b1a17] font-barlow">
       <div className="text-white flex flex-col px-8 w-full">
+        {/* Header */}
         <header className="flex items-center w-full text-center mb-8">
           <Link
             to="/"
@@ -110,21 +165,17 @@ export const ChessGamePage: React.FC = () => {
             <h1 className="text-6xl text-gold font-medium tracking-tight">
               Chess Game
             </h1>
-
-            <p className="mt-2 text-[#A39589] text-xl">
-              {selectedGame
-                ? `${selectedGame.white} vs ${selectedGame.black}`
-                : "Select a game"}
-            </p>
+            {isLiveGame && <ConnectionBadge status={socketStatus} />}
           </div>
         </header>
 
+        {/* Body */}
         <div className="w-full flex items-start gap-8">
           <div className="flex-1 flex flex-col gap-4">
             {user ? (
               <GameColumn
                 fen={fen}
-                opponentName="Bot"
+                opponentName={isLiveGame ? "Opponent" : "Bot"}
                 playerName="You"
                 onDrop={onDrop}
                 isPlayerTurn={isPlayerTurn}
@@ -137,24 +188,13 @@ export const ChessGamePage: React.FC = () => {
                 winner={winner}
                 boardTheme={boardTheme}
                 startGameAgainstBot={startGameAgainstBot}
+                startLiveMatch={handleStartLiveMatch}
                 setBoardTheme={setBoardTheme}
+                isLiveGame={isLiveGame}
               />
             ) : (
-              <div className="relative w-full h-[600px] bg-[#1c1c1c] flex flex-col justify-center items-center rounded-3xl border-2 border-dashed border-[#CEB86E33]">
-                <div className="max-w-[300px] text-center space-y-6">
-                  <p className="text-[#A39589] text-lg">
-                    The game is locked. Please log in to start playing against
-                    the bot.
-                  </p>
-
-                  <button
-                    onClick={() => setShowModalAuth(true)}
-                    className="w-full bg-[#E5CC7A] text-black py-3 rounded-xl font-bold hover:scale-105 transition-transform"
-                  >
-                    Login / Register
-                  </button>
-                </div>
-
+              <>
+                <LockedBoard onLogin={() => setShowModalAuth(true)} />
                 {showModalAuth && (
                   <SignInModal
                     onClose={() => setShowModalAuth(false)}
@@ -163,7 +203,7 @@ export const ChessGamePage: React.FC = () => {
                     onSwitchToReset={() => {}}
                   />
                 )}
-              </div>
+              </>
             )}
           </div>
 

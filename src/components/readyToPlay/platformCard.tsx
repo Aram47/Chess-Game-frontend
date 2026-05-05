@@ -1,15 +1,17 @@
-import { Link } from "react-router-dom";
 import PlayModal from "../../helpers/PlayModal";
 import { useState } from "react";
+import type { BotLevel } from "../../types/gameType";
 
 const PlatformCard = ({
   activeTab,
   onClose,
+  onConfirm,
 }: {
   activeTab?: string;
   onClose: () => void;
+  onConfirm: (level: BotLevel) => void;
 }) => {
-  const [selected, setSelected] = useState("easy");
+  const [selected, setSelected] = useState<BotLevel>("easy");
 
   return (
     <PlayModal
@@ -63,16 +65,16 @@ const PlatformCard = ({
           </div>
         </div>
 
-        <Link
-          to="/play/game"
-          className="max-w-[382px] w-full bg-blue-500 py-4.5 mt-4.5 rounded-[90px] hover:bg-blue-600 transition text-[#1C1C1C] font-semibold text-center"
+        <button
+          onClick={() => onConfirm(selected)}
+          className="max-w-[382px] w-full py-4.5 mt-4.5 rounded-[90px] transition text-[#1C1C1C] font-semibold text-center"
           style={{
             background: "linear-gradient(180deg, #E5CC7A 0%, #F4E09E 100%)",
             boxShadow: "0px 4px 20px 0px #E5CC7A4D",
           }}
         >
           Start Game
-        </Link>
+        </button>
       </div>
     </PlayModal>
   );

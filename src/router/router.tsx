@@ -3,11 +3,12 @@ import HomePage from "../pages/HomePage/page";
 import Layout from "../layouts/Layout";
 import { ChessAnalysisUI } from "../pages/Analyze/page";
 import ProfileDashboard from "../pages/Profile/page";
-import PlayPage from "../pages/PlayPage/page";
+import { PlayPage } from "../pages/PlayPage/page";
 import AuthCallback from "../context/AuthCallback";
 import { ChessGamePage } from "../components/game/Game";
 import ProblemsPage from "../pages/Problems/Page2";
 import SolveProblem from "../components/problems/solve-problem/SolveProblem";
+import AboutPage from "../pages/AboutPage/page";
 
 export const router = createBrowserRouter([
   {
@@ -30,7 +31,11 @@ export const router = createBrowserRouter([
         path: "/analyze",
         element: <ChessAnalysisUI />,
       },
-     
+
+      {
+        path: "/about",
+        element: <AboutPage />,
+      },
       {
         path: "/profile",
         element: <ProfileDashboard />,
@@ -47,15 +52,6 @@ export const router = createBrowserRouter([
         path: "/problems/id",
         element: <SolveProblem />,
       },
-
-      //   {
-      //     path: "/play/bot",
-      //     element: <ChessBotGamePage />,
-      //   },
-      //   {
-      //     path: "/play/game/bot?color=black&level=3",
-      //     element: <ChessBotGamePage />,
-      //   },
     ],
   },
 ]);
