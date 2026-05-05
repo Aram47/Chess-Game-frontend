@@ -5,6 +5,6 @@ export const useGameHistory = () => {
   return useQuery({
     queryKey: ["game-history"],
     queryFn: () => getMyGameHistory(1, 50),
-    refetchOnWindowFocus: false
+    refetchOnWindowFocus: false,
   });
 };

@@ -8,6 +8,7 @@ import { figurePieces } from "../../helpers/chess-figures/FiguresChess";
 import GameButtons from "./GameButtons";
 
 import "../../assets/css/style.scss";
+import type { ChessColor } from "../../types/gameType";
 
 type AnalyzeControls = {
   goBack: () => void;
@@ -33,6 +34,8 @@ export const GameColumn = ({
   startGameAgainstBot,
   setBoardTheme,
   analyzeControls,
+  startLiveMatch,
+  isLiveGame,
 }: {
   opponentName?: string;
   playerName?: string;
@@ -45,10 +48,12 @@ export const GameColumn = ({
   playerColor?: "w" | "b";
   level?: string;
   isBotThinking?: boolean;
-  winner: "you" | "bot" | "draw" | null;
+  winner: "you" | "opponent" | "bot" | "draw" | null;
   boardTheme?: BoardTheme;
   setBoardTheme: React.Dispatch<React.SetStateAction<BoardTheme>>;
   startGameAgainstBot?: () => void;
+  startLiveMatch?: () => void;
+  isLiveGame?: boolean;
   analyzeControls?: AnalyzeControls;
 }) => {
   const location = useLocation();
@@ -57,7 +62,7 @@ export const GameColumn = ({
 
   const boardOrientation = playerColor === "w" ? "white" : "black";
   const playerSideLabel = playerColor === "w" ? "White" : "Black";
-  const opponentSideLabel = playerColor === "w" ? "Black" : "White";
+  const opponentSideColor: ChessColor = playerColor === "w" ? "black" : "white";
   const activeTurn = fen.split(" ")[1] === "b" ? "black" : "white";
   const theme = boardTheme ?? BOARD_THEMES[0];
 
@@ -103,14 +108,12 @@ export const GameColumn = ({
             <h3 className="text-gold capitalize">
               {opponentName || "Platform"} {`(${level})`}
             </h3>
-            <p className="text-[#A39589] text-sm">{`Playing ${opponentSideLabel}`}</p>
+            <p className="text-[#A39589] text-sm">{`Playing ${opponentSideColor}`}</p>
           </div>
         </div>
 
         <p className="text-xl text-[#A39589] bg-[#0000004D] py-2 px-4 rounded-[10px]">
-          {formatTime(
-            timers[opponentSideLabel.toLowerCase() as "white" | "black"],
-          )}
+          {formatTime(timers[opponentSideColor])}
         </p>
       </div>
 
@@ -189,7 +192,7 @@ export const GameColumn = ({
         <AnalyzeButtons {...analyzeControls} />
       ) : (
         <GameButtons
-          goFirst={startGameAgainstBot}
+          goFirst={isLiveGame ? startLiveMatch : startGameAgainstBot}
           onThemeChange={setBoardTheme}
         />
       )}

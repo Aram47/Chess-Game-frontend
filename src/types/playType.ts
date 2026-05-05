@@ -1,7 +1,8 @@
-import type { GameStatus, MoveType, PlayerColor } from "./gameType";
+import type { SocketConnectionState } from "./gameType";
+import type { BotLevel, GameStatus, MoveType, PlayerColor } from "./gameType";
 
 export type GameLevel = "easy" | "medium" | "hard";
-export type WinnerLabel = "you" | "bot" | "draw" | null;
+export type WinnerLabel = "you" | "bot" | "draw" | "opponent" | null;
 
 export interface GameContextType {
   fen: string;
@@ -15,9 +16,14 @@ export interface GameContextType {
   level: GameLevel;
   setLevel: (l: GameLevel) => void;
   onDrop: (source: string, target: string) => Promise<boolean>;
-  startNewGame: (color?: PlayerColor) => Promise<void>;
+  startNewGame: (level: BotLevel, color?: PlayerColor) => Promise<void>; // ← fixed
   resetGame: () => void;
-  // Modal state you had before
+  socketStatus: SocketConnectionState;
   showModal: string | null;
   setShowModal: (val: string | null) => void;
+  isLiveGame: boolean;
+  setIsLiveGame: (val: boolean) => void;
+  startBotGame: (level: BotLevel, color?: PlayerColor) => Promise<void>;
+  startLiveGame: (roomId: string, color: PlayerColor) => void;
+  findMatch: () => void;
 }

@@ -3,7 +3,7 @@ import HomePage from "../pages/HomePage/page";
 import Layout from "../layouts/Layout";
 import { ChessAnalysisUI } from "../pages/Analyze/page";
 import ProfileDashboard from "../pages/Profile/page";
-import PlayPage from "../pages/PlayPage/page";
+import { PlayPage } from "../pages/PlayPage/page";
 import AuthCallback from "../context/AuthCallback";
 import { ChessGamePage } from "../components/game/Game";
 import ProblemsPage from "../pages/Problems/Page2";
@@ -30,7 +30,7 @@ export const router = createBrowserRouter([
         path: "/analyze",
         element: <ChessAnalysisUI />,
       },
-     
+
       {
         path: "/profile",
         element: <ProfileDashboard />,

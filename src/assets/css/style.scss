@@ -37,8 +37,7 @@
 }
 
 @media (max-width: 1024px) {
-  .board .chess-icon,
-  img {
+  .board .chess-icon, .chess-icon > img {
     width: 100%;
     height: 100%;
   }

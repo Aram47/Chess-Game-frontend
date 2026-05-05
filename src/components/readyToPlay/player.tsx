@@ -10,11 +10,15 @@ type ModalType = "create" | "join" | null;
 
 interface Props {
   onClose: () => void;
+  onStartLive: () => void;
 }
 
-const LivePlayer = ({ onClose }: Props) => {
+const LivePlayer = ({ onClose, onStartLive }: Props) => {
   const [subModal, setSubModal] = useState<ModalType>(null);
-
+  const [onHover] = useState(false);
+  const handleJoinGame = () => {
+    onStartLive(); // This triggers findMatch and navigation
+  };
   return (
     <div className="flex items-center justify-center gap-x-8 mt-10">
       {subModal === "create" && (
@@ -39,9 +43,9 @@ const LivePlayer = ({ onClose }: Props) => {
         title="Create Room"
         description="Start a private game and invite a friend."
         onClick={() => setSubModal("create")}
+        onHover={onHover}
       />
 
-      {/* Join Room Modal */}
       {subModal === "join" && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
           <PlayModal onClose={onClose} title="Active Rooms">
@@ -59,6 +63,7 @@ const LivePlayer = ({ onClose }: Props) => {
                   </div>
                   <Link
                     to="/play/game"
+                    onClick={handleJoinGame}
                     className="bg-[#E5CC7A] text-black hover:bg-[#d4b86a] py-3 px-6 rounded-3xl text-sm font-semibold"
                   >
                     Join
@@ -71,10 +76,11 @@ const LivePlayer = ({ onClose }: Props) => {
       )}
 
       <RoomCard
-        icon={<img src={joinIcon} alt="Join" />}
+        icon={<img src={joinIcon} alt="Join" className="fill-[#D4AF37]" />}
         title="Join Room"
         description="Join an existing game and make your move."
         onClick={() => setSubModal("join")}
+        onHover={onHover}
       />
     </div>
   );

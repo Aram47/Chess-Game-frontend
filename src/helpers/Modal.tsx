@@ -37,7 +37,10 @@ const Modal = ({
             onClick={onClose}
             className="absolute right-4 top-4 text-xl text-gray-500 hover:text-[var(--text)] transition-colors cursor-pointer"
           >
-            <img src={closeIcon} alt="close-icon" />
+            <img src={closeIcon} alt="close-icon" style={{
+                width: "20px",
+                height: "20px",
+            }} />
           </button>
 
           {/* Header */}
@@ -182,7 +185,7 @@ const Modal = ({
               className="flex items-center justify-center gap-x-2 py-3 px-6 border-[var(--bg)] border-1 rounded-3xl bg-[var(--bg)] cursor-pointer"
               onClick={handleGoogle}
             >
-              <img src={google} alt="google" />
+              <img src={google} alt="google" width="20" height="20" />
               <button className="font-medium text-sm text-[var(--text)] font-barlow cursor-pointer">
                 {text4}
               </button>
