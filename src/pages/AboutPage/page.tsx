@@ -3,8 +3,11 @@ import Team from "../../components/about/Team";
 import ArrowLeft from "../../assets/icons/about/arrowLeft.svg";
 import Ready from "../../components/about/Ready";
 import figure from "../../assets/icons/figure.png";
+import { useNavigate } from "react-router-dom";
 
 const AboutPage = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="min-h-screen text-gray-300 font-barlow p-6 md:p-12 relative">
       <div className="absolute inset-0 flex justify-center items-center pointer-events-none z-0">
@@ -19,7 +22,10 @@ const AboutPage = () => {
       <div className="max-w-6xl mx-auto mt-[100px] relative z-10">
         {/* Header */}
         <header className="mb-16 text-center flex items-end">
-          <button className="absolute -left-[32px] py-2.5 px-6 rounded-full border border-[#CEB86E33] hover:bg-[#E5CC7A4D] hover:-translate-y-[5px] duration-800 hover:shadow-[0px_4px_20px_0px_#E5CC7A4D] transition-all cursor-pointer">
+          <button
+            className="absolute -left-[32px] py-2.5 px-6 rounded-full border border-[#CEB86E33] hover:bg-[#E5CC7A4D] hover:-translate-y-[5px] duration-800 hover:shadow-[0px_4px_20px_0px_#E5CC7A4D] transition-all cursor-pointer"
+            onClick={() => navigate("/")}
+          >
             <img src={ArrowLeft} alt="Arrow Left" />
           </button>
           <div className="flex flex-col w-full mx-auto">
