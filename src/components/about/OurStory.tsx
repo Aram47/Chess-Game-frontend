@@ -16,16 +16,15 @@ const OurStory = () => {
       >
         <h2 className="text-2xl font-medium text-[#E5CC7A] mb-4">Our Story</h2>
         <p className="text-md leading-relaxed text-[#A39589] my-3">
-          ChessMaster started in 2026 when two friends — Jay and Erik (that's
-          me!) — decided the world needed a better chess website. We met 10
-          years earlier in college, where I first became addicted to chess — and
-          Jay was the chess club president. We became friends through our shared
-          passion for the game. There were places to play online, but none of
-          them felt like home. We imagined a place where people could build
-          their chess home online and all in one place: to play in a safe and
-          friendly environment, find friends, save their games, tell their chess
-          stories, share ideas, and learn from each other. Over the next several
-          years.
+          I am Nver Stepanyan. I created this platform for those who appreciate
+          quality chess and a clearly working system. My 32 years of experience
+          in chess allow me to clearly distinguish an effective tool from an
+          ordinary program. During these years, I have gone through the path of
+          a professional player and coach, understanding all the advantages and
+          disadvantages of the system. I set a goal to create a system that
+          would be lightweight, fast, and professional—based on real experience.
+          I have created an environment where every detail works for your
+          progress.
         </p>
       </section>
 

@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 const AboutPage = () => {
   const navigate = useNavigate();
-  
+
   return (
     <div className="min-h-screen text-gray-300 font-barlow p-6 md:p-12 relative">
       <div className="absolute inset-0 flex justify-center items-center pointer-events-none z-0">
