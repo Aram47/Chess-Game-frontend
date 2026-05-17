@@ -109,10 +109,10 @@
 // export default SolveHistory;
 
 import { Loader2 } from "lucide-react";
-import FirstStep from "../steps/firstStep";
-import SecondStep from "../steps/secStep";
 import type { UseQueryResult } from "@tanstack/react-query";
 import type { MoveType } from "../../../types/gameType";
+import { normalizeMove } from "../../../lib/chess/formatMove";
+import { MoveHistoryEntry } from "../../game/MoveHistoryEntry";
 
 interface Props {
   currentFen: string | undefined;
@@ -145,21 +145,17 @@ const SolveHistory = ({
             {moveHistory.length > 0 ? (
               <div className="flex flex-col gap-y-1">
                 {moveHistory.map((move, index) => {
-                  const isWhite = index % 2 === 0;
+                  const normalized = normalizeMove(move);
+                  if (!normalized) return null;
 
                   return (
-                    <div key={index} className="flex flex-col gap-y-2">
-                      {isWhite ? (
-                        <FirstStep
-                          setPlyIndex={setPlyIndex}
-                          index={index}
-                          from={move.from}
-                          isWhite={true}
-                        />
-                      ) : (
-                        <SecondStep index={index} to={move.to} />
-                      )}
-                    </div>
+                    <MoveHistoryEntry
+                      key={index}
+                      plyIndex={index}
+                      from={normalized.from}
+                      to={normalized.to}
+                      onSelect={setPlyIndex}
+                    />
                   );
                 })}
               </div>

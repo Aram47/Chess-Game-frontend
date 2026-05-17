@@ -1,10 +1,14 @@
+import { formatMoveSquares } from "../../../lib/chess/formatMove";
+
 interface Props {
   setPlyIndex: (index: number) => void;
   index: number;
   from: string;
+  to: string;
   isWhite: boolean;
 }
-const FirstStep = ({ setPlyIndex, index, from, isWhite }: Props) => {
+
+const FirstStep = ({ setPlyIndex, index, from, to, isWhite }: Props) => {
   return (
     <div
       key={index}
@@ -14,10 +18,11 @@ const FirstStep = ({ setPlyIndex, index, from, isWhite }: Props) => {
         {isWhite ? `${Math.floor(index / 2) + 1}.` : ""}
       </span>
       <button
+        type="button"
         onClick={() => setPlyIndex(index + 1)}
-        className={`text-left  py-1 rounded text-sm text-[#E5CC7A] flex items-center gap-1 hover:bg-white/5 transition-colors`}
+        className="text-left py-1 rounded text-sm text-[#E5CC7A] flex items-center gap-1 hover:bg-white/5 transition-colors"
       >
-        <span className="font-medium">{from}</span>
+        <span className="font-medium tabular-nums">{formatMoveSquares(from, to)}</span>
       </button>
     </div>
   );

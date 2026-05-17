@@ -1,6 +1,7 @@
 // components/analyze/LeftColumn.tsx
 import { useMemo, useState } from "react";
 import { Chess } from "chess.js";
+import { useAuth } from "../../../context/AuthContext";
 import { useChessAnalysis } from "../../../context/ChessAnalysisContext";
 import { ChessColumn } from "../helpers/ChessColumn";
 // import { GameColumn } from "../game/gameColumn";
@@ -10,6 +11,7 @@ import type { BoardTheme } from "../../game/board-theme/boardThemes";
 import { BOARD_THEMES } from "../../game/board-theme/boardThemes";
 
 const LeftColumn = () => {
+  const { user } = useAuth();
   const { selectedGame, plyIndex, setPlyIndex } = useChessAnalysis();
   const [branchMoves, setBranchMoves] = useState<MoveType[]>([]);
   const [boardTheme] = useState<BoardTheme>(BOARD_THEMES[0]);
@@ -39,12 +41,24 @@ const LeftColumn = () => {
 
   const maxPly = selectedGame?.allMoves.length || 0;
 
+  const userId = user?.id ?? "";
+  const playerName = user?.username ? `@${user.username}` : "You";
+  const opponentName = useMemo(() => {
+    if (!selectedGame) return "Opponent";
+    if (selectedGame.isBot) return "AI Bot";
+    const isWhite = String(selectedGame.white) === userId;
+    const opponentId = isWhite ? selectedGame.black : selectedGame.white;
+    if (opponentId === "bot") return "AI Bot";
+    return opponentId ? `Player ${opponentId}` : "Opponent";
+  }, [selectedGame, userId]);
+
   return (
     <div className="flex flex-col gap-4">
       <ChessColumn
         fen={currentFen}
-        opponentName={selectedGame?.isBot ? "Engine" : "Opponent"}
-        playerName="Me"
+        opponentName={opponentName}
+        playerName={playerName}
+        enableAnalysis
         onDrop={() => false}
         isPlayerTurn={false}
         lastMove={null}

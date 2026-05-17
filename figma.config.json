@@ -1,0 +1,23 @@
+{
+  "codeConnect": {
+    "include": [
+      "figma/connect/**/*.figma.ts",
+      "src/**/*.figma.tsx"
+    ],
+    "exclude": ["node_modules/**", "dist/**"],
+    "label": "React",
+    "language": "tsx",
+    "documentUrlSubstitutions": {
+      "<CHESS_GAME>": "https://www.figma.com/design/p4ecn7cpCxHionhusqlXDx/Chess-Game"
+    },
+    "parser": "react"
+  },
+  "paths": {
+    "@/*": ["src/*"]
+  },
+  "importPaths": {
+    "components/*": "src/components/*",
+    "helpers/*": "src/helpers/*",
+    "pages/*": "src/pages/*"
+  }
+}

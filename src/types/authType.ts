@@ -24,8 +24,7 @@ export interface AuthResponse {
 }
 
 export interface RefreshResponse {
-  accessToken: string;
-  user?: UserProfile;
+  message: string;
 }
 
 // ─── Auth Context ──────────────────────────────────────────────────────────
@@ -34,6 +33,8 @@ export interface AuthContextType {
   user: UserProfile | null;
   setUser: React.Dispatch<React.SetStateAction<UserProfile | null>>;
   isLoggedIn: boolean;
+  /** False until POST /api/refresh + profile restore attempt on first load. */
+  isAuthReady: boolean;
   loading: boolean;
   error: string | null;
   login: (data: ILoginPayload) => Promise<boolean>;

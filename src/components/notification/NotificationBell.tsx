@@ -5,8 +5,12 @@ interface NotificationBellProps {
   onNotification?: (event: { eventType: string; parsedData: unknown }) => void;
 }
 
+/**
+ * Subscribes to notification SSE and keeps inbox query fresh.
+ * No header UI — notifications are not shown in the nav bar.
+ */
 function NotificationBell({ isLoggedIn, onNotification }: NotificationBellProps) {
-  const { data, isLoading, error } = useNotificationInbox(isLoggedIn, {
+  useNotificationInbox(isLoggedIn, {
     onNotification: (event) => {
       onNotification?.({
         eventType: event.eventType,
@@ -15,21 +19,7 @@ function NotificationBell({ isLoggedIn, onNotification }: NotificationBellProps)
     },
   });
 
-  if (!isLoggedIn) return null;
-
-  if (isLoading) return null;
-
-  if (error) return null;
-
-  return (
-    <>
-      {data?.map((n) => (
-        <div key={n.id}>
-          {n.eventType} - {n.createdAt}
-        </div>
-      ))}
-    </>
-  );
+  return null;
 }
 
 export default NotificationBell;

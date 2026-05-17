@@ -1,5 +1,5 @@
-import { useState, useCallback, useEffect, useMemo } from "react";
-import { Link } from "react-router-dom";
+import { useState, useCallback, useMemo } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { Chess } from "chess.js";
 
@@ -9,10 +9,11 @@ import { useGameHistory } from "../../hooks/useGameHistory";
 import { getMyGameHistoryItem } from "../../api/history";
 import { BOARD_THEMES, type BoardTheme } from "./board-theme/boardThemes";
 
-import { GameColumn } from "./GameColumn";
+import { GameColumn } from "./gameColumn";
 import GameHistory from "./gameHistory";
 import SignInModal from "../modal/SignInModal";
 import leftIcon from "../../assets/icons/analyze/left.svg";
+import type { GamePageLocationState } from "../../types/playPageState";
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
@@ -38,15 +39,29 @@ const LockedBoard: React.FC<LockedBoardProps> = ({ onLogin }) => (
 
 interface ConnectionBadgeProps {
   status: string;
+  gameStatus: string;
 }
 
-const ConnectionBadge: React.FC<ConnectionBadgeProps> = ({ status }) => (
-  <span
-    className={`text-sm ${status === "connected" ? "text-green-500" : "text-red-500"}`}
-  >
-    ● {status === "connected" ? "Connected" : "Connecting..."}
-  </span>
-);
+const ConnectionBadge: React.FC<ConnectionBadgeProps> = ({
+  status,
+  gameStatus,
+}) => {
+  if (gameStatus === "waiting") {
+    return (
+      <span className="text-sm text-[#E5CC7A] animate-pulse">
+        ● Finding opponent…
+      </span>
+    );
+  }
+  const connected = status === "connected";
+  return (
+    <span
+      className={`text-sm ${connected ? "text-green-500" : "text-amber-500"}`}
+    >
+      ● {connected ? "Connected" : "Reconnecting…"}
+    </span>
+  );
+};
 
 
 function useHistoryReplay(
@@ -93,7 +108,21 @@ function useHistoryReplay(
   return { selectedGame, currentFen, isTerminal };
 }
 
+function gameSubtitle(
+  isLiveGame: boolean,
+  level: string,
+  gameStatus: string,
+): string {
+  if (isLiveGame) {
+    if (gameStatus === "waiting") return "Matchmaking · waiting for opponent";
+    return "Playing vs Live Player";
+  }
+  return `Playing vs AI (${level})`;
+}
+
 export const ChessGamePage: React.FC = () => {
+  const location = useLocation();
+  const pageState = (location.state as GamePageLocationState | null) ?? {};
   const { user } = useAuth();
   const {
     fen,
@@ -132,14 +161,9 @@ export const ChessGamePage: React.FC = () => {
 
   const startGameAgainstBot = useCallback(() => {
     const color = Math.random() > 0.5 ? "w" : "b";
-    void startNewGame("medium", color);
-  }, [startNewGame]);
-
-  useEffect(() => {
-    if (user && !isLiveGame && gameStatus === "idle") {
-      startGameAgainstBot();
-    }
-  }, [user, isLiveGame, gameStatus, startGameAgainstBot]);
+    const botLevel = pageState.level ?? level ?? "medium";
+    void startNewGame(botLevel, color);
+  }, [startNewGame, pageState.level, level]);
 
   const handleStartLiveMatch = useCallback(() => {
     if (!user) {
@@ -155,17 +179,23 @@ export const ChessGamePage: React.FC = () => {
         {/* Header */}
         <header className="flex items-center w-full text-center mb-8">
           <Link
-            to="/"
+            to="/play"
+            state={{ tab: isLiveGame ? "live" : "platform" }}
             className="w-[72px] flex justify-center border-2 border-[#E5CC7A] py-2.5 rounded-3xl"
           >
-            <img src={leftIcon} alt="back" />
+            <img src={leftIcon} alt="" aria-hidden />
           </Link>
 
-          <div className="w-full flex flex-col items-center">
-            <h1 className="text-6xl text-gold font-medium tracking-tight">
-              Chess Game
+          <div className="w-full flex flex-col items-center gap-1">
+            <h1 className="text-4xl md:text-5xl text-gold font-medium tracking-tight">
+              {isLiveGame ? "Live Game" : "Chess Game"}
             </h1>
-            {isLiveGame && <ConnectionBadge status={socketStatus} />}
+            <p className="text-lg text-[#A39589] font-medium">
+              {gameSubtitle(isLiveGame, level, gameStatus)}
+            </p>
+            {isLiveGame && (
+              <ConnectionBadge status={socketStatus} gameStatus={gameStatus} />
+            )}
           </div>
         </header>
 

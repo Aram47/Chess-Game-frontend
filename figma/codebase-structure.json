@@ -1,0 +1,63 @@
+{
+  "project": "Chess-Game-frontend",
+  "stack": {
+    "framework": "React 19 + TypeScript",
+    "bundler": "Vite 8",
+    "routing": "react-router-dom v7 (createBrowserRouter)",
+    "styling": "Tailwind CSS v4 (@import tailwindcss in index.css) + SCSS modules for layout/header/footer",
+    "state": "React Context (Auth, Game, Profile, Problems, ChessAnalysis) + TanStack Query",
+    "chess": "chess.js + react-chessboard",
+    "realtime": "socket.io-client via src/lib/socket/game-socket.ts"
+  },
+  "entrypoints": {
+    "main": "src/main.tsx",
+    "app": "src/App.tsx",
+    "router": "src/router/router.tsx",
+    "globalStyles": "src/index.css",
+    "layout": "src/layouts/Layout.tsx"
+  },
+  "playFlows": {
+    "bot": {
+      "figmaFrom": "1588:1315",
+      "figmaTo": "1956:17056",
+      "navigation": "/play → /play/game state.mode=bot",
+      "api": "POST /game/start via startBotGame"
+    },
+    "live": {
+      "figmaFrom": "3736:8909",
+      "figmaTo": "2023:17762",
+      "navigation": "/play → /play/game state.mode=live",
+      "socket": "emitFindGame via findMatch"
+    }
+  },
+  "routes": [
+    { "path": "/", "page": "src/pages/HomePage/page.tsx" },
+    { "path": "/play", "page": "src/pages/PlayPage/page.tsx", "component": "ReadyToPlay" },
+    { "path": "/play/game", "page": "src/components/game/Game.tsx", "name": "ChessGamePage" },
+    { "path": "/analyze", "page": "src/pages/Analyze/page.tsx" },
+    { "path": "/about", "page": "src/pages/AboutPage/page.tsx" },
+    { "path": "/profile", "page": "src/pages/Profile/page.tsx" },
+    { "path": "/problems", "page": "src/pages/Problems/Page2.tsx" }
+  ],
+  "readyToPlayFeature": {
+    "files": {
+      "shell": "src/components/readyToPlay/ReadyToPlay.tsx",
+      "chips": "src/components/readyToPlay/PlayModeChips.tsx",
+      "botPanel": "src/components/readyToPlay/BotDifficultyPanel.tsx",
+      "livePanel": "src/components/readyToPlay/LiveMatchPanel.tsx",
+      "startButton": "src/components/readyToPlay/StartGameButton.tsx",
+      "page": "src/pages/PlayPage/page.tsx",
+      "locationState": "src/types/playPageState.ts"
+    },
+    "legacyUnused": [
+      "src/components/readyToPlay/platformCard.tsx",
+      "src/components/readyToPlay/player.tsx"
+    ],
+    "gamePage": {
+      "file": "src/components/game/Game.tsx",
+      "locationState": "src/types/playPageState.ts",
+      "waitingUi": "src/components/game/gameColumn.tsx"
+    },
+    "status": "implemented-inline-2025"
+  }
+}

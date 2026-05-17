@@ -23,6 +23,7 @@ const AnalysisContent = () => {
       setGames(data.data || []);
       return data;
     },
+    enabled: true,
   });
 
   useEffect(() => {

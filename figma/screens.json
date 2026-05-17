@@ -1,0 +1,72 @@
+{
+  "fileKey": "p4ecn7cpCxHionhusqlXDx",
+  "page": { "id": "382:203", "name": "draft 2" },
+  "flows": {
+    "bot": {
+      "from": "1588:1315",
+      "to": "1956:17056",
+      "steps": ["Select difficulty on /play (platform tab)", "Start Game", "Navigate to /play/game with mode bot"]
+    },
+    "live": {
+      "from": "3736:8909",
+      "to": "2023:17762",
+      "steps": ["Select vs Live Player on /play", "Start Game (findMatch)", "Navigate to /play/game with mode live"]
+    }
+  },
+  "screens": [
+    {
+      "name": "Play hub — bot / platform",
+      "figmaNodeId": "1588:1315",
+      "childContentNodeId": "3736:8866",
+      "figmaUrl": "https://www.figma.com/design/p4ecn7cpCxHionhusqlXDx/Chess-Game?node-id=1588-1315",
+      "code": {
+        "page": "src/pages/PlayPage/page.tsx",
+        "route": "/play",
+        "tab": "platform",
+        "components": [
+          "src/components/readyToPlay/ReadyToPlay.tsx",
+          "src/components/readyToPlay/BotDifficultyPanel.tsx"
+        ]
+      }
+    },
+    {
+      "name": "Play hub — live player",
+      "figmaNodeId": "3736:8909",
+      "childContentNodeId": "3736:8911",
+      "figmaUrl": "https://www.figma.com/design/p4ecn7cpCxHionhusqlXDx/Chess-Game?node-id=3736-8909",
+      "code": {
+        "page": "src/pages/PlayPage/page.tsx",
+        "route": "/play",
+        "tab": "live",
+        "components": [
+          "src/components/readyToPlay/ReadyToPlay.tsx",
+          "src/components/readyToPlay/LiveMatchPanel.tsx"
+        ]
+      }
+    },
+    {
+      "name": "Game dashboard — live player",
+      "figmaNodeId": "2023:17762",
+      "dashboardInstance": "2041:19524",
+      "dashboardVariant": "Type=Live Player",
+      "figmaUrl": "https://www.figma.com/design/p4ecn7cpCxHionhusqlXDx/Chess-Game?node-id=2023-17762",
+      "code": {
+        "page": "src/components/game/Game.tsx",
+        "route": "/play/game",
+        "mode": "live"
+      }
+    },
+    {
+      "name": "Game dashboard — AI / bot",
+      "figmaNodeId": "1956:17056",
+      "dashboardInstance": "2041:19176",
+      "dashboardVariant": "Type=AI",
+      "figmaUrl": "https://www.figma.com/design/p4ecn7cpCxHionhusqlXDx/Chess-Game?node-id=1956-17056",
+      "code": {
+        "page": "src/components/game/Game.tsx",
+        "route": "/play/game",
+        "mode": "bot"
+      }
+    }
+  ]
+}

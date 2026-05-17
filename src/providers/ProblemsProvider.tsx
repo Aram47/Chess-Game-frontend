@@ -22,7 +22,7 @@ export const ProblemsProvider: React.FC<{ children: React.ReactNode }> = ({
     setIsLoading(true);
     try {
       const response = await problemsApi.getProblems(filters);
-      setProblems(response.data);
+      setProblems(response.data ?? []);
     } catch (error) {
       console.error("Failed to fetch problems:", error);
     } finally {

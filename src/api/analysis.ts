@@ -31,10 +31,6 @@ export async function analyzePosition(
       { withCredentials: true },
     );
 
-    console.log("Full Data from API:", response.data);
-
-    console.log("Lines count:", response.data.lines?.length);
-
     return response.data;
   } catch (error: any) {
     const errorData: ApiError = error.response?.data;

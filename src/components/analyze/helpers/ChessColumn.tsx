@@ -1,5 +1,6 @@
 import { Chessboard } from "react-chessboard";
-import { useState, type CSSProperties } from "react";
+import { useMemo, useState, type CSSProperties } from "react";
+import { useChessboardInteraction } from "../../../hooks/useChessboardInteraction";
 import {
   BOARD_THEMES,
   type BoardTheme,
@@ -8,6 +9,8 @@ import { figurePieces } from "../../../helpers/chess-figures/FiguresChess";
 import controls from "../../../assets/icons/analyze/controls.svg";
 // import "./style.scss";
 import AnalyzeButtons from "./AnalyzeButtons";
+import { usePositionAnalysis } from "../../../hooks/usePositionAnalysis";
+import { Loader2 } from "lucide-react";
 
 type AnalyzeControls = {
   goBack: () => void;
@@ -30,6 +33,7 @@ export const ChessColumn = ({
   winner,
   boardTheme,
   analyzeControls,
+  enableAnalysis = false,
 }: {
   opponentName?: string;
   playerName?: string;
@@ -44,6 +48,7 @@ export const ChessColumn = ({
   winner: "you" | "bot" | "draw" | null;
   boardTheme?: BoardTheme;
   analyzeControls?: AnalyzeControls;
+  enableAnalysis?: boolean;
 }) => {
   const winnerPlayer = winner ? "Win" : "Loss";
   const boardOrientation = playerColor === "w" ? "white" : "black";
@@ -51,13 +56,45 @@ export const ChessColumn = ({
   const opponentSideLabel = playerColor === "w" ? "Black" : "White";
   const theme = boardTheme ?? BOARD_THEMES[0];
   const [showPiece, setShowPiece] = useState(false);
-  const squareStyles: Record<string, CSSProperties> = {};
-  if (lastMove) {
-    squareStyles[lastMove.from] = {
-      backgroundColor: "rgba(225, 200, 100, 0.4)",
-    };
-    squareStyles[lastMove.to] = { backgroundColor: "rgba(225, 200, 100, 0.6)" };
-  }
+
+  const analysisEnabled = Boolean(enableAnalysis && analyzeControls && fen);
+  const analysisQuery = usePositionAnalysis(
+    fen,
+    analysisEnabled && showPiece,
+  );
+  const bestLine = analysisQuery.data?.lines?.[0];
+  const bestMoveLabel = bestLine
+    ? `${bestLine.move.from} → ${bestLine.move.to}`
+    : null;
+  const evalLabel =
+    bestLine?.evaluation.kind === "mate"
+      ? `Mate in ${Math.abs(bestLine.evaluation.value)}`
+      : bestLine
+        ? `${(bestLine.evaluation.value / 100).toFixed(2)} cp`
+        : null;
+  const lastMoveStyles = useMemo(() => {
+    const styles: Record<string, CSSProperties> = {};
+    if (lastMove) {
+      styles[lastMove.from] = {
+        backgroundColor: "rgba(225, 200, 100, 0.4)",
+      };
+      styles[lastMove.to] = {
+        backgroundColor: "rgba(225, 200, 100, 0.6)",
+      };
+    }
+    return styles;
+  }, [lastMove]);
+
+  const canInteract =
+    gameStatus === "playing" && isPlayerTurn && !isBotThinking;
+
+  const boardInteraction = useChessboardInteraction({
+    fen,
+    playerColor,
+    canInteract,
+    onMove: onDrop,
+    baseSquareStyles: lastMoveStyles,
+  });
 
   return (
     <div className="flex flex-col gap-8 border-[#CEB86E33] border rounded-[20px] p-8 bg-[#FFFFFF0D]">
@@ -87,14 +124,12 @@ export const ChessColumn = ({
             options={{
               position: fen,
               boardOrientation,
-              onPieceDrop: ({ sourceSquare, targetSquare }) => {
-                if (!targetSquare || !isPlayerTurn || isBotThinking)
-                  return false;
-                void onDrop(sourceSquare, targetSquare);
-                return true;
-              },
+              allowDragging: boardInteraction.allowDragging,
+              canDragPiece: boardInteraction.canDragPiece,
+              onPieceDrop: boardInteraction.onPieceDrop,
+              onSquareClick: boardInteraction.onSquareClick,
               pieces: figurePieces,
-              squareStyles,
+              squareStyles: boardInteraction.squareStyles,
               darkSquareStyle: {
                 backgroundColor: theme.dark,
                 color: theme.light,
@@ -155,43 +190,56 @@ export const ChessColumn = ({
         <h2 className="text-[#A39589]">
           Get AI nsights and best move suggestions as you navigate
         </h2>
-        {showPiece && (
-          <div className="flex flex-col gap-y-4 bg-[#FFFFFF0D] py-3 px-4 rounded-[20px]">
-            <div className="flex items-center gap-x-3">
-              <div className="w-10 h-10 flex items-center justify-center rounded-full bg-[#3A92F91A]">
-                <span className="text-xl text-[#3A92F9]">AI</span>
+        {showPiece && analysisEnabled && (
+          <div className="flex flex-col gap-y-4 bg-[#FFFFFF0D] py-3 px-4 rounded-[20px] w-full">
+            {analysisQuery.isLoading && (
+              <div className="flex items-center justify-center gap-2 py-6 text-[#A39589]">
+                <Loader2 className="h-5 w-5 animate-spin" />
+                <span className="text-sm">Analyzing position…</span>
               </div>
-              <div className="flex flex-col">
-                <h3 className="text-[#CFCFCF] font-normal">
-                  AI Best Move Suggestion
-                </h3>
-                <div className="text-[#A39589] flex items-center gap-x-6">
-                  <p className="text-sm">
-                    <span className="text-[#676767]">Played: </span>
-                    <span>{playerSideLabel}</span>
-                  </p>
-                  <p className="text-sm">
-                    <span className="text-[#676767]">Better: </span>
-                    <span>{playerSideLabel}</span>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div>
-              <span className="text-[#E5CC7A] ml-[52px]">
-                By replacing <b className="text-[#CFCFCF]">Qe2</b> with{" "}
-                <b className="text-[#CFCFCF]">Nf3</b>, you would gain:
-              </span>
-            </div>
-            <div className="flex items-start gap-x-2 py-3 px-4 bg-[#1C1C1C4D] rounded-[8px]">
-              <img src={controls} alt="controls" width={16} height={16} />
-              <p className="text-[#A39589] font-medium text-xs">
-                The knight on f3 controls the center, supports other pieces, and
-                prepares castling. Bringing out the queen early makes it a
-                target for developing moves like Nc3 or Bc4, forcing you to move
-                it again and losing time.
+            )}
+            {analysisQuery.isError && (
+              <p className="text-sm text-[#AD1414] text-center py-4">
+                Analysis unavailable. Try again in a moment.
               </p>
-            </div>
+            )}
+            {bestLine && !analysisQuery.isLoading && (
+              <>
+                <div className="flex items-center gap-x-3">
+                  <div className="w-10 h-10 flex items-center justify-center rounded-full bg-[#3A92F91A]">
+                    <span className="text-xl text-[#3A92F9]">AI</span>
+                  </div>
+                  <div className="flex flex-col">
+                    <h3 className="text-[#CFCFCF] font-normal">Engine suggestion</h3>
+                    <p className="text-[#A39589] text-sm">
+                      Best line for {playerSideLabel}
+                      {evalLabel ? ` · ${evalLabel}` : ""}
+                    </p>
+                  </div>
+                </div>
+                <p className="text-[#E5CC7A] text-sm">
+                  Recommended move:{" "}
+                  <b className="text-[#CFCFCF] tabular-nums">{bestMoveLabel}</b>
+                </p>
+                {analysisQuery.data?.lines && analysisQuery.data.lines.length > 1 && (
+                  <div className="flex items-start gap-x-2 py-3 px-4 bg-[#1C1C1C4D] rounded-[8px]">
+                    <img src={controls} alt="" width={16} height={16} />
+                    <p className="text-[#A39589] font-medium text-xs">
+                      Alternatives:{" "}
+                      {analysisQuery.data.lines
+                        .slice(1, 3)
+                        .map((line) => `${line.move.from}→${line.move.to}`)
+                        .join(", ")}
+                    </p>
+                  </div>
+                )}
+              </>
+            )}
+            {!bestLine && !analysisQuery.isLoading && !analysisQuery.isError && (
+              <p className="text-sm text-[#A39589] text-center py-4">
+                No engine lines for this position.
+              </p>
+            )}
           </div>
         )}
 

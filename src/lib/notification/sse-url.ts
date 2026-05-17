@@ -20,8 +20,7 @@ export function getNotificationsSseUrl(): string {
   }
 
   if (import.meta.env.DEV) {
-    // Local fallback so SSE reaches backend directly in development.
-    return "http://localhost:3000/notifications/stream";
+    return "/notifications/stream";
   }
 
   throw new Error(

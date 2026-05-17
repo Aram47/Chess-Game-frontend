@@ -6,6 +6,7 @@ import type {
   RefreshResponse,
 } from "../types/authType";
 import api from "./axiosIntance";
+import { refreshAccessToken } from "./refreshSession";
 
 export const loginProvider = async (
   data: ILoginPayload,
@@ -22,8 +23,8 @@ export const registerProvider = async (
 };
 
 export const refreshProvider = async (): Promise<RefreshResponse> => {
-  const response = await api.post(`/api/refresh`);
-  return response.data;
+  await refreshAccessToken();
+  return { message: "Tokens refreshed successfully" };
 };
 export const resetPasswordProvider = async (
   data: IResetPassword,

@@ -65,7 +65,7 @@ export interface ProblemsContextType {
   setFen: Dispatch<SetStateAction<string>>;
   searchTerm: string;
   setSearchTerm: Dispatch<SetStateAction<string>>;
-  fetchProblems: (query?: ProblemDifficultyLevel) => Promise<void>;
+  fetchProblems: (query?: GetProblemsParams) => Promise<void>;
   stepProblemById: (
     id: number,
     move: { from: string; to: string; promotion?: string },

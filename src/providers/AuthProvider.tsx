@@ -5,10 +5,11 @@ import { AuthContext } from "../context/AuthContext";
 import {
   loginProvider,
   logoutProvider,
-  refreshProvider,
   registerProvider,
   resetPasswordProvider,
 } from "../api/auth";
+import { restoreSession } from "../lib/auth/restoreSession";
+import { normalizeUserFromApi } from "../lib/auth/mapUser";
 import type {
   ILoginPayload,
   IRegisterPayload,
@@ -20,19 +21,31 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isAuthReady, setIsAuthReady] = useState(false);
 
   const isLoggedIn = !!user;
 
   useEffect(() => {
-    const restoreUser = async () => {
+    let cancelled = false;
+
+    const bootstrap = async () => {
       try {
-        const result = await refreshProvider();
-        if (result.user) setUser(result.user);
-      } catch {
-        // silently ignore — no session yet
+        const restored = await restoreSession();
+        if (!cancelled && restored) {
+          setUser(restored);
+        }
+      } finally {
+        if (!cancelled) {
+          setIsAuthReady(true);
+        }
       }
     };
-    restoreUser();
+
+    void bootstrap();
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   useEffect(() => {
@@ -50,9 +63,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setError(null);
     try {
       const result = await loginProvider({ login, password });
-      console.log("Full API Response:", result);
-
-      const userData = result.user || result;
+      const userData = normalizeUserFromApi(result);
+      if (!userData) {
+        setError("Login failed");
+        return false;
+      }
 
       setUser(userData);
       return true;
@@ -77,7 +92,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [loading]);
 
   const resetPassword = useCallback(
     async (data: IResetPassword): Promise<boolean> => {
@@ -114,6 +129,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         user,
         setUser,
         isLoggedIn,
+        isAuthReady,
         loading,
         error,
         login,

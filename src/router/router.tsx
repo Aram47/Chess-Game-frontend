@@ -49,7 +49,7 @@ export const router = createBrowserRouter([
         element: <ProblemsPage />,
       },
       {
-        path: "/problems/id",
+        path: "/problems/:problemId",
         element: <SolveProblem />,
       },
     ],

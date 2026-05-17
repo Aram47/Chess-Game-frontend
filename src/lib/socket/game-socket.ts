@@ -1,15 +1,10 @@
 import { io, Socket } from "socket.io-client";
 import { API_BASE_URL } from "../../api/axiosIntance";
 
-// ✅ Always points at the backend directly.
-//    API_BASE_URL = import.meta.env.VITE_APP_API_URL || "http://localhost:3000"
-//
-// ❌ Do NOT use a relative URL ("/notifications") — Socket.IO resolves it
-//    against the current page origin (localhost:5173 in dev), which is the
-//    Vite dev server. Vite cannot handle WebSocket upgrades for Socket.IO,
-//    so it immediately closes the connection.
+// In dev, API_BASE_URL is "" so Socket.IO uses the Vite proxy (/notifications).
+// In production, set VITE_SOCKET_BASE_URL or VITE_APP_API_URL to the API host.
 const SOCKET_BASE_URL = (
-  import.meta.env.VITE_SOCKET_BASE_URL || API_BASE_URL
+  import.meta.env.VITE_SOCKET_BASE_URL || API_BASE_URL || ""
 ).replace(/\/$/, "");
 
 let socketInstance: Socket | null = null;

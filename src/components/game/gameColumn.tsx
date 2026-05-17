@@ -1,11 +1,12 @@
 import { useLocation } from "react-router-dom";
 import { Chessboard } from "react-chessboard";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { CSSProperties } from "react";
 import AnalyzeButtons from "../analyze/helpers/AnalyzeButtons";
 import { BOARD_THEMES, type BoardTheme } from "./board-theme/boardThemes";
 import { figurePieces } from "../../helpers/chess-figures/FiguresChess";
 import GameButtons from "./GameButtons";
+import { useChessboardInteraction } from "../../hooks/useChessboardInteraction";
 
 import "../../assets/css/style.scss";
 import type { ChessColor } from "../../types/gameType";
@@ -66,13 +67,29 @@ export const GameColumn = ({
   const activeTurn = fen.split(" ")[1] === "b" ? "black" : "white";
   const theme = boardTheme ?? BOARD_THEMES[0];
 
-  const squareStyles: Record<string, CSSProperties> = {};
-  if (lastMove) {
-    squareStyles[lastMove.from] = {
-      backgroundColor: "rgba(225, 200, 100, 0.4)",
-    };
-    squareStyles[lastMove.to] = { backgroundColor: "rgba(225, 200, 100, 0.6)" };
-  }
+  const lastMoveStyles = useMemo(() => {
+    const styles: Record<string, CSSProperties> = {};
+    if (lastMove) {
+      styles[lastMove.from] = {
+        backgroundColor: "rgba(225, 200, 100, 0.4)",
+      };
+      styles[lastMove.to] = {
+        backgroundColor: "rgba(225, 200, 100, 0.6)",
+      };
+    }
+    return styles;
+  }, [lastMove]);
+
+  const canInteract =
+    gameStatus === "playing" && isPlayerTurn && !isBotThinking;
+
+  const boardInteraction = useChessboardInteraction({
+    fen,
+    playerColor,
+    canInteract,
+    onMove: onDrop,
+    baseSquareStyles: lastMoveStyles,
+  });
 
   useEffect(() => {
     if (gameStatus !== "playing") return;
@@ -106,7 +123,8 @@ export const GameColumn = ({
           </div>
           <div className="flex flex-col ">
             <h3 className="text-gold capitalize">
-              {opponentName || "Platform"} {`(${level})`}
+              {opponentName || "Platform"}
+              {!isLiveGame && level ? ` (${level})` : ""}
             </h3>
             <p className="text-[#A39589] text-sm">{`Playing ${opponentSideColor}`}</p>
           </div>
@@ -124,14 +142,12 @@ export const GameColumn = ({
             options={{
               position: fen,
               boardOrientation,
-              onPieceDrop: ({ sourceSquare, targetSquare }) => {
-                if (!targetSquare || !isPlayerTurn || isBotThinking)
-                  return false;
-                void onDrop(sourceSquare, targetSquare);
-                return true;
-              },
+              allowDragging: boardInteraction.allowDragging,
+              canDragPiece: boardInteraction.canDragPiece,
+              onPieceDrop: boardInteraction.onPieceDrop,
+              onSquareClick: boardInteraction.onSquareClick,
               pieces: figurePieces,
-              squareStyles,
+              squareStyles: boardInteraction.squareStyles,
               darkSquareStyle: {
                 backgroundColor: theme.dark,
                 color: theme.light,
@@ -144,20 +160,35 @@ export const GameColumn = ({
           />
         </div>
 
-        {gameStatus !== "playing" && gameStatus !== "idle" && (
+        {gameStatus === "waiting" && isLiveGame && (
+          <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-black/80 gap-4 px-6 text-center">
+            <h2 className="text-[#E5CC7A] text-2xl font-medium">
+              Finding opponent…
+            </h2>
+            <p className="text-[#A39589] text-sm max-w-xs">
+              Stay on this page. We will start the game when a player is matched.
+            </p>
+          </div>
+        )}
+
+        {gameStatus !== "playing" &&
+          gameStatus !== "idle" &&
+          gameStatus !== "waiting" && (
           <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-black/80">
             <h2 className="text-white text-2xl mb-4">
               {winner === "you"
                 ? "YOU WIN"
                 : winner === "bot"
                   ? "BOT WINS"
+                  : winner === "opponent"
+                    ? "OPPONENT WINS"
                   : winner === "draw"
                     ? "DRAW"
                     : gameStatus.toUpperCase()}
             </h2>
             <button
               onClick={resetGame}
-              className="bg-[#E5CC7A] px-4 py-2 rounded"
+              className="bg-[#E5CC7A] px-4 py-2 rounded text-[#1C1C1C] font-semibold"
             >
               New Game
             </button>

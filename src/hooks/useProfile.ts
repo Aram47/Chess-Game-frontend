@@ -2,10 +2,11 @@ import { useQuery } from "@tanstack/react-query";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { getMyProfile, updateMyProfile } from "../api/profile";
 
-export const useProfileApi = () => {
+export const useProfileApi = (options?: { enabled?: boolean }) => {
   return useQuery({
     queryKey: ["profile"],
     queryFn: getMyProfile,
+    enabled: options?.enabled ?? true,
   });
 };
 

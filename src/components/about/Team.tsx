@@ -1,8 +1,8 @@
-import Aram from "../../assets/icons/about/aram.png";
-import Tigran from "../../assets/icons/about/tigran.png";
-import Arthur from "../../assets/icons/about/arthur.jpg";
-import Sona from "../../assets/icons/about/sona.png";
-import Nver from "../../assets/icons/about/nver.png";
+import Aram from "../../assets/icons/about/Aram.png";
+import Tigran from "../../assets/icons/about/Tigran.png";
+import Arthur from "../../assets/icons/about/Arthur.jpg";
+import Sona from "../../assets/icons/about/Sona.png";
+import Nver from "../../assets/icons/about/Nver.png";
 
 const Team = () => {
   const team = [

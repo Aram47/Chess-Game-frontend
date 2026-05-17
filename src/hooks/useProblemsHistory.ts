@@ -12,15 +12,6 @@ export const useProblemsQuery = (params: GetProblemsParams = {}) => {
   });
 };
 
-export const useProblemByIdQuery = (id: number) => {
-  return useQuery({
-    queryKey: [PROBLEMS_QUERY_KEY, id],
-    queryFn: () => problemsApi.getProblemById(id),
-    refetchOnWindowFocus: false,
-    enabled: !!id,
-  });
-};
-
 export const useSubmitMoveMutation = () => {
   const queryClient = useQueryClient();
   return useMutation({

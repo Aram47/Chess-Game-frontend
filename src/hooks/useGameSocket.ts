@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { Socket } from "socket.io-client";
 import { getGameSocket, disconnectGameSocket } from "../lib/socket/game-socket";
-import { refreshProvider } from "../api/auth";
+import { refreshAccessToken } from "../api/refreshSession";
 import {
   SOCKET_SUBSCRIBE_MESSAGE,
   SOCKET_EMIT_MESSAGE,
@@ -84,7 +84,7 @@ export function useGameSocket(
         if (isAuthError && !isRecoveringAuthRef.current) {
           try {
             isRecoveringAuthRef.current = true;
-            await refreshProvider();
+            await refreshAccessToken();
             socketInstance?.connect();
             return;
           } catch (refreshError) {

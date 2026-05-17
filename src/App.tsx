@@ -1,6 +1,7 @@
 import { RouterProvider } from "react-router-dom";
 import { router } from "./router/router";
 import { AuthProvider } from "./providers/AuthProvider";
+import { AuthBootstrap } from "./components/auth/AuthBootstrap";
 import { GameProvider } from "./providers/GameProvider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ProfileProvider } from "./providers/ProfileProvider";
@@ -19,13 +20,15 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <ProfileProvider>
-          <GameProvider>
-            <ProblemsProvider>
-              <RouterProvider router={router} />
-            </ProblemsProvider>
-          </GameProvider>
-        </ProfileProvider>
+        <AuthBootstrap>
+          <ProfileProvider>
+            <GameProvider>
+              <ProblemsProvider>
+                <RouterProvider router={router} />
+              </ProblemsProvider>
+            </GameProvider>
+          </ProfileProvider>
+        </AuthBootstrap>
       </AuthProvider>
     </QueryClientProvider>
   );

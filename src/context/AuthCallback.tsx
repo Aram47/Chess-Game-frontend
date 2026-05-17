@@ -1,18 +1,24 @@
 import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "./AuthContext";
+import { normalizeUserFromApi } from "../lib/auth/mapUser";
 
 const AuthCallback = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const { setUser } = useAuth();
-  
+
   useEffect(() => {
     const userJson = searchParams.get("user");
 
     if (userJson) {
       try {
-        const userData = JSON.parse(decodeURIComponent(userJson));
+        const userData = normalizeUserFromApi(
+          JSON.parse(decodeURIComponent(userJson)),
+        );
+        if (!userData) {
+          throw new Error("Invalid user payload");
+        }
 
         setUser(userData);
 

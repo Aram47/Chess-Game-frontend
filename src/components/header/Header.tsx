@@ -101,16 +101,7 @@ const Header = ({
             </div>
             {user ? (
               <div className={style.cm_user_profile}>
-                <NotificationBell
-                  isLoggedIn={!!user}
-                  onNotification={(event) => {
-                    console.log(
-                      "Notification event:",
-                      event.eventType,
-                      event.parsedData,
-                    );
-                  }}
-                />
+                <NotificationBell isLoggedIn={!!user} />
                 <span>Nickname</span>
                 <button
                   className={style.cm_btn}

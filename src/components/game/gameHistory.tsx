@@ -1,8 +1,8 @@
 import type { UseQueryResult } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 import type { GameHistoryItem, MoveType } from "../../types/gameType";
-import FirstStep from "./steps/firstStep";
-import SecondStep from "./steps/secStep";
+import { normalizeMove } from "../../lib/chess/formatMove";
+import { MoveHistoryEntry } from "./MoveHistoryEntry";
 
 interface Props {
   currentFen: string | undefined;
@@ -21,10 +21,10 @@ const GameHistory = ({
   selectedGame,
   setPlyIndex,
   currentFen,
+  currentPly,
   moveHistory = [],
 }: Props) => {
   const isLoadingDetail = !selectedGame?.allMoves && selectedGame?._id;
-
   const displayedMoves = moveHistory;
 
   const turnCode = currentFen?.split(" ")[1];
@@ -49,23 +49,18 @@ const GameHistory = ({
             ) : displayedMoves.length > 0 ? (
               <div className="flex flex-col gap-y-1">
                 {displayedMoves.map((move, index) => {
-                  const isWhite = index % 2 === 0;
-
-                  const { from, to } = move;
+                  const normalized = normalizeMove(move);
+                  if (!normalized) return null;
 
                   return (
-                    <div key={index} className="flex flex-col gap-y-2">
-                      {isWhite ? (
-                        <FirstStep
-                          setPlyIndex={setPlyIndex}
-                          index={index}
-                          from={from}
-                          isWhite={true}
-                        />
-                      ) : (
-                        <SecondStep index={index} to={to} />
-                      )}
-                    </div>
+                    <MoveHistoryEntry
+                      key={index}
+                      plyIndex={index}
+                      from={normalized.from}
+                      to={normalized.to}
+                      onSelect={setPlyIndex}
+                      isActive={currentPly === index + 1}
+                    />
                   );
                 })}
               </div>
@@ -78,7 +73,6 @@ const GameHistory = ({
         </div>
       )}
 
-      {/* Footer Info */}
       <div className="w-full mt-auto">
         <div className="w-full flex flex-col gap-y-3 mt-6 border-t border-[#CEB86E33] pb-4">
           <div className="text-sm flex items-center justify-between mt-6">
@@ -98,4 +92,5 @@ const GameHistory = ({
     </div>
   );
 };
+
 export default GameHistory;

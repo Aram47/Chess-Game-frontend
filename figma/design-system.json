@@ -1,0 +1,153 @@
+{
+  "figmaFile": {
+    "name": "Chess-Game",
+    "fileKey": "p4ecn7cpCxHionhusqlXDx",
+    "url": "https://www.figma.com/design/p4ecn7cpCxHionhusqlXDx/Chess-Game",
+    "pages": [
+      { "id": "0:1", "name": "moodboard" },
+      { "id": "199:19", "name": "Components", "role": "design-system" },
+      { "id": "382:203", "name": "draft 2", "role": "screens" }
+    ]
+  },
+  "codeConnect": {
+    "status": "manual-mappings",
+    "note": "Code Connect MCP requires Figma Org/Enterprise. Use componentMappings below."
+  },
+  "frontend": {
+    "root": "Chess-Game-frontend",
+    "pathAlias": "none (use relative imports from src/)",
+    "structureDoc": "figma/codebase-structure.json"
+  },
+  "typography": {
+    "H1": { "classes": "text-5xl font-medium font-barlow text-[var(--color-gold)]" },
+    "H2": { "classes": "text-2xl font-medium font-barlow text-[#CFCFCF]" },
+    "H3": { "classes": "text-xl font-bold font-barlow" },
+    "Body": { "classes": "text-base font-barlow" },
+    "Small": { "classes": "text-sm font-barlow text-[var(--muted)]" },
+    "Caption": { "classes": "text-xs font-barlow text-[var(--muted)]" }
+  },
+  "colorTokens": {
+    "cssFile": "src/index.css",
+    "figmaToCss": {
+      "Primary/500": { "css": "--color-gold / --gold", "value": "#E5CC7A" },
+      "Primary/300": { "value": "#F7EFD6", "usage": "Room card titles" },
+      "Primary/600": { "value": "#CEB86E", "usage": "Borders rgba(206,184,110,0.2)" },
+      "Neutral/black": { "value": "#1C1C1C", "usage": "CTA text, app bg" },
+      "Neutral/Grey": { "value": "#CFCFCF", "usage": "Section headings" },
+      "Semantic/Success/700": { "value": "#307D24", "usage": "Easy difficulty" },
+      "Semantic/Error/700": { "value": "#AD1414", "usage": "Hard difficulty" }
+    }
+  },
+  "componentMappings": [
+    {
+      "figma": { "name": "Navbar", "nodeId": "1344:781", "page": "Components" },
+      "code": {
+        "component": "Header",
+        "file": "src/components/header/Header.tsx",
+        "styles": "src/components/header/header.module.scss",
+        "import": "import Header from '../components/header/Header'"
+      }
+    },
+    {
+      "figma": { "name": "Buttons", "componentSetNodeId": "249:26", "page": "Components" },
+      "code": {
+        "primaryCtaPattern": "inline <button> with gradient",
+        "examples": [
+          "src/components/readyToPlay/platformCard.tsx (Start Game)",
+          "src/helpers/PlayModal.tsx (text2 button)"
+        ],
+        "navButton": {
+          "component": "NavButton",
+          "file": "src/helpers/buttons.tsx"
+        },
+        "variantMap": {
+          "Shape=Filled, Type=Primary, Size=L": "gradient button max-w-[382px] h-16 rounded-[90px]",
+          "Shape=Outline": "border border-[#CEB86E33] bg-transparent",
+          "Shape=Text": "text link style — NavButton or plain button"
+        }
+      }
+    },
+    {
+      "figma": { "name": "Google Button", "nodeId": "1377:14202" },
+      "code": {
+        "file": "src/helpers/Modal.tsx",
+        "notes": "Google OAuth via getApiUrl('/auth/google') in SignInModal/SignUpModal"
+      }
+    },
+    {
+      "figma": { "name": "Chips", "nodeId": "1742:1477" },
+      "code": {
+        "file": "src/components/readyToPlay/ReadyToPlay.tsx",
+        "notes": "vs Platform / vs Live Player pill toggle — lines 44-78"
+      }
+    },
+    {
+      "figma": { "name": "Component 9", "notes": "Difficulty row Easy/Medium/Hard" },
+      "code": {
+        "current": "src/components/readyToPlay/platformCard.tsx (3-column grid, should become vertical stack per Figma)",
+        "levels": {
+          "Easy": { "title": "#307D24", "bg": "bg-[#7FC4741A]", "subtitle": "Beginner friendly" },
+          "Medium": { "title": "#B7A362", "bg": "bg-[#B7A3621A]", "subtitle": "Balanced challenge" },
+          "Hard": { "title": "#AD1414", "bg": "bg-[#AD14141A]", "subtitle": "Expert level" }
+        },
+        "type": "BotLevel in src/types/gameType.ts"
+      }
+    },
+    {
+      "figma": { "name": "Sign In / Pop Up", "nodeId": "1183:1988" },
+      "code": {
+        "modal": "src/components/modal/SignInModal.tsx",
+        "shell": "src/helpers/Modal.tsx",
+        "wiredIn": "src/layouts/Layout.tsx activeModal === 'signin'"
+      }
+    },
+    {
+      "figma": { "name": "Sign Up / Pop Up", "nodeId": "1183:1695" },
+      "code": {
+        "modal": "src/components/modal/SignUpModal.tsx",
+        "shell": "src/helpers/Modal.tsx"
+      }
+    },
+    {
+      "figma": { "name": "Forgot password / Pop Up", "nodeId": "1183:2145" },
+      "code": {
+        "modal": "src/components/modal/PasswordModal.tsx",
+        "layout": "Layout activeModal === 'reset'"
+      }
+    },
+    {
+      "figma": { "name": "Frame 81 / Ready To Play", "nodeId": "3736:8866" },
+      "code": {
+        "featureRoot": "src/components/readyToPlay/ReadyToPlay.tsx",
+        "page": "src/pages/PlayPage/page.tsx"
+      }
+    },
+    {
+      "figma": { "name": "NotificationBell", "notes": "In-app notifications" },
+      "code": {
+        "file": "src/components/notification/NotificationBell.tsx",
+        "api": "src/api/notificationApi.ts"
+      }
+    },
+    {
+      "figma": { "name": "Input fields", "notes": "Auth forms" },
+      "code": {
+        "file": "src/helpers/InputField.tsx",
+        "password": "src/helpers/PasswordField.tsx"
+      }
+    },
+    {
+      "figma": { "name": "Play modal shell", "notes": "Difficulty / room overlays" },
+      "code": {
+        "file": "src/helpers/PlayModal.tsx"
+      }
+    },
+    {
+      "figma": { "name": "Room cards (live play)", "notes": "Create/Join room" },
+      "code": {
+        "file": "src/components/readyToPlay/roomCard.tsx",
+        "parent": "src/components/readyToPlay/player.tsx"
+      }
+    }
+  ]
+}

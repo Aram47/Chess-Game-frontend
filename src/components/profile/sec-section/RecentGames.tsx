@@ -1,25 +1,40 @@
+import { useMemo } from "react";
+import { Link } from "react-router-dom";
 import { SectionWrapper } from "../../../helpers/sectionWrapper";
 import gamesIcon from "../../../assets/icons/profile/games.svg";
-import type { Game } from "../../../types/gameType";
+import type { GameSummary } from "../../../types/gameType";
+import { useAuth } from "../../../context/AuthContext";
+import {
+  mapRecentGameToSummary,
+  type RecentGameSnapshot,
+} from "../../../lib/profile/mapRecentGame";
 
 interface RecentGamesProps {
-  games: Game[];
+  games: RecentGameSnapshot[];
 }
+
 const RecentGames = ({ games }: RecentGamesProps) => {
+  const { user } = useAuth();
+
+  const summaries: GameSummary[] = useMemo(() => {
+    if (!user?.id || !games?.length) return [];
+    return games.map((g) => mapRecentGameToSummary(g, user.id));
+  }, [games, user?.id]);
+
   return (
     <SectionWrapper
       title="Recent Games"
-      extra={games.length > 0 ? "Your latest matches" : undefined}
-      games={games}
+      extra={summaries.length > 0 ? "Your latest matches" : undefined}
+      games={summaries}
     >
       <div className="flex flex-col justify-center">
-        {!games || games.length === 0 ? (
+        {summaries.length === 0 ? (
           <>
             <div className="flex flex-col items-center text-center font-barlow h-full">
-              <div className="bg-[#E5CC7A14] border-1 border-[#E5CC7A26] rounded-full p-2.5">
+              <div className="bg-[#E5CC7A14] border border-[#E5CC7A26] rounded-full p-2.5">
                 <img
                   src={gamesIcon}
-                  alt="games-icon"
+                  alt=""
                   className="w-[18px] h-[18px]"
                 />
               </div>
@@ -27,50 +42,50 @@ const RecentGames = ({ games }: RecentGamesProps) => {
                 <h2>No Recent Games Yet</h2>
                 <p className="text-[#888888] text-sm">
                   Your recent game history will appear here once you start
-                  playing.Jump into a match to get started!
+                  playing.
                 </p>
               </div>
             </div>
-            <button className="flex justify-center mx-auto mt-7 border-1 border-[#E5CC7A] py-2.5 px-6 rounded-[100px] cursor-pointer transition-all duration-500 hover:-translate-y-[5px] hover:bg-[rgba(229,204,122,0.3)]">
-              <span className="">Start a Game</span>
-            </button>
+            <Link
+              to="/play"
+              className="flex justify-center mx-auto mt-7 border border-[#E5CC7A] py-2.5 px-6 rounded-[100px] transition-all duration-500 hover:-translate-y-[5px] hover:bg-[rgba(229,204,122,0.3)] text-[#CFCFCF] text-sm"
+            >
+              Start a Game
+            </Link>
           </>
         ) : (
-          games.map((game, i) => (
+          summaries.map((game, i) => (
             <div
               key={i}
-              className="bg-[#232323] py-2.5 px-3 rounded-xl flex items-center justify-between"
+              className="bg-[#232323] py-2.5 px-3 rounded-xl flex items-center justify-between mb-2"
             >
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-[#E5CC7A] flex items-center justify-center text-[#1c1c1c] font-bold">
-                  {game.opponentName?.charAt(0).toUpperCase() || "U"}
+              <div className="flex items-center gap-3 min-w-0">
+                <div className="w-8 h-8 rounded-full bg-[#E5CC7A] flex items-center justify-center text-[#1c1c1c] font-bold shrink-0">
+                  {game.opponentName?.charAt(0).toUpperCase() || "?"}
                 </div>
-                <div>
-                  <p className="text-sm font-normal text-[#F7F7F7]">
-                    {game.opponentName || "Unknown"}
+                <div className="min-w-0">
+                  <p className="text-sm font-normal text-[#F7F7F7] truncate">
+                    {game.opponentName}
                   </p>
                   <p className="text-xs font-normal text-[#676767]">
-                    {game.elo ?? "----"} • {game.mode || "Blitz"}
+                    {game.mode}
+                    {game.time ? ` · ${game.time}` : ""}
                   </p>
                 </div>
               </div>
-              <div className="flex items-center gap-x-3">
-                <div>
-                  <span
-                    className={`text-[10px] px-2 py-1 rounded capitalize font-medium ${
-                      game.result === "win"
-                        ? "bg-[#7FC4741A] text-[#307D24]"
-                        : game.result === "loss"
-                          ? "bg-[#EF66661A] text-[#AD1414]"
-                          : "bg-[#6767671A] text-[#787878]"
-                    }`}
-                  >
-                    {game.result}
-                  </span>
-                  <div className="text-right">
-                    <p className="text-sm text-[#787878]">{game.moves} moves</p>
-                  </div>
-                </div>
+              <div className="flex items-center gap-x-3 shrink-0">
+                <span
+                  className={`text-[10px] px-2 py-1 rounded capitalize font-medium ${
+                    game.result === "win"
+                      ? "bg-[#7FC4741A] text-[#307D24]"
+                      : game.result === "loss"
+                        ? "bg-[#EF66661A] text-[#AD1414]"
+                        : "bg-[#6767671A] text-[#787878]"
+                  }`}
+                >
+                  {game.result}
+                </span>
+                <p className="text-sm text-[#787878]">{game.moves} moves</p>
               </div>
             </div>
           ))
