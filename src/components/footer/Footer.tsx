@@ -1,55 +1,62 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "../../hooks/useTranslation";
+import type { StringKey } from "../../constants/strings";
 import style from "./footer.module.scss";
 
-const footerData = [
+type FooterLink = { labelKey: StringKey; href: string };
+type FooterColumn = { titleKey: StringKey; links: FooterLink[] };
+
+const footerColumns: FooterColumn[] = [
   {
-    title: "Platform",
+    titleKey: "footer_platform",
     links: [
-      { label: "Play Online", href: "/play" },
-      { label: "Tournaments", href: "/tournaments" },
-      { label: "Puzzles", href: "/puzzles" },
-      { label: "Analysis Board", href: "/analysis" },
+      { labelKey: "footer_play_online", href: "/play" },
+      { labelKey: "footer_tournaments", href: "/tournaments" },
+      { labelKey: "footer_puzzles", href: "/puzzles" },
+      { labelKey: "footer_analysis_board", href: "/analysis" },
     ],
   },
   {
-    title: "Learn",
+    titleKey: "footer_learn",
     links: [
-      { label: "Video Library", href: "/learn/videos" },
-      { label: "Articles", href: "/learn/articles" },
-      { label: "Opening Database", href: "/learn/openings" },
+      { labelKey: "footer_video_library", href: "/learn/videos" },
+      { labelKey: "footer_articles", href: "/learn/articles" },
+      { labelKey: "footer_opening_db", href: "/learn/openings" },
     ],
   },
   {
-    title: "Community",
+    titleKey: "footer_community",
     links: [
-      { label: "Forums", href: "/community/forums" },
-      { label: "Clubs", href: "/community/clubs" },
-      { label: "Events", href: "/community/events" },
-      { label: "Blog", href: "/community/blog" },
+      { labelKey: "footer_forums", href: "/community/forums" },
+      { labelKey: "footer_clubs", href: "/community/clubs" },
+      { labelKey: "footer_events", href: "/community/events" },
+      { labelKey: "footer_blog", href: "/community/blog" },
     ],
   },
   {
-    title: "Company",
+    titleKey: "footer_company",
     links: [
-      { label: "About Us", href: "/company/about" },
-      { label: "Careers", href: "/company/careers" },
-      { label: "Support", href: "/company/support" },
-      { label: "Contact", href: "/company/contact" },
+      { labelKey: "footer_about_us", href: "/company/about" },
+      { labelKey: "footer_careers", href: "/company/careers" },
+      { labelKey: "footer_support", href: "/company/support" },
+      { labelKey: "footer_contact", href: "/company/contact" },
     ],
   },
 ];
 
 export const Footer = () => {
+  const { t } = useTranslation();
+
   return (
     <footer className={style.footer}>
       <div className={style.footer_columns}>
-        {footerData.map((col) => (
-          <div key={col.title} className={style.footer_column}>
-            <h3 className={style.footer_column_title}>{col.title}</h3>
+        {footerColumns.map((col) => (
+          <div key={col.titleKey} className={style.footer_column}>
+            <h3 className={style.footer_column_title}>{t(col.titleKey)}</h3>
             <ul className={style.footer_column_links}>
               {col.links.map((link) => (
                 <li key={link.href}>
-                  <Link to={link.href}>{link.label}</Link>
+                  <Link to={link.href}>{t(link.labelKey)}</Link>
                 </li>
               ))}
             </ul>
@@ -59,11 +66,11 @@ export const Footer = () => {
 
       <div className={style.footer_bottom}>
         <p>
-          © 2026 ChessMaster Pro. All rights reserved.
+          {t("footer_copyright")}
           <span className={style.footer_bottom_divider}>|</span>
-          <a href="/terms">Terms of Service</a>
+          <a href="/terms">{t("footer_terms")}</a>
           <span className={style.footer_bottom_divider}>|</span>
-          <a href="/privacy">Privacy Policy</a>
+          <a href="/privacy">{t("footer_privacy")}</a>
         </p>
       </div>
     </footer>

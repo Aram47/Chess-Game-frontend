@@ -1,6 +1,8 @@
 import { Loader2 } from "lucide-react";
 import type { ProfileStats } from "../../../types/profile";
 import type { CompletedProblemsStats } from "../../../api/snapshot";
+import { useTranslation } from "../../../hooks/useTranslation";
+import type { StringKey } from "../../../constants/strings";
 
 interface ResultsProps {
   stats: ProfileStats;
@@ -9,6 +11,8 @@ interface ResultsProps {
 }
 
 const Results = ({ stats, problemStats, problemsLoading }: ResultsProps) => {
+  const { t } = useTranslation();
+
   const formatData = (gameStats: ProfileStats, puzzles?: CompletedProblemsStats) => {
     const totalGames =
       gameStats.wins + gameStats.losses + gameStats.draws || 0;
@@ -24,24 +28,27 @@ const Results = ({ stats, problemStats, problemsLoading }: ResultsProps) => {
     return [
       {
         id: 1,
-        title: "Match Results",
+        titleKey: "match_results" as StringKey,
         total: totalGames,
-        totalLabel: "Total Games",
+        totalLabelKey: "total_games" as StringKey,
         stats: [
           {
-            label: "Wins",
+            labelKey: "wins" as StringKey,
+            statKey: "wins",
             count: gameStats.wins,
             percentage: getPercent(gameStats.wins, totalGames),
             color: "#307D24",
           },
           {
-            label: "Losses",
+            labelKey: "losses" as StringKey,
+            statKey: "losses",
             count: gameStats.losses,
             percentage: getPercent(gameStats.losses, totalGames),
             color: "#AD1414",
           },
           {
-            label: "Draws",
+            labelKey: "draws" as StringKey,
+            statKey: "draws",
             count: gameStats.draws,
             percentage: getPercent(gameStats.draws, totalGames),
             color: "#676767",
@@ -50,24 +57,27 @@ const Results = ({ stats, problemStats, problemsLoading }: ResultsProps) => {
       },
       {
         id: 2,
-        title: "Problems Solved",
+        titleKey: "problems_solved" as StringKey,
         total: puzzleTotal,
-        totalLabel: "Total Solved",
+        totalLabelKey: "total_solved" as StringKey,
         stats: [
           {
-            label: "Easy",
+            labelKey: "easy" as StringKey,
+            statKey: "easy",
             count: easy,
             percentage: getPercent(easy, puzzleTotal),
             color: "#307D24",
           },
           {
-            label: "Medium",
+            labelKey: "medium" as StringKey,
+            statKey: "medium",
             count: medium,
             percentage: getPercent(medium, puzzleTotal),
             color: "#B7A362",
           },
           {
-            label: "Hard",
+            labelKey: "hard" as StringKey,
+            statKey: "hard",
             count: hard,
             percentage: getPercent(hard, puzzleTotal),
             color: "#AD1414",
@@ -84,13 +94,13 @@ const Results = ({ stats, problemStats, problemsLoading }: ResultsProps) => {
       {problemsLoading && (
         <div className="flex items-center gap-2 text-[#A39589] text-sm mb-2">
           <Loader2 className="h-4 w-4 animate-spin" />
-          Updating puzzle stats…
+          {t("updating_puzzle_stats")}
         </div>
       )}
       {dynamicData.map((section, index) => (
         <div key={section.id} className="flex flex-col gap-y-8">
           <h2 className="text-lg font-semibold text-[#F0EDE8]">
-            {section.title}
+            {t(section.titleKey)}
           </h2>
           <div className="flex gap-x-12 items-center py-4">
             <div className="relative w-[160px] h-[160px] flex items-center justify-center shrink-0">
@@ -109,7 +119,7 @@ const Results = ({ stats, problemStats, problemsLoading }: ResultsProps) => {
                   {section.total}
                 </h2>
                 <p className="text-[10px] text-gray-500 uppercase tracking-wider mt-1">
-                  {section.totalLabel}
+                  {t(section.totalLabelKey)}
                 </p>
               </div>
             </div>
@@ -122,15 +132,15 @@ const Results = ({ stats, problemStats, problemsLoading }: ResultsProps) => {
                       style={{ backgroundColor: stat.color }}
                     />
                     <span className="text-sm font-medium text-gray-300">
-                      {stat.label}
+                      {t(stat.labelKey)}
                     </span>
                   </div>
                   <div className="flex items-baseline gap-x-2">
                     <span
                       className={`${
-                        ["Easy", "Medium", "Hard"].includes(stat.label)
+                        ["easy", "medium", "hard"].includes(stat.statKey)
                           ? "text-[#307D24]"
-                          : stat.label === "Losses"
+                          : stat.statKey === "losses"
                             ? "text-[#AD1414]"
                             : "text-[#787878]"
                       } text-md font-semibold`}

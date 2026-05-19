@@ -11,8 +11,10 @@ import LeftColumn from "../../components/analyze/containers/LeftColumn";
 import leftIcon from "../../assets/icons/analyze/left.svg";
 import NotPlayed from "../../components/analyze/NotPlayed";
 import ChessAnalysisHero from "../../components/analyze/FirstAnalyzePage";
+import { useTranslation } from "../../hooks/useTranslation";
 
 const AnalysisContent = () => {
+  const { t } = useTranslation();
   const { setGames, games, selectedGameId, setSelectedGameId } =
     useChessAnalysis();
 
@@ -35,7 +37,7 @@ const AnalysisContent = () => {
   if (isLoading)
     return (
       <div className="text-[#E5CC7A] p-20 text-center font-barlow text-2xl">
-        Loading History...
+        {t("loading_history")}
       </div>
     );
 
@@ -59,6 +61,7 @@ const AnalysisContent = () => {
 };
 
 export const ChessAnalysisUI = () => {
+  const { t } = useTranslation();
   const { user } = useAuth();
 
   return (
@@ -69,7 +72,7 @@ export const ChessAnalysisUI = () => {
         <section className="w-full flex flex-col grow pt-[100px] pb-16 bg-[#1b1a17]">
           <header className="w-full text-center mb-8">
             <h1 className="text-6xl text-gold font-playfair font-black">
-              Game Analysis
+              {t("game_analysis")}
             </h1>
           </header>
           <div className="px-8 mb-8">

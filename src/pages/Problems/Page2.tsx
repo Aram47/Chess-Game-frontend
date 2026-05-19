@@ -11,11 +11,13 @@ import {
 } from "../../types/problemType";
 import type { GetProblemsParams } from "../../types/problems";
 import { useProblemsQuery } from "../../hooks/useProblemsHistory";
+import { useTranslation } from "../../hooks/useTranslation";
 import type { ChessProblem } from "../../types/problems";
 
 import "../../assets/css/style.scss";
 
 const ProblemsPage: React.FC = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [themeFilter, setThemeFilter] = useState<ProblemTheme | "All">("All");
   const [diffFilter, setDiffFilter] = useState<"All" | Difficulty>("All");
@@ -46,7 +48,7 @@ const ProblemsPage: React.FC = () => {
     <section className="min-h-screen text-[#e8e2d0] px-6 py-8 font-barlow">
       <header className="text-center mb-6">
         <h1 className="text-[clamp(2.5rem,6vw,3.5rem)] tracking-[0.02em] text-[#E5CC7A]">
-          Problems
+          {t("problems_title")}
         </h1>
       </header>
 
@@ -69,13 +71,13 @@ const ProblemsPage: React.FC = () => {
 
         {isError && !isLoading && (
           <div className="col-span-full flex flex-col items-center gap-3 py-12 text-center">
-            <p className="text-[#A39589]">Could not load puzzles.</p>
+            <p className="text-[#A39589]">{t("could_not_load_puzzles")}</p>
             <button
               type="button"
               onClick={() => void refetch()}
               className="rounded-full border border-[#CEB86E] px-6 py-2 text-sm text-[#E5CC7A] hover:bg-[#E5CC7A1A]"
             >
-              Retry
+              {t("retry")}
             </button>
           </div>
         )}
@@ -92,15 +94,17 @@ const ProblemsPage: React.FC = () => {
 
         {!isLoading && !isError && filteredProblems.length === 0 && (
           <p className="col-span-full text-center text-[#8a8478] mt-3 text-[15px]">
-            No problems match your filters.
+            {t("no_problems_match")}
           </p>
         )}
       </section>
 
       {!isLoading && !isError && filteredProblems.length > 0 && (
         <div className="col-span-full text-center text-[#8a8478] mt-3 text-[15px]">
-          Showing {filteredProblems.length}
-          {data?.total != null ? ` of ${data.total}` : ""} problems
+          {t("showing_problems", {
+            shown: filteredProblems.length,
+            total: data?.total ?? filteredProblems.length,
+          })}
         </div>
       )}
     </section>

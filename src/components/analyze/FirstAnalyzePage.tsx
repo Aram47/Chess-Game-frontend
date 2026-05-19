@@ -3,15 +3,16 @@ import { Link } from "react-router-dom";
 import { Chessboard } from "react-chessboard";
 import { figurePieces } from "../../helpers/chess-figures/FiguresChess";
 import SignInModal from "../modal/SignInModal";
+import { useTranslation } from "../../hooks/useTranslation";
 import { BOARD_THEMES, type BoardTheme } from "../game/board-theme/boardThemes";
 
 import "../../assets/css/style.scss";
 
-/** Marketing preview — starting position only; analysis requires sign-in. */
 const PREVIEW_FEN =
   "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 
 export default function ChessAnalysisHero() {
+  const { t } = useTranslation();
   const [activeModal, setActiveModal] = useState(false);
   const [boardTheme] = useState<BoardTheme>(BOARD_THEMES[0]);
   const theme = boardTheme;
@@ -39,30 +40,29 @@ export default function ChessAnalysisHero() {
             />
           </div>
           <p className="text-center text-[#7a7060] text-xs mt-4">
-            Sign in to analyze your real games with the engine.
+            {t("sign_in_to_analyze")}
           </p>
         </div>
       </div>
 
       <div className="w-full text-center lg:text-end order-1 lg:order-2">
         <h1 className="text-[clamp(40px,5vw,60px)] font-barlow font-bold text-[#f0ead8] leading-[1.1] mb-6 tracking-tight">
-          <span className="text-[#E5CC7A]">Analyze</span> Your Games
+          {t("analyze_your_games")}
         </h1>
         <p className="text-[#7a7468] text-xl leading-relaxed mb-10 font-barlow">
-          Deep dive into your games with AI-powered analysis. Review your saved
-          games, step through moves, and get engine suggestions on each position.
+          {t("analyze_subtitle")}
         </p>
         <button
           type="button"
           className="bg-[#E5CC7A] text-[#1a1810] rounded-full px-10 py-4 text-base font-barlow font-bold tracking-wide shadow-[0_8px_32px_rgba(229,204,122,0.25)] hover:scale-[1.03] transition-all duration-200 cursor-pointer border-none"
           onClick={() => setActiveModal(true)}
         >
-          Start Analyzing
+          {t("start_analyzing")}
         </button>
         <p className="mt-4 text-sm text-[#A39589]">
-          Already have an account?{" "}
+          {t("already_have_account")}
           <Link to="/play" className="text-[#E5CC7A] underline">
-            Play a game first
+            {t("already_have_account_play").replace(t("already_have_account"), "").trim()}
           </Link>
         </p>
       </div>

@@ -1,50 +1,55 @@
-export const toolsData = [
+import type { StringKey } from "../constants/strings";
+
+export type ToolItem = {
+  icon: string;
+  titleKey: StringKey;
+  descriptionKey: StringKey;
+  linkKeys: StringKey[];
+};
+
+export const toolsData: ToolItem[] = [
   {
     icon: "♟️",
-    title: "Play Games",
-    description:
-      "Challenge opponents from around the world or sharpen your skills against our advanced AI.",
-    links: [
-      "Play against AI Bot",
-      "Real-time multiplayer",
-      "Join tournaments",
-      "Ranked & casual modes",
+    titleKey: "tool_play_games",
+    descriptionKey: "tool_play_desc",
+    linkKeys: [
+      "tool_play_link_1",
+      "tool_play_link_2",
+      "tool_play_link_3",
+      "tool_play_link_4",
     ],
   },
   {
     icon: "🧩",
-    title: "Solve Problems",
-    description:
-      "Master tactical patterns and strategic concepts with thousands of curated puzzles.",
-    links: [
-      "Browse by category",
-      "Theme-based puzzles",
-      "Daily challenges",
-      "Difficulty levels",
+    titleKey: "tool_solve_problems",
+    descriptionKey: "tool_solve_desc",
+    linkKeys: [
+      "tool_solve_link_1",
+      "tool_solve_link_2",
+      "tool_solve_link_3",
+      "tool_solve_link_4",
     ],
   },
   {
     icon: "📊",
-    title: "Analyze Games",
-    description:
-      "Deep dive into your games with powerful AI analysis and identify areas for improvement.",
-    links: [
-      "Computer analysis",
-      "Move-by-move breakdown",
-      "Mistake detection",
-      "Opening explorer",
+    titleKey: "tool_analyze_games",
+    descriptionKey: "tool_analyze_desc",
+    linkKeys: [
+      "tool_analyze_link_1",
+      "tool_analyze_link_2",
+      "tool_analyze_link_3",
+      "tool_analyze_link_4",
     ],
   },
   {
     icon: "🎓",
-    title: "Online Classes",
-    description:
-      "Learn from grandmasters and certified instructors through live interactive sessions.",
-    links: [
-      "Live instruction",
-      "Video tutorials",
-      "Skill-based curriculum",
-      "Certificate programs",
+    titleKey: "tool_online_classes",
+    descriptionKey: "tool_classes_desc",
+    linkKeys: [
+      "tool_classes_link_1",
+      "tool_classes_link_2",
+      "tool_classes_link_3",
+      "tool_classes_link_4",
     ],
   },
 ];

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
+import { useTranslation } from "../../hooks/useTranslation";
 import Modal from "../../helpers/Modal";
 import type { IFormData } from "../../types/authType";
 import { getApiUrl } from "../../api/clients";
@@ -11,6 +12,7 @@ interface ISignUp {
 
 export default function SignUpModal({ onClose, onSwitchToLogin }: ISignUp) {
   const { login, register } = useAuth();
+  const { t } = useTranslation();
 
   const [formData, setFormData] = useState<IFormData>({
     name: "",
@@ -29,7 +31,7 @@ export default function SignUpModal({ onClose, onSwitchToLogin }: ISignUp) {
     const success = await register(payload);
 
     if (success) {
-      alert("Registration successful! Please sign in.");
+      alert(t("registration_success"));
       await login({
         login: formData.email,
         password: formData.password,
@@ -49,11 +51,11 @@ export default function SignUpModal({ onClose, onSwitchToLogin }: ISignUp) {
       formData={formData}
       setFormData={setFormData}
       isRegister={true}
-      text1="Join ChessMaster"
-      subtitle="Create an account to start mastering chess"
-      text2="Create Account"
-      text3="Sign In"
-      text4="Google"
+      text1={t("join_chessmaster")}
+      subtitle={t("create_account_subtitle")}
+      text2={t("create_account")}
+      text3={t("header_signin")}
+      text4={t("google")}
       handleGoogle={handleGoogleLogin}
     />
   );

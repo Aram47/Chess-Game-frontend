@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import { useTranslation } from "../../hooks/useTranslation";
+import type { UiLang } from "../../constants/strings";
 // import SettingsModal from "../settings/SettingsHistory";
 import usaIcon from "../../assets/icons/flags/usaFlag.svg";
 import rusIcon from "../../assets/icons/flags/rusFlag.svg";
@@ -28,24 +30,26 @@ const Header = ({
   const location = useLocation();
   const isHomePage = location.pathname === "/";
   const [showFlag, setShowFlag] = useState(false);
+  const { t, lang, setLang } = useTranslation();
 
-  const flags = [
+  const flags: { id: UiLang; icon: string; alt: string }[] = [
     { id: "en", icon: usaIcon, alt: "usa flag" },
     { id: "ru", icon: rusIcon, alt: "rus flag" },
     { id: "am", icon: armIcon, alt: "arm flag" },
   ];
 
-  const [activeFlag, setActiveFlag] = useState(flags[0]);
+  const activeFlag = flags.find((f) => f.id === lang) ?? flags[0];
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const handleFlagClick = (flag: (typeof flags)[0]) => {
-    setActiveFlag(flag);
-    setShowFlag(!showFlag);
+    setLang(flag.id);
+    setShowFlag(false);
   };
 
   return (
     <>
       <header
+        data-lang={lang}
         data-modal-open={isSettingsOpen ? "true" : "false"}
         className={`
             ${style.cm_container} transition-shadow duration-300
@@ -55,23 +59,23 @@ const Header = ({
         <div className={style.cm_header}>
           <div className={style.cm_left}>
             <span className={style.cm_logo} onClick={() => navigate("/")}>
-              ChessMaster
+              {t("app_name")}
             </span>
           </div>
           <nav className={style.cm_nav}>
             <ul className={style.cm_links}>
               <li>
-                <NavLink to="/play">Play</NavLink>
+                <NavLink to="/play">{t("nav_play")}</NavLink>
               </li>
               <li>
-                <NavLink to="/problems">Problems</NavLink>
+                <NavLink to="/problems">{t("nav_problems")}</NavLink>
               </li>
               <li>
-                <NavLink to="/analyze">Analyze</NavLink>
+                <NavLink to="/analyze">{t("nav_analyze")}</NavLink>
               </li>
 
               <li>
-                <NavLink to="/about">About</NavLink>
+                <NavLink to="/about">{t("nav_about")}</NavLink>
               </li>
             </ul>
           </nav>
@@ -102,12 +106,12 @@ const Header = ({
             {user ? (
               <div className={style.cm_user_profile}>
                 <NotificationBell isLoggedIn={!!user} />
-                <span>Nickname</span>
+                <span>{t("header_nickname")}</span>
                 <button
                   className={style.cm_btn}
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                 >
-                  {user.username.charAt(0) || "User"}
+                  {user.username?.charAt(0) || t("header_user")}{" "}
                 </button>
 
                 {isDropdownOpen && (
@@ -117,7 +121,7 @@ const Header = ({
                       onClick={() => setIsDropdownOpen(false)}
                     >
                       <img src={userIcon} alt="userIcon" />
-                      <span>Profile</span>
+                      <span>{t("header_profile")}</span>
                     </Link>
 
                     <button
@@ -127,7 +131,7 @@ const Header = ({
                       }}
                     >
                       <img src={settingsIcon} alt="settings" />
-                      <span>Settings</span>
+                      <span>{t("header_settings")}</span>
                     </button>
                     <div className="h-[1px] w-full bg-[#E5CC7A1A] my-2"></div>
                     <button onClick={logout} className={style.logout}>
@@ -136,7 +140,7 @@ const Header = ({
                         alt="logout"
                         className={style.logoutIcon}
                       />
-                      <span>Log Out</span>
+                      <span>{t("header_logout")}</span>
                     </button>
                   </div>
                 )}
@@ -147,13 +151,13 @@ const Header = ({
                   className={style.cm_signup}
                   onClick={() => setActiveModal("signup")}
                 >
-                  Sign up
+                  {t("header_signup")}
                 </button>
                 <button
                   className={style.cm_signin}
                   onClick={() => setActiveModal("signin")}
                 >
-                  Sign In
+                  {t("header_signin")}
                 </button>
               </div>
             )}

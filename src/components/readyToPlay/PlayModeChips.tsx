@@ -1,5 +1,6 @@
 import monitor from "../../assets/icons/play/platform.svg";
 import user from "../../assets/icons/play/player.svg";
+import { useTranslation } from "../../hooks/useTranslation";
 
 export type PlayMode = "platform" | "live";
 
@@ -17,6 +18,8 @@ export function PlayModeChips({
   onPlatformClick,
   onLiveClick,
 }: PlayModeChipsProps) {
+  const { t } = useTranslation();
+
   return (
     <div
       className="inline-flex bg-[rgba(255,255,255,0.05)] border border-[rgba(206,184,110,0.2)] rounded-full gap-2 p-1.5"
@@ -37,7 +40,7 @@ export function PlayModeChips({
         <span className="rounded-[5px] w-6 h-6 flex items-center justify-center bg-[#E5CC7A33]">
           <img src={monitor} alt="" className="w-4 h-3.5" aria-hidden />
         </span>
-        vs Platform
+        {t("vs_platform")}
       </button>
 
       <button
@@ -62,7 +65,7 @@ export function PlayModeChips({
             }}
           />
         </span>
-        vs Live Player
+        {t("vs_live_player")}
       </button>
     </div>
   );

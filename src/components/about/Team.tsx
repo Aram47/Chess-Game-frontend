@@ -3,105 +3,83 @@ import Tigran from "../../assets/icons/about/Tigran.png";
 import Arthur from "../../assets/icons/about/Arthur.jpg";
 import Sona from "../../assets/icons/about/Sona.png";
 import Nver from "../../assets/icons/about/Nver.png";
+import { useTranslation } from "../../hooks/useTranslation";
+import type { StringKey } from "../../constants/strings";
 
 const Team = () => {
-  const team = [
+  const { t } = useTranslation();
+
+  const team: {
+    name: string;
+    roleKey: StringKey;
+    bioKey: StringKey;
+    img: string;
+  }[] = [
     {
       name: "Nver Stepanyan",
-      role: "Founder",
-      bio: "Chess professional based on 32 years of experience, creating innovative training platform that helps players at all levels.",
+      roleKey: "team_role_founder",
+      bioKey: "team_bio_nver",
       img: Nver,
     },
     {
       name: "Aram Minasyan",
-      role: "Software engineer",
-      bio: "Leads the technical architecture and product development of ChessMaster platform.",
+      roleKey: "team_role_software_engineer",
+      bioKey: "team_bio_aram",
       img: Aram,
     },
     {
       name: "Tigran Yavroyan",
-      role: "Software developer",
-      bio: "Expert software developer specializing in backend systems and AI integration.",
+      roleKey: "team_role_software_developer",
+      bioKey: "team_bio_tigran",
       img: Tigran,
     },
     {
       name: "Arthur Baghdanyan",
-      role: "Front End Developer",
-      bio: "Frontend specialist crafting beautiful and responsive user interfaces.",
+      roleKey: "team_role_front_end_developer",
+      bioKey: "team_bio_arthur",
       img: Arthur,
     },
     {
       name: "Sona Gevorgyan",
-      role: "Product Designer",
-      bio: "UX/UI specialist focused on creating intuitive learning experiences for chess players of all levels.",
+      roleKey: "team_role_product_designer",
+      bioKey: "team_bio_sona",
       img: Sona,
     },
   ];
+
+  const renderMember = (member: (typeof team)[0], idx: number) => (
+    <div
+      key={idx}
+      className="max-w-[250px] w-full bg-white/[0.03] backdrop-blur-md border border-[#FFFFFF0D] rounded-[20px] p-6 text-center flex flex-col gap-y-2 items-center"
+    >
+      <img
+        src={member.img}
+        alt={member.name}
+        className="w-20 h-20 bg-white/5 border-none object-cover rounded-full overflow-hidden"
+        style={idx === 0 ? { objectPosition: "0 -3px" } : undefined}
+      />
+      <div>
+        <h3 className="font-medium text-[#E5CC7A] text-xl">{member.name}</h3>
+        <p className="text-sm text-[#A39589] capitalize tracking-wider">
+          {t(member.roleKey)}
+        </p>
+      </div>
+      <p className="text-sm text-[#A39589] leading-relaxed">
+        {t(member.bioKey)}
+      </p>
+    </div>
+  );
+
   return (
     <section className="mb-16">
       <h2 className="text-3xl font-medium text-[#E5CC7A] text-center mb-5.5">
-        Meet Our Team
+        {t("meet_our_team")}
       </h2>
       <div className="flex justify-center w-full">
-        {team.slice(0, 1).map((member, idx) => (
-          <div
-            key={idx}
-            className="max-w-[250px] bg-white/[0.03] backdrop-blur-md border border-[#FFFFFF0D] rounded-[20px] p-6 text-center flex flex-col gap-y-2 items-center"
-          >
-            <img
-              src={member.img}
-              alt={member.name}
-              className="w-20 h-20 bg-white/5 border-none object-cover rounded-full overflow-hidden"
-              style={{ objectPosition: "0 -3px" }}
-            />
-            <div>
-              <h3 className="font-medium text-[#E5CC7A] text-xl">
-                {member.name}
-              </h3>
-              <p className="text-sm text-[#A39589] capitalize tracking-wider">
-                {member.role}
-              </p>
-            </div>
-            <p className="text-sm text-[#A39589] leading-relaxed">
-              {member.bio}
-            </p>
-          </div>
-        ))}
+        {team.slice(0, 1).map((member, idx) => renderMember(member, idx))}
       </div>
       <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-        {team.slice(1).map((member, idx) => (
-          <div
-            key={idx}
-            className="max-w-[250px] w-full bg-white/[0.03] backdrop-blur-md border border-[#FFFFFF0D] rounded-[20px] p-6 text-center flex flex-col gap-y-2 items-center"
-          >
-            {/* Placeholder for "AB" style circle if no image exists */}
-            {member.img ? (
-              <img
-                src={member.img}
-                alt={member.name}
-                className="w-20 h-20 bg-white/5 border-none object-cover rounded-full overflow-hidden"
-              />
-            ) : (
-              <div className="w-20 h-20 bg-[#E5CC7A] rounded-full flex items-center justify-center text-[#1a1a1a] font-bold text-xl">
-                {member.name
-                  .split(" ")
-                  .map((n) => n[0])
-                  .join("")}
-              </div>
-            )}
-            <div>
-              <h3 className="font-medium text-[#E5CC7A] text-xl">
-                {member.name}
-              </h3>
-              <p className="text-sm text-[#A39589] capitalize tracking-wider">
-                {member.role}
-              </p>
-            </div>
-            <p className="text-sm text-[#A39589] leading-relaxed">
-              {member.bio}
-            </p>
-          </div>
-        ))}
+        {team.slice(1).map((member, idx) => renderMember(member, idx))}
       </div>
     </section>
   );

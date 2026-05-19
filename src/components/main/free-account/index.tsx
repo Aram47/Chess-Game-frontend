@@ -1,17 +1,17 @@
-import style from "./style.module.scss"
+import { useTranslation } from "../../../hooks/useTranslation";
+import style from "./style.module.scss";
 
 const FreeAccount = () => {
+  const { t } = useTranslation();
+
   return (
     <div className={style.account}>
       <div className={style.account_title}>
-        <h2>Ready to Begin Your Journey?</h2>
-        <p>
-          Join thousands of players improving their game every day. Start your
-          chess mastery today.
-        </p>
+        <h2>{t("free_account_title")}</h2>
+        <p>{t("free_account_subtitle")}</p>
       </div>
 
-      <button className={style.account_button}>Create Free Account</button>
+      <button className={style.account_button}>{t("create_free_account")}</button>
     </div>
   );
 };

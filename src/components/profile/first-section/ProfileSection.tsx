@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { useProfile } from "../../../context/ProfileContext";
+import { useTranslation } from "../../../hooks/useTranslation";
 
 import camera from "../../../assets/icons/profile/camera.svg";
 import editIcon from "../../../assets/icons/profile/edit.svg";
 
 const ProfileSection = () => {
+  const { t } = useTranslation();
   const { profile, updateProfile } = useProfile();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -32,11 +34,11 @@ const ProfileSection = () => {
         {/* Real ELO from API */}
         <span className="text-[#B7A362]">{profile.elo}</span>
         <div className="gap-x-2 flex">
-          <span>ELO Rating</span>
+          <span>{t("elo_rating")}</span>
           <span>|</span>
           <div className="gap-x-1 flex items-baseline">
             <span className="text-[8px]">AM</span>
-            <span>Armenia</span>
+            <span>{t("armenia")}</span>
           </div>
         </div>
       </div>
@@ -45,7 +47,7 @@ const ProfileSection = () => {
         onClick={() => setIsModalOpen(true)}
         className="w-full py-2.5 bg-[#E5CC7A] text-[#1C1C1C] rounded-full font-semibold flex items-center justify-center gap-x-3 cursor-pointer hover:shadow-[0px_4px_20px_0px_#E5CC7A4D] hover:duration-700"
       >
-        <span>Edit Profile</span>
+        <span>{t("edit_profile")}</span>
         <img src={editIcon} alt="edit" />
       </button>
 
@@ -61,7 +63,7 @@ const ProfileSection = () => {
             {/* Header & Close Icon */}
             <div className="flex justify-between items-center mb-8">
               <h2 className="w-full pl-8 pb-6 text-2xl text-[#E5CC7A] font-medium border-b-1 border-b-[#E5CC7A1A]">
-                Edit Profile
+                {t("edit_profile")}
               </h2>
               <button
                 onClick={() => setIsModalOpen(false)}
@@ -81,7 +83,7 @@ const ProfileSection = () => {
                 </div>
               </div>
               <p className="text-sm text-[#A39589] mt-3">
-                Click the camera icon to upload a new photo
+                {t("upload_photo_hint")}
               </p>
             </div>
 
@@ -89,7 +91,7 @@ const ProfileSection = () => {
             <div className="space-y-5">
               <div>
                 <label className="text-sm text-[#F7F7F7] font-medium mb-2 block">
-                  Nickname
+                  {t("nickname_label")}
                 </label>
                 <input
                   value={formData.username}
@@ -97,13 +99,13 @@ const ProfileSection = () => {
                     setFormData({ ...formData, username: e.target.value })
                   }
                   className="w-full bg-[#1C1C1C] text-sm border border-[#333333] py-3 pl-4 rounded-xl text-[#A39589] placeholder:text-[#A39589] focus:border-[#B7A362] outline-none"
-                  placeholder="Choose a username"
+                  placeholder={t("placeholder_choose_username")}
                 />
               </div>
 
               <div>
                 <label className="text-sm text-[#F7F7F7] font-medium mb-2 block">
-                  Email
+                  {t("email_label")}
                 </label>
                 <input
                   value={formData.email}
@@ -111,17 +113,17 @@ const ProfileSection = () => {
                     setFormData({ ...formData, email: e.target.value })
                   }
                   className="w-full text-[#A39589] bg-[#181818] border border-[#333333] p-3.5 rounded-xl text-sm focus:border-[#B7A362] outline-none placeholder:text-[#A39589]"
-                  placeholder="your.email@example.com"
+                  placeholder={t("placeholder_email")}
                 />
               </div>
 
               <div>
                 <label className="text-sm text-[#F7F7F7] font-medium mb-2 block">
-                  Country
+                  {t("country_label")}
                 </label>
                 <input
                   className="w-full bg-[#181818] text-sm border border-[#333333] p-3.5 rounded-xl text-white focus:border-[#B7A362] outline-none placeholder:text-[#A39589]"
-                  placeholder="Choose a country"
+                  placeholder={t("placeholder_choose_country")}
                 />
               </div>
             </div>
@@ -132,13 +134,13 @@ const ProfileSection = () => {
                 onClick={() => setIsModalOpen(false)}
                 className="py-3 px-6 text-[#A39589] rounded-full hover:text-[#E5CC7A] hover:bg-[#2A2A2ACC] font-medium cursor-pointer transition-all duration-800 hover:-translate-y-1 hover:shadow-[0px_4px_20px_0px_#E5CC7A4D]"
               >
-                Cancel
+                {t("cancel")}
               </button>
               <button
                 onClick={handleSaveChanges}
                 className="py-3 px-6 bg-[linear-gradient(180deg,#E5CC7A_0%,#F4E09E_100%)] text-[#1C1C1C] rounded-full hover:bg-[#d6be6f] font-semibold text-sm cursor-pointer transition-all duration-800 hover:-translate-y-1 hover:shadow-[0px_4px_20px_0px_#E5CC7A4D]"
               >
-                Save changes
+                {t("save_changes")}
               </button>
             </div>
           </div>

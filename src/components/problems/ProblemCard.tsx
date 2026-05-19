@@ -2,6 +2,7 @@ import { useState, type CSSProperties } from "react";
 import { Chessboard } from "react-chessboard";
 import { figurePieces } from "../../helpers/chess-figures/FiguresChess";
 import type { ChessProblem } from "../../types/problems";
+import { useTranslation } from "../../hooks/useTranslation";
 import { DifficultyDots } from "./DifficultyDots";
 
 interface ProblemCardProps {
@@ -13,6 +14,7 @@ export const ProblemCard: React.FC<ProblemCardProps> = ({
   problem,
   onSolve,
 }) => {
+  const { t } = useTranslation();
   const squareStyles: Record<string, CSSProperties> = {};
   const [onHover, setOnHover] = useState(false);
 
@@ -73,7 +75,7 @@ export const ProblemCard: React.FC<ProblemCardProps> = ({
           transition-all duration-[180ms] ease-in-out hover:bg-[rgba(206,184,110,0.1)]
           hover:border-[rgba(206,184,110,0.65)]"
         >
-          Solve Problem
+          {t("solve_problem")}
         </button>
       </div>
     </div>

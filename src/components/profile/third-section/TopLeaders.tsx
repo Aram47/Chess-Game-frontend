@@ -2,8 +2,10 @@ import { Loader2 } from "lucide-react";
 import { SectionWrapper } from "../../../helpers/sectionWrapper";
 import { useProfile } from "../../../context/ProfileContext";
 import { buildEloLeaderboard } from "../../../lib/profile/buildEloLeaderboard";
+import { useTranslation } from "../../../hooks/useTranslation";
 
 const TopLeaders = () => {
+  const { t } = useTranslation();
   const { profile, friends, loading } = useProfile();
 
   if (loading || !profile) {
@@ -18,10 +20,10 @@ const TopLeaders = () => {
 
   return (
     <div className="w-full flex flex-1 items-center gap-x-8">
-      <SectionWrapper title="Top players by ELO">
+      <SectionWrapper title={t("top_players_elo")}>
         {leaderList.length === 0 ? (
           <p className="text-sm text-[#A39589] py-6 text-center">
-            Add friends to compare ratings.
+            {t("add_friends_compare")}
           </p>
         ) : (
           <div className="flex-1 flex flex-col gap-2">
@@ -40,7 +42,7 @@ const TopLeaders = () => {
                     <p className="text-sm font-bold truncate">{leader.name}</p>
                     <p className="text-[10px] text-gray-500 uppercase truncate">
                       @{leader.username}
-                      {leader.isCurrentUser ? " · You" : ""}
+                      {leader.isCurrentUser ? t("you_suffix") : ""}
                     </p>
                   </div>
                 </div>

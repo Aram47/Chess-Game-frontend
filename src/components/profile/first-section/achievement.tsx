@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { AchievementProps } from "../../../types/profileTypes";
 import locked from "../../../assets/icons/profile/profile/locked.svg";
+import { useTranslation } from "../../../hooks/useTranslation";
 
 const HoverItem = ({
   label,
@@ -11,6 +12,7 @@ const HoverItem = ({
   text?: string;
   unlocked: boolean;
 }) => {
+  const { t } = useTranslation();
   return (
     <div
       className={`absolute left-1/2 -translate-x-1/2 flex flex-col items-center px-2 py-2 w-[180px] border border-[#CEB86E66] rounded-xl shadow-2xl z-[100] pointer-events-none backdrop-blur-md transition-all duration-400 ease-out ${!unlocked ? "bg-[#1D1C16]  -top-[90px]" : "-top-[70px] bg-[#2A261D]"}`}
@@ -31,7 +33,7 @@ const HoverItem = ({
         {!unlocked && (
           <>
             <img src={locked} alt="" />
-            <span className="text-orange-400">Locked</span>
+            <span className="text-orange-400">{t("locked")}</span>
           </>
         )}
       </div>

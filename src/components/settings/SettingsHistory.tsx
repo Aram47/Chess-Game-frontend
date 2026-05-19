@@ -3,12 +3,14 @@ import Notifications from "./Notifications";
 import Security from "./Security";
 import Privacy from "./Privacy";
 import { NavButton } from "../../helpers/buttons";
+import { useTranslation } from "../../hooks/useTranslation";
 
 interface SettingsModalProps {
   onClose?: () => void;
 }
 
 const SettingsModal = ({ onClose }: SettingsModalProps) => {
+  const { t } = useTranslation();
   const [notifications, setNotifications] = useState({
     gameInvites: true,
     friendRequests: false,
@@ -42,7 +44,7 @@ const SettingsModal = ({ onClose }: SettingsModalProps) => {
           </button>
 
           <div className="text-2xl font-medium text-[#E5CC7A] boder-b-1 border-b-[#E5CC7A]">
-            <span className="pb-6">Settings</span>
+            <span className="pb-6">{t("settings_title")}</span>
           </div>
 
           {/* Password & Security */}
@@ -62,13 +64,13 @@ const SettingsModal = ({ onClose }: SettingsModalProps) => {
             <NavButton
               onClick={onClose}
               className="py-2.5 px-5 text-[#A39589] rounded-full hover:text-[#E5CC7A] hover:bg-[#2A2A2ACC] font-medium cursor-pointer transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0px_4px_20px_0px_#E5CC7A1A]"
-              text="Cancel"
+              text={t("cancel")}
             />
 
             <NavButton
               onClick={handleSave}
               className="py-2.5 px-5 bg-[linear-gradient(180deg,#E5CC7A_0%,#F4E09E_100%)] text-[#1C1C1C] rounded-full font-semibold text-sm cursor-pointer transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0px_4px_20px_0px_#E5CC7A4D]"
-              text="Save changes"
+              text={t("save_changes")}
             />
           </div>
         </div>

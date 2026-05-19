@@ -3,6 +3,7 @@ import {
   isWhitePly,
   moveNumberForPly,
 } from "../../lib/chess/formatMove";
+import { useTranslation } from "../../hooks/useTranslation";
 
 interface MoveHistoryEntryProps {
   plyIndex: number;
@@ -19,6 +20,7 @@ export function MoveHistoryEntry({
   onSelect,
   isActive = false,
 }: MoveHistoryEntryProps) {
+  const { t } = useTranslation();
   const white = isWhitePly(plyIndex);
   const moveLabel = formatMoveSquares(from, to);
 
@@ -48,7 +50,7 @@ export function MoveHistoryEntry({
             white ? "text-[#E5CC7A]" : "text-[#A39589]"
           }`}
         >
-          {white ? "White" : "Black"}
+          {white ? t("white") : t("black")}
         </span>
         <span
           className={`font-medium tabular-nums ${white ? "text-[#F7EFD6]" : "text-[#CFCFCF]"}`}

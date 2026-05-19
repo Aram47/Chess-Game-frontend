@@ -4,12 +4,14 @@ import { SectionWrapper } from "../../../helpers/sectionWrapper";
 import search from "../../../assets/icons/profile/search.svg";
 import people from "../../../assets/icons/profile/people.svg";
 import type { FriendshipRow } from "../../../types/profile";
+import { useTranslation } from "../../../hooks/useTranslation";
 
 interface InGameProps {
   friends: FriendshipRow[];
 }
 
 const InGame = ({ friends }: InGameProps) => {
+  const { t } = useTranslation();
   const [query, setQuery] = useState("");
 
   const filteredFriends = useMemo(() => {
@@ -25,7 +27,7 @@ const InGame = ({ friends }: InGameProps) => {
 
   return (
     <div className="w-full flex-1">
-      <SectionWrapper title="Friends">
+      <SectionWrapper title={t("friends")}>
         <div className="relative mb-4">
           <img
             src={search}
@@ -36,7 +38,7 @@ const InGame = ({ friends }: InGameProps) => {
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search friends..."
+            placeholder={t("search_friends")}
             className="w-full rounded-lg pl-10 py-2 bg-[#252525] text-xs focus:outline-none border border-transparent focus:border-[#E5CC7A]"
           />
         </div>
@@ -48,21 +50,19 @@ const InGame = ({ friends }: InGameProps) => {
                 <img src={people} alt="" width={24} height={24} />
               </div>
               <div className="flex flex-col gap-y-2 mt-4">
-                <p className="text-[#F0EDE8] text-sm">No friends yet</p>
-                <p className="text-[#888888] text-sm">
-                  Connect with other players from your profile or search.
-                </p>
+                <p className="text-[#F0EDE8] text-sm">{t("no_friends_yet")}</p>
+                <p className="text-[#888888] text-sm">{t("no_friends_search")}</p>
               </div>
               <Link
                 to="/play"
                 className="inline-block border border-[#E5CC7A] text-[#CFCFCF] px-6 py-2.5 mt-4 rounded-full font-semibold text-xs transition-transform duration-400 hover:-translate-y-[2px] hover:bg-[#E5CC7A1A]"
               >
-                Find Players
+                {t("find_players")}
               </Link>
             </div>
           ) : filteredFriends.length === 0 ? (
             <p className="text-center text-sm text-[#A39589] py-6">
-              No friends match your search.
+              {t("no_friends_match")}
             </p>
           ) : (
             filteredFriends.map((f) => (

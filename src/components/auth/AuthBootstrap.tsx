@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { Loader2 } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
+import { useTranslation } from "../../hooks/useTranslation";
 
 interface AuthBootstrapProps {
   children: ReactNode;
@@ -12,6 +13,7 @@ interface AuthBootstrapProps {
  */
 export function AuthBootstrap({ children }: AuthBootstrapProps) {
   const { isAuthReady } = useAuth();
+  const { t } = useTranslation();
 
   if (!isAuthReady) {
     return (
@@ -19,7 +21,7 @@ export function AuthBootstrap({ children }: AuthBootstrapProps) {
         className="flex min-h-screen items-center justify-center bg-[#1c1c1c] text-[#E5CC7A]"
         role="status"
         aria-live="polite"
-        aria-label="Restoring session"
+        aria-label={t("restoring_session")}
       >
         <Loader2 className="h-8 w-8 animate-spin" />
       </div>

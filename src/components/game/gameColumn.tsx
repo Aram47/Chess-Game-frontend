@@ -1,6 +1,7 @@
 import { useLocation } from "react-router-dom";
 import { Chessboard } from "react-chessboard";
 import { useEffect, useMemo, useState } from "react";
+import { useTranslation } from "../../hooks/useTranslation";
 import type { CSSProperties } from "react";
 import AnalyzeButtons from "../analyze/helpers/AnalyzeButtons";
 import { BOARD_THEMES, type BoardTheme } from "./board-theme/boardThemes";
@@ -57,12 +58,13 @@ export const GameColumn = ({
   isLiveGame?: boolean;
   analyzeControls?: AnalyzeControls;
 }) => {
+  const { t } = useTranslation();
   const location = useLocation();
   const isAnalysis = location.pathname.startsWith("/analyze");
   const [timers, setTimers] = useState({ white: 600, black: 600 });
 
   const boardOrientation = playerColor === "w" ? "white" : "black";
-  const playerSideLabel = playerColor === "w" ? "White" : "Black";
+  const playerSideKey = playerColor === "w" ? "white" : "black";
   const opponentSideColor: ChessColor = playerColor === "w" ? "black" : "white";
   const activeTurn = fen.split(" ")[1] === "b" ? "black" : "white";
   const theme = boardTheme ?? BOARD_THEMES[0];
@@ -87,7 +89,7 @@ export const GameColumn = ({
     fen,
     playerColor,
     canInteract,
-    onMove: onDrop,
+    onMove: (from, to) => onDrop(from, to) as unknown as void,
     baseSquareStyles: lastMoveStyles,
   });
 
@@ -123,10 +125,12 @@ export const GameColumn = ({
           </div>
           <div className="flex flex-col ">
             <h3 className="text-gold capitalize">
-              {opponentName || "Platform"}
-              {!isLiveGame && level ? ` (${level})` : ""}
+              {opponentName || t("platform")}
+              {!isLiveGame && level ? ` (${t(level as "easy" | "medium" | "hard")})` : ""}
             </h3>
-            <p className="text-[#A39589] text-sm">{`Playing ${opponentSideColor}`}</p>
+            <p className="text-[#A39589] text-sm">
+              {t("playing_color", { color: t(opponentSideColor) })}
+            </p>
           </div>
         </div>
 
@@ -163,10 +167,10 @@ export const GameColumn = ({
         {gameStatus === "waiting" && isLiveGame && (
           <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-black/80 gap-4 px-6 text-center">
             <h2 className="text-[#E5CC7A] text-2xl font-medium">
-              Finding opponent…
+              {t("find_opponent_overlay_title")}
             </h2>
             <p className="text-[#A39589] text-sm max-w-xs">
-              Stay on this page. We will start the game when a player is matched.
+              {t("find_opponent_overlay_desc")}
             </p>
           </div>
         )}
@@ -177,20 +181,20 @@ export const GameColumn = ({
           <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-black/80">
             <h2 className="text-white text-2xl mb-4">
               {winner === "you"
-                ? "YOU WIN"
+                ? t("you_win")
                 : winner === "bot"
-                  ? "BOT WINS"
+                  ? t("bot_wins")
                   : winner === "opponent"
-                    ? "OPPONENT WINS"
+                    ? t("opponent_wins")
                   : winner === "draw"
-                    ? "DRAW"
+                    ? t("draw_result")
                     : gameStatus.toUpperCase()}
             </h2>
             <button
               onClick={resetGame}
               className="bg-[#E5CC7A] px-4 py-2 rounded text-[#1C1C1C] font-semibold"
             >
-              New Game
+              {t("new_game")}
             </button>
           </div>
         )}
@@ -203,20 +207,22 @@ export const GameColumn = ({
             <span className="text-2xl text-[#FFFFFF]">♚</span>
           </div>
           <div className="flex flex-col">
-            <h3 className="text-white">{playerName || "Me"}</h3>
-            <p className="text-[#A39589]">{`Playing ${playerSideLabel}`}</p>
+            <h3 className="text-white">{playerName || t("me")}</h3>
+            <p className="text-[#A39589]">
+              {t("playing_color", { color: t(playerSideKey) })}
+            </p>
           </div>
         </div>
 
         <p className="text-xl text-[#1C1C1C] bg-[#E5CC7A] py-2 px-4 rounded-[10px]">
           {formatTime(
-            timers[playerSideLabel.toLowerCase() as "white" | "black"],
+            timers[playerSideKey as "white" | "black"],
           )}
         </p>
       </div>
       <div className="bg-[#0000004D] rounded-xl justify-center p-4 text-sm text-[#F7EFD6] max-w-[70%] w-full mx-auto text-center">
         <p className="font-normal text-xs text-[#F7EFD6] ">
-          {activeTurn === "white" ? "White to move" : "Black to move"}
+          {activeTurn === "white" ? t("white_to_move") : t("black_to_move")}
         </p>
       </div>
       {isAnalysis && analyzeControls ? (

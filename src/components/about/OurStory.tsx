@@ -1,8 +1,11 @@
 import deepIcon from "../../assets/icons/about/deep.svg";
 import professionalIcon from "../../assets/icons/about/analysis.svg";
 import feedbackIcon from "../../assets/icons/about/feedback.svg";
+import { useTranslation } from "../../hooks/useTranslation";
 
 const OurStory = () => {
+  const { t } = useTranslation();
+
   return (
     <>
       <section
@@ -14,17 +17,11 @@ const OurStory = () => {
           border: "1px solid transparent",
         }}
       >
-        <h2 className="text-2xl font-medium text-[#E5CC7A] mb-4">Our Story</h2>
+        <h2 className="text-2xl font-medium text-[#E5CC7A] mb-4">
+          {t("our_story_title")}
+        </h2>
         <p className="text-md leading-relaxed text-[#A39589] my-3">
-          I am Nver Stepanyan. I created this platform for those who appreciate
-          quality chess and a clearly working system. My 32 years of experience
-          in chess allow me to clearly distinguish an effective tool from an
-          ordinary program. During these years, I have gone through the path of
-          a professional player and coach, understanding all the advantages and
-          disadvantages of the system. I set a goal to create a system that
-          would be lightweight, fast, and professional—based on real experience.
-          I have created an environment where every detail works for your
-          progress.
+          {t("our_story_text")}
         </p>
       </section>
 
@@ -32,12 +29,10 @@ const OurStory = () => {
         <div className="space-y-6">
           <div className="bg-white/5 border border-white/10 rounded-3xl p-8">
             <h2 className="text-2xl font-medium text-[#E5CC7A] mx-0">
-              Our Mission
+              {t("our_mission_title")}
             </h2>
             <p className="text-md text-[#A39589] leading-relaxed mt-3">
-              To democratize chess education by providing accessible, AI-powered
-              training tools that help players understand the game at a deeper
-              level.
+              {t("our_mission_text")}
             </p>
           </div>
           <div className="bg-white/5 border border-white/10 rounded-3xl p-8 flex gap-x-4">
@@ -50,10 +45,11 @@ const OurStory = () => {
               />
             </div>
             <div>
-              <h3 className="font-normal text-[#F7EFD6]">Instant Feedback</h3>
+              <h3 className="font-normal text-[#F7EFD6]">
+                {t("instant_feedback_title")}
+              </h3>
               <p className="text-md text-[#A39589] leading-relaxed my-2">
-                Get real-time insights and alternative moves as you analyze your
-                games.
+                {t("instant_feedback_text")}
               </p>
             </div>
           </div>
@@ -64,10 +60,11 @@ const OurStory = () => {
               <img src={deepIcon} alt="deepIcon" width={20} height={20} />
             </div>
             <div>
-              <h3 className="font-normal text-[#F7EFD6]">Deep Understanding</h3>
+              <h3 className="font-normal text-[#F7EFD6]">
+                {t("deep_understanding_title")}
+              </h3>
               <p className="text-md text-[#A39589] leading-relaxed my-2">
-                We explain the "why" behind every move, not just the
-                "what"—helping you develop genuine chess intuition.
+                {t("deep_understanding_text")}
               </p>
             </div>
           </div>
@@ -82,11 +79,10 @@ const OurStory = () => {
             </div>
             <div>
               <h3 className="font-normal text-[#F7EFD6]">
-                Professional Analysis
+                {t("professional_analysis_title")}
               </h3>
               <p className="text-md text-[#A39589] leading-relaxed my-2">
-                Access the kind of analysis previously available only to elite
-                players with personal coaches.
+                {t("professional_analysis_text")}
               </p>
             </div>
           </div>
