@@ -4,6 +4,7 @@ import { SectionWrapper } from "../../../helpers/sectionWrapper";
 import { useProfile } from "../../../context/ProfileContext";
 import { useAchievements } from "../../../hooks/useAchievements";
 import { API_BASE_URL } from "../../../api/axiosIntance";
+import { useTranslation } from "../../../hooks/useTranslation";
 
 function achievementIconUrl(iconUrl: string): string {
   if (iconUrl.startsWith("http")) return iconUrl;
@@ -12,6 +13,7 @@ function achievementIconUrl(iconUrl: string): string {
 }
 
 const SectionList = () => {
+  const { t } = useTranslation();
   const { profile } = useProfile();
   const { data, isLoading, isError, refetch } = useAchievements(
     Boolean(profile),
@@ -23,12 +25,12 @@ const SectionList = () => {
   return (
     <div className="w-full flex flex-col gap-y-8">
       <SectionWrapper
-        title="Achievements"
+        title={t("achievements")}
         extra={
           total > 0
-            ? `${total} available`
+            ? t("achievements_available", { count: total })
             : isLoading
-              ? "Loading…"
+              ? t("loading")
               : undefined
         }
       >
@@ -38,18 +40,18 @@ const SectionList = () => {
           </div>
         ) : isError ? (
           <div className="flex flex-col items-center gap-3 py-8 text-center">
-            <p className="text-sm text-[#A39589]">Could not load achievements.</p>
+            <p className="text-sm text-[#A39589]">{t("could_not_load_achievements")}</p>
             <button
               type="button"
               onClick={() => void refetch()}
               className="text-sm text-[#E5CC7A] underline"
             >
-              Retry
+              {t("retry")}
             </button>
           </div>
         ) : achievements.length === 0 ? (
           <p className="text-sm text-[#A39589] py-6 text-center">
-            No achievements in the catalog yet.
+            {t("no_achievements")}
           </p>
         ) : (
           <div className="flex gap-4 overflow-visible py-6 scrollbar-hide flex-wrap">

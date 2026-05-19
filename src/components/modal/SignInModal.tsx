@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Modal from "../../helpers/Modal";
 import { useAuth } from "../../context/AuthContext";
+import { useTranslation } from "../../hooks/useTranslation";
 import type { IFormData } from "../../types/authType";
 import { getApiUrl } from "../../api/clients";
 
@@ -18,6 +19,7 @@ export default function SignInModal({
   onSwitchToReset,
 }: ISignIn) {
   const { login } = useAuth();
+  const { t } = useTranslation();
 
   const [formData, setFormData] = useState<IFormData>({
     name: "",
@@ -36,7 +38,7 @@ export default function SignInModal({
       password: formData.password,
     });
     if (success) {
-      onLoginSuccess();
+      onLoginSuccess?.();
       onClose();
     }
   };
@@ -52,10 +54,10 @@ export default function SignInModal({
       onSubmit={handleSubmit}
       formData={formData}
       setFormData={setFormData}
-      text1="Welcome back!"
-      text2="Log In"
-      text3="Sign Up"
-      text4="Google"
+      text1={t("welcome_back")}
+      text2={t("log_in")}
+      text3={t("sign_up")}
+      text4={t("google")}
       isOpen={onSwitchToReset}
       handleGoogle={handleGoogleRegister}
     />

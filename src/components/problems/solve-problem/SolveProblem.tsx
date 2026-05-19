@@ -12,10 +12,12 @@ import SolveHistory from "./SolveHistory";
 import { DifficultyDots } from "../DifficultyDots";
 import type { ChessProblem } from "../../../types/problems";
 import type { MoveType } from "../../../types/gameType";
+import { useTranslation } from "../../../hooks/useTranslation";
 
 import leftIcon from "../../../assets/icons/analyze/left.svg";
 
 const SolveProblem = () => {
+  const { t } = useTranslation();
   const { problemId } = useParams();
   const location = useLocation();
   const stateProblem = (location.state as { problem?: ChessProblem } | null)
@@ -45,7 +47,7 @@ const SolveProblem = () => {
       })
       .catch(() => {
         if (!cancelled) {
-          setStartError("Could not start this puzzle. Go back and try again.");
+          setStartError(t("could_not_start_puzzle"));
         }
       });
 
@@ -89,13 +91,13 @@ const SolveProblem = () => {
     return (
       <div className="text-white text-center pt-20 font-barlow">
         <p className="text-[#A39589] mb-4">
-          Select a puzzle from the list to start solving.
+          {t("select_puzzle")}
         </p>
         <Link
           to="/problems"
           className="text-[#E5CC7A] underline"
         >
-          Browse puzzles
+          {t("browse_puzzles")}
         </Link>
       </div>
     );
@@ -106,7 +108,7 @@ const SolveProblem = () => {
       <div className="text-white text-center pt-20 font-barlow">
         <p className="text-[#A39589] mb-4">{startError}</p>
         <Link to="/problems" className="text-[#E5CC7A] underline">
-          Back to puzzles
+          {t("back_to_puzzles")}
         </Link>
       </div>
     );
@@ -129,7 +131,7 @@ const SolveProblem = () => {
     <section className="w-full flex flex-col grow pt-[100px] pb-16 bg-[#1b1a17]">
       <header className="w-full text-center mb-8 px-4">
         <h1 className="text-3xl md:text-5xl text-gold font-playfair font-black">
-          {activeProblem.description || "Chess puzzle"}
+          {activeProblem.description || t("chess_puzzle")}
         </h1>
       </header>
       <div className="px-8 mb-8">
@@ -146,7 +148,7 @@ const SolveProblem = () => {
           <div className="flex items-center justify-between bg-[#1C1C1C4D] px-4 py-3 rounded-[20px]">
             <div className="w-full flex items-center justify-between gap-x-3">
               <div className="flex flex-col text-[#A39589]">
-                <span>{activeProblem.category?.name ?? "Puzzle"}</span>
+                <span>{activeProblem.category?.name ?? t("puzzle")}</span>
                 <span className="text-xs">{activeProblem.difficultyLevel}</span>
               </div>
               <DifficultyDots difficulty={activeProblem.difficultyLevel} />
@@ -170,7 +172,9 @@ const SolveProblem = () => {
           <div className="flex items-center gap-x-3">
             <div className="bg-[#0000004D] rounded-[20px] justify-center p-4 text-sm text-[#F7EFD6] w-full mx-auto text-center">
               <p className="font-normal text-xs text-[#F7EFD6]">
-                {submitMoveMutation.isPending ? "Checking move…" : "Your turn"}
+                {submitMoveMutation.isPending
+                  ? t("checking_move")
+                  : t("your_turn")}
               </p>
             </div>
           </div>

@@ -1,3 +1,5 @@
+import { useTranslation } from "../../hooks/useTranslation";
+
 interface StartGameButtonProps {
   onClick: () => void;
   disabled?: boolean;
@@ -9,8 +11,11 @@ export function StartGameButton({
   onClick,
   disabled = false,
   loading = false,
-  label = "Start Game",
+  label,
 }: StartGameButtonProps) {
+  const { t } = useTranslation();
+  const buttonLabel = label ?? t("start_game");
+
   return (
     <button
       type="button"
@@ -22,7 +27,7 @@ export function StartGameButton({
         boxShadow: "0px 4px 10px rgba(229, 204, 122, 0.3)",
       }}
     >
-      {loading ? "Starting…" : label}
+      {loading ? t("starting") : buttonLabel}
     </button>
   );
 }

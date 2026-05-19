@@ -1,5 +1,6 @@
 import { Section } from "./Section";
 import { ToggleRow } from "../../helpers/ToggleRow";
+import { useTranslation } from "../../hooks/useTranslation";
 import privacyIcon from "../../assets/icons/settings/privacy.svg";
 
 interface PrivacyProps {
@@ -14,15 +15,17 @@ interface PrivacyProps {
 }
 
 const Privacy = ({ privacy, setPrivacy }: PrivacyProps) => {
+  const { t } = useTranslation();
+
   return (
     <Section
       icon={<img src={privacyIcon} alt="privacy" />}
-      title="Privacy"
-      subtitle="Control who can see your activity"
+      title={t("privacy_title")}
+      subtitle={t("privacy_subtitle")}
     >
       <ToggleRow
-        name="Show Online Status"
-        desc="Let others know when you're online"
+        name={t("show_online_status")}
+        desc={t("show_online_status_desc")}
         checked={privacy.showOnlineStatus}
         onChange={(v) =>
           setPrivacy((prev) => ({ ...prev, showOnlineStatus: v }))

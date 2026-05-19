@@ -8,12 +8,14 @@ import {
   mapRecentGameToSummary,
   type RecentGameSnapshot,
 } from "../../../lib/profile/mapRecentGame";
+import { useTranslation } from "../../../hooks/useTranslation";
 
 interface RecentGamesProps {
   games: RecentGameSnapshot[];
 }
 
 const RecentGames = ({ games }: RecentGamesProps) => {
+  const { t } = useTranslation();
   const { user } = useAuth();
 
   const summaries: GameSummary[] = useMemo(() => {
@@ -23,8 +25,8 @@ const RecentGames = ({ games }: RecentGamesProps) => {
 
   return (
     <SectionWrapper
-      title="Recent Games"
-      extra={summaries.length > 0 ? "Your latest matches" : undefined}
+      title={t("recent_games")}
+      extra={summaries.length > 0 ? t("your_latest_matches") : undefined}
       games={summaries}
     >
       <div className="flex flex-col justify-center">
@@ -39,18 +41,15 @@ const RecentGames = ({ games }: RecentGamesProps) => {
                 />
               </div>
               <div className="mt-2 flex flex-col gap-y-2 text-[#F0EDE8]">
-                <h2>No Recent Games Yet</h2>
-                <p className="text-[#888888] text-sm">
-                  Your recent game history will appear here once you start
-                  playing.
-                </p>
+                <h2>{t("no_recent_games")}</h2>
+                <p className="text-[#888888] text-sm">{t("recent_games_empty")}</p>
               </div>
             </div>
             <Link
               to="/play"
               className="flex justify-center mx-auto mt-7 border border-[#E5CC7A] py-2.5 px-6 rounded-[100px] transition-all duration-500 hover:-translate-y-[5px] hover:bg-[rgba(229,204,122,0.3)] text-[#CFCFCF] text-sm"
             >
-              Start a Game
+              {t("start_game")}
             </Link>
           </>
         ) : (
@@ -83,9 +82,15 @@ const RecentGames = ({ games }: RecentGamesProps) => {
                         : "bg-[#6767671A] text-[#787878]"
                   }`}
                 >
-                  {game.result}
+                  {t(
+                    game.result === "draw"
+                      ? "draw_label"
+                      : (game.result as "win" | "loss"),
+                  )}
                 </span>
-                <p className="text-sm text-[#787878]">{game.moves} moves</p>
+                <p className="text-sm text-[#787878]">
+                  {t("moves_count", { count: game.moves })}
+                </p>
               </div>
             </div>
           ))

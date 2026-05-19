@@ -6,6 +6,8 @@ import { GameProvider } from "./providers/GameProvider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ProfileProvider } from "./providers/ProfileProvider";
 import { ProblemsProvider } from "./providers/ProblemsProvider";
+import { TranslationProvider } from "./providers/TranslationProvider";
+import { useTranslation } from "react-i18next";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -16,20 +18,32 @@ const queryClient = new QueryClient({
   },
 });
 
+const AppLayout = () => {
+  const { lang } = useTranslation();
+
+  return (
+    <div className="app-root" data-lang={lang}>
+      <RouterProvider router={router} />
+    </div>
+  );
+};
+
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <AuthBootstrap>
-          <ProfileProvider>
-            <GameProvider>
-              <ProblemsProvider>
-                <RouterProvider router={router} />
-              </ProblemsProvider>
-            </GameProvider>
-          </ProfileProvider>
-        </AuthBootstrap>
-      </AuthProvider>
+      <TranslationProvider>
+        <AuthProvider>
+          <AuthBootstrap>
+            <ProfileProvider>
+              <GameProvider>
+                <ProblemsProvider>
+                  <AppLayout />
+                </ProblemsProvider>
+              </GameProvider>
+            </ProfileProvider>
+          </AuthBootstrap>
+        </AuthProvider>
+      </TranslationProvider>
     </QueryClientProvider>
   );
 }

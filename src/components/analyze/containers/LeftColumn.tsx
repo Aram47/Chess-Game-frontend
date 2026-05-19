@@ -9,8 +9,10 @@ import { tryApplyMove } from "../../../utils/utils";
 import type { MoveType } from "../../../types/gameType";
 import type { BoardTheme } from "../../game/board-theme/boardThemes";
 import { BOARD_THEMES } from "../../game/board-theme/boardThemes";
+import { useTranslation } from "../../../hooks/useTranslation";
 
 const LeftColumn = () => {
+  const { t } = useTranslation();
   const { user } = useAuth();
   const { selectedGame, plyIndex, setPlyIndex } = useChessAnalysis();
   const [branchMoves, setBranchMoves] = useState<MoveType[]>([]);
@@ -42,15 +44,17 @@ const LeftColumn = () => {
   const maxPly = selectedGame?.allMoves.length || 0;
 
   const userId = user?.id ?? "";
-  const playerName = user?.username ? `@${user.username}` : "You";
+  const playerName = user?.username ? `@${user.username}` : t("you_label");
   const opponentName = useMemo(() => {
-    if (!selectedGame) return "Opponent";
-    if (selectedGame.isBot) return "AI Bot";
+    if (!selectedGame) return t("opponent");
+    if (selectedGame.isBot) return t("ai_bot");
     const isWhite = String(selectedGame.white) === userId;
     const opponentId = isWhite ? selectedGame.black : selectedGame.white;
-    if (opponentId === "bot") return "AI Bot";
-    return opponentId ? `Player ${opponentId}` : "Opponent";
-  }, [selectedGame, userId]);
+    if (opponentId === "bot") return t("ai_bot");
+    return opponentId
+      ? t("player_id", { id: opponentId })
+      : t("opponent");
+  }, [selectedGame, userId, t]);
 
   return (
     <div className="flex flex-col gap-4">

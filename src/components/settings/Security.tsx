@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { PasswordField } from "../../helpers/PasswordField";
 import { Section } from "./Section";
+import { useTranslation } from "../../hooks/useTranslation";
 
 import passwordIcon from "../../assets/icons/settings/password.svg";
 
 const Security = () => {
+  const { t } = useTranslation();
   const [passwords, setPasswords] = useState({
     current: "",
     newPw: "",
@@ -13,25 +15,25 @@ const Security = () => {
   return (
     <Section
       icon={<img src={passwordIcon} alt="passwordIcon" />}
-      title="Password & Security"
-      subtitle="Update your password to keep your account secure"
+      title={t("password_security")}
+      subtitle={t("password_security_subtitle")}
     >
       <div className="space-y-3.5 mt-8">
         <PasswordField
-          label="Current Password"
-          placeholder="Enter current password"
+          label={t("current_password")}
+          placeholder={t("placeholder_current_password")}
           value={passwords.current}
           onChange={(v) => setPasswords({ ...passwords, current: v })}
         />
         <PasswordField
-          label="New Password"
-          placeholder="Enter new password"
+          label={t("new_password")}
+          placeholder={t("placeholder_new_password")}
           value={passwords.newPw}
           onChange={(v) => setPasswords({ ...passwords, newPw: v })}
         />
         <PasswordField
-          label="Confirm New Password"
-          placeholder="Confirm New Password"
+          label={t("confirm_new_password")}
+          placeholder={t("placeholder_confirm_new_password")}
           value={passwords.confirm}
           onChange={(v) => setPasswords({ ...passwords, confirm: v })}
         />

@@ -78,7 +78,7 @@
 //               </div>
 //             ) : (
 //               <div className="py-8 flex flex-col items-center justify-center text-[#A39589]">
-//                 <p className="text-xs italic">No moves yet</p>
+//                 <p className="text-xs italic">{t("no_moves_yet")}</p>
 //               </div>
 //             )}
 //           </div>
@@ -113,6 +113,7 @@ import type { UseQueryResult } from "@tanstack/react-query";
 import type { MoveType } from "../../../types/gameType";
 import { normalizeMove } from "../../../lib/chess/formatMove";
 import { MoveHistoryEntry } from "../../game/MoveHistoryEntry";
+import { useTranslation } from "../../../hooks/useTranslation";
 
 interface Props {
   currentFen: string | undefined;
@@ -127,13 +128,14 @@ const SolveHistory = ({
   currentFen,
   moveHistory = [],
 }: Props) => {
+  const { t } = useTranslation();
   const turnCode = currentFen?.split(" ")[1];
 
-  const currentTurnColor = turnCode === "w" ? "White" : "Black";
+  const currentTurnColor = turnCode === "w" ? t("white") : t("black");
 
   return (
     <div className="w-[35%] bg-[#262421] border border-[#CEB86E33] rounded-[20px] p-6 flex flex-col text-white font-barlow">
-      <h2 className="text-xl font-medium mb-4 text-[#E5CC7A]">Move History</h2>
+      <h2 className="text-xl font-medium mb-4 text-[#E5CC7A]">{t("move_history")}</h2>
 
       {historyQuery.isPending ? (
         <div className="flex items-center justify-center">
@@ -161,7 +163,7 @@ const SolveHistory = ({
               </div>
             ) : (
               <div className="py-8 flex flex-col items-center justify-center text-[#A39589]">
-                <p className="text-xs italic">No moves yet</p>
+                <p className="text-xs italic">{t("no_moves_yet")}</p>
               </div>
             )}
           </div>
@@ -172,11 +174,11 @@ const SolveHistory = ({
       <div className="w-full">
         <div className="w-full flex flex-col gap-y-3 mt-6 border-t border-[#CEB86E33] pb-4">
           <div className="text-sm flex items-center justify-between mt-6">
-            <span className="text-[#A39589]">Total Moves:</span>
+            <span className="text-[#A39589]">{t("total_moves")}</span>
             <span className="text-[#E5CC7A]">{moveHistory.length}</span>
           </div>
           <div className="flex items-center justify-between gap-2 text-sm">
-            <span className="text-[#A39589]">Current Turn:</span>
+            <span className="text-[#A39589]">{t("current_turn")}</span>
             <span
               className={`font-medium ${turnCode === "w" ? "text-[#E5CC7A]" : "text-gray-400"}`}
             >

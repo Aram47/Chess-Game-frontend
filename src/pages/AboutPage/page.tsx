@@ -4,9 +4,11 @@ import ArrowLeft from "../../assets/icons/about/arrowLeft.svg";
 import Ready from "../../components/about/Ready";
 import figure from "../../assets/icons/figure.png";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "../../hooks/useTranslation";
 
 const AboutPage = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   return (
     <div className="min-h-screen text-gray-300 font-barlow p-6 md:p-12 relative">
@@ -30,12 +32,10 @@ const AboutPage = () => {
           </button>
           <div className="flex flex-col w-full mx-auto">
             <h1 className="text-[32px] font-medium text-[#E5CC7A] mb-4">
-              About ChessMaster
+              {t("about_title")}
             </h1>
             <p className="max-w-3xl mx-auto text-[#A39589] text-xl leading-relaxed">
-              ChessMaster is a cutting-edge chess platform that combines
-              advanced AI technology with world-class instruction to help
-              players of all levels improve their game.
+              {t("about_subtitle")}
             </p>
           </div>
         </header>

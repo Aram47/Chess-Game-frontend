@@ -3,6 +3,7 @@ import { Bot } from "lucide-react";
 import { useMemo, useEffect, useRef } from "react";
 import type { MoveType } from "../../../types/gameType";
 import AllPlayedGames from "../AllPlayedGames";
+import { useTranslation } from "../../../hooks/useTranslation";
 
 const formatMove = (move: string | MoveType): string => {
   if (typeof move === "string") return move;
@@ -14,6 +15,7 @@ const AnalyzeColumn = ({
 }: {
   winner: "you" | "bot" | "draw" | null;
 }) => {
+  const { t } = useTranslation();
   const { selectedGame, plyIndex, setPlyIndex, setSelectedGameId, games } =
     useChessAnalysis();
 
@@ -43,23 +45,23 @@ const AnalyzeColumn = ({
     return pairs;
   }, [selectedGame]);
 
-  const winnerPlayer = winner ? "Win" : "Loss";
+  const winnerPlayer = winner ? t("win") : t("loss");
 
   return (
     <div className="flex flex-col gap-6 h-full">
       {/* All Moves */}
       <div className="bg-[#262421] border border-[#CEB86E33] rounded-xl p-6">
         <h2 className="text-[#FCFAF2] mb-4 text-xs tracking-widest uppercase">
-          All Moves
+          {t("all_moves")}
         </h2>
 
         {!selectedGame ? (
           <p className="text-[#676767] text-xs text-center py-6">
-            Select a game to see its moves
+            {t("select_game_moves")}
           </p>
         ) : movePairs.length === 0 ? (
           <p className="text-[#676767] text-xs text-center py-6">
-            No moves recorded
+            {t("no_moves_recorded")}
           </p>
         ) : (
           <div className="max-h-[600px] overflow-y-auto pr-1 space-y-1 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
@@ -106,8 +108,10 @@ const AnalyzeColumn = ({
       ) : (
         <div className="bg-[#262421] border border-[#CEB86E33] rounded-xl p-8 flex flex-col flex-1">
           <div className="flex justify-between">
-            <h2 className="text-gold mb-4 text-xs font-bold">Game History</h2>
-            <p className="text-[#A39589] font-normal">{games.length} games</p>
+            <h2 className="text-gold mb-4 text-xs font-bold">{t("game_history")}</h2>
+            <p className="text-[#A39589] font-normal">
+              {t("games_count", { count: games.length })}
+            </p>
           </div>
 
           <div className="space-y-4 overflow-y-auto mt-4">
@@ -130,7 +134,7 @@ const AnalyzeColumn = ({
                     )}
                     <div className="flex flex-col gap-y-1">
                       <span className="text-sm font-normal text-[#F7F7F7]">
-                        {game.isBot ? "Bot Name" : "vs Player"}
+                        {game.isBot ? t("bot_name") : t("vs_player")}
                       </span>
                       <p className="text-xs text-[#676767]">
                         {new Date(game.finishedAt).toLocaleDateString()}
@@ -143,7 +147,7 @@ const AnalyzeColumn = ({
                       {winnerPlayer}
                     </span>
                     <span className="text-sm text-[#787878] font-normal">
-                      {game.allMoves.length} moves
+                      {t("moves_count", { count: game.allMoves.length })}
                     </span>
                   </div>
                 </div>

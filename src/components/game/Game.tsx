@@ -5,6 +5,8 @@ import { Chess } from "chess.js";
 
 import { useGame } from "../../context/GameContext";
 import { useAuth } from "../../context/AuthContext";
+import { useTranslation } from "../../hooks/useTranslation";
+import type { StringKey } from "../../constants/strings";
 import { useGameHistory } from "../../hooks/useGameHistory";
 import { getMyGameHistoryItem } from "../../api/history";
 import { BOARD_THEMES, type BoardTheme } from "./board-theme/boardThemes";
@@ -21,21 +23,22 @@ interface LockedBoardProps {
   onLogin: () => void;
 }
 
-const LockedBoard: React.FC<LockedBoardProps> = ({ onLogin }) => (
-  <div className="relative w-full h-[600px] bg-[#1c1c1c] flex flex-col justify-center items-center rounded-3xl border-2 border-dashed border-[#CEB86E33]">
-    <div className="max-w-[300px] text-center space-y-6">
-      <p className="text-[#A39589] text-lg">
-        The game is locked. Please log in to start playing.
-      </p>
-      <button
-        onClick={onLogin}
-        className="w-full bg-[#E5CC7A] text-black py-3 rounded-xl font-bold hover:scale-105 transition-transform"
-      >
-        Login / Register
-      </button>
+const LockedBoard: React.FC<LockedBoardProps> = ({ onLogin }) => {
+  const { t } = useTranslation();
+  return (
+    <div className="relative w-full h-[600px] bg-[#1c1c1c] flex flex-col justify-center items-center rounded-3xl border-2 border-dashed border-[#CEB86E33]">
+      <div className="max-w-[300px] text-center space-y-6">
+        <p className="text-[#A39589] text-lg">{t("game_locked_message")}</p>
+        <button
+          onClick={onLogin}
+          className="w-full bg-[#E5CC7A] text-black py-3 rounded-xl font-bold hover:scale-105 transition-transform"
+        >
+          {t("login_register")}
+        </button>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 interface ConnectionBadgeProps {
   status: string;
@@ -46,10 +49,11 @@ const ConnectionBadge: React.FC<ConnectionBadgeProps> = ({
   status,
   gameStatus,
 }) => {
+  const { t } = useTranslation();
   if (gameStatus === "waiting") {
     return (
       <span className="text-sm text-[#E5CC7A] animate-pulse">
-        ● Finding opponent…
+        ● {t("finding_opponent")}
       </span>
     );
   }
@@ -58,7 +62,7 @@ const ConnectionBadge: React.FC<ConnectionBadgeProps> = ({
     <span
       className={`text-sm ${connected ? "text-green-500" : "text-amber-500"}`}
     >
-      ● {connected ? "Connected" : "Reconnecting…"}
+      ● {connected ? t("connected") : t("reconnecting")}
     </span>
   );
 };
@@ -108,19 +112,14 @@ function useHistoryReplay(
   return { selectedGame, currentFen, isTerminal };
 }
 
-function gameSubtitle(
-  isLiveGame: boolean,
-  level: string,
-  gameStatus: string,
-): string {
-  if (isLiveGame) {
-    if (gameStatus === "waiting") return "Matchmaking · waiting for opponent";
-    return "Playing vs Live Player";
-  }
-  return `Playing vs AI (${level})`;
-}
+const LEVEL_KEYS: Record<string, StringKey> = {
+  easy: "easy",
+  medium: "medium",
+  hard: "hard",
+};
 
 export const ChessGamePage: React.FC = () => {
+  const { t } = useTranslation();
   const location = useLocation();
   const pageState = (location.state as GamePageLocationState | null) ?? {};
   const { user } = useAuth();
@@ -173,6 +172,15 @@ export const ChessGamePage: React.FC = () => {
     findMatch();
   }, [user, findMatch]);
 
+  const subtitle = useMemo(() => {
+    if (isLiveGame) {
+      if (gameStatus === "waiting") return t("matchmaking_waiting");
+      return t("playing_vs_live");
+    }
+    const levelKey = LEVEL_KEYS[level] ?? "medium";
+    return t("playing_vs_ai", { level: t(levelKey) });
+  }, [isLiveGame, gameStatus, level, t]);
+
   return (
     <section className="w-full flex flex-col grow pt-[170px] pb-16 bg-[#1b1a17] font-barlow">
       <div className="text-white flex flex-col px-8 w-full">
@@ -188,11 +196,9 @@ export const ChessGamePage: React.FC = () => {
 
           <div className="w-full flex flex-col items-center gap-1">
             <h1 className="text-4xl md:text-5xl text-gold font-medium tracking-tight">
-              {isLiveGame ? "Live Game" : "Chess Game"}
+              {isLiveGame ? t("live_game") : t("chess_game")}
             </h1>
-            <p className="text-lg text-[#A39589] font-medium">
-              {gameSubtitle(isLiveGame, level, gameStatus)}
-            </p>
+            <p className="text-lg text-[#A39589] font-medium">{subtitle}</p>
             {isLiveGame && (
               <ConnectionBadge status={socketStatus} gameStatus={gameStatus} />
             )}
@@ -205,8 +211,8 @@ export const ChessGamePage: React.FC = () => {
             {user ? (
               <GameColumn
                 fen={fen}
-                opponentName={isLiveGame ? "Opponent" : "Bot"}
-                playerName="You"
+                opponentName={isLiveGame ? t("opponent") : t("bot")}
+                playerName={t("you_label")}
                 onDrop={onDrop}
                 isPlayerTurn={isPlayerTurn}
                 lastMove={lastMove}

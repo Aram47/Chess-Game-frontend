@@ -2,8 +2,10 @@ import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "./AuthContext";
 import { normalizeUserFromApi } from "../lib/auth/mapUser";
+import { useTranslation } from "../hooks/useTranslation";
 
 const AuthCallback = () => {
+  const { t } = useTranslation();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const { setUser } = useAuth();
@@ -30,7 +32,7 @@ const AuthCallback = () => {
     }
   }, [searchParams, setUser, navigate]);
 
-  return <div>Completing login...</div>;
+  return <div>{t("completing_login")}</div>;
 };
 
 export default AuthCallback;

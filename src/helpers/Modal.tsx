@@ -1,4 +1,5 @@
 import { useAuth } from "../context/AuthContext";
+import { useTranslation } from "../hooks/useTranslation";
 import { PasswordField } from "./PasswordField";
 import { InputField } from "./InputField";
 import type { ISignUp } from "../types/authType";
@@ -25,6 +26,7 @@ const Modal = ({
   handleGoogle,
 }: ISignUp) => {
   const { loading } = useAuth();
+  const { t } = useTranslation();
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/30 backdrop-blur-sm p-4 overflow-y-auto">
@@ -59,9 +61,9 @@ const Modal = ({
             {isReset && (
               <>
                 <InputField
-                  label="Email"
+                  label={t("email")}
                   type="email"
-                  placeholder="your.email@example.com"
+                  placeholder={t("placeholder_email")}
                   value={resetEmail}
                   onChange={(e) => setResetEmail?.(e.target.value)}
                 />
@@ -73,9 +75,9 @@ const Modal = ({
               <>
                 {isRegister && (
                   <InputField
-                    label="Username"
+                    label={t("username")}
                     type="text"
-                    placeholder="Choose a username"
+                    placeholder={t("placeholder_username")}
                     value={formData?.username ?? ""}
                     onChange={(e) =>
                       setFormData?.((prev) => ({
@@ -87,9 +89,9 @@ const Modal = ({
                 )}
 
                 <InputField
-                  label="Email"
+                  label={t("email")}
                   type="email"
-                  placeholder="your.email@example.com"
+                  placeholder={t("placeholder_email")}
                   value={formData?.email ?? ""}
                   onChange={(e) =>
                     setFormData?.({ ...formData!, email: e.target.value })
@@ -97,8 +99,8 @@ const Modal = ({
                 />
 
                 <PasswordField
-                  label="Password"
-                  placeholder="Enter your password"
+                  label={t("password")}
+                  placeholder={t("placeholder_password")}
                   value={formData?.password ?? ""}
                   onChange={(val) =>
                     setFormData?.((prev) => ({
@@ -110,8 +112,8 @@ const Modal = ({
 
                 {isRegister && (
                   <PasswordField
-                    label="Confirm Password"
-                    placeholder="Confirm your password"
+                    label={t("confirm_password")}
+                    placeholder={t("placeholder_confirm_password")}
                     value={formData?.confirmPassword ?? ""}
                     onChange={(val) =>
                       setFormData?.({
@@ -136,14 +138,14 @@ const Modal = ({
                         }
                         className="w-4.5 h-4.5 rounded border border-[#676767] accent-[#c8a84b] appearance-none checked:appearance-auto bg-transparent cursor-pointer"
                       />
-                      Remember me
+                      {t("remember_me")}
                     </label>
                     <button
                       type="button"
                       className="text-[#c8a84b] text-sm hover:underline font-barlow"
                       onClick={isOpen}
                     >
-                      Forgot password?
+                      {t("forgot_password")}
                     </button>
                   </div>
                 )}
@@ -155,7 +157,7 @@ const Modal = ({
               disabled={loading}
               className="w-full bg-[linear-gradient(180deg,#E5CC7A_0%,#F4E09E_100%)] hover:bg-[#b8963e] text-[var(--bg)] font-bold py-4 rounded-full transition-colors mt-1 text-sm tracking-wide disabled:opacity-60 hover:translate-y-[-5px] cursor-pointer font-barlow"
             >
-              {loading ? "Processing..." : text2}
+              {loading ? t("processing") : text2}
             </button>
           </form>
 
@@ -163,10 +165,10 @@ const Modal = ({
           <div className="flex flex-col gap-y-6">
             <p className="text-center text-sm text-gray-500 mt-5">
               {isReset
-                ? "Remember your password? "
+                ? t("remember_password")
                 : isRegister
-                  ? "Already have an account? "
-                  : "Don't have an account? "}
+                  ? t("already_have_account")
+                  : t("dont_have_account")}
               <button
                 className="text-[#c8a84b] font-semibold hover:underline cursor-pointer"
                 onClick={onSwitch}
@@ -176,8 +178,8 @@ const Modal = ({
             </p>
             <div className="flex items-center gap-x-3">
               <span className="w-[35%] h-auto border-t text-[#E5CC7A33]"></span>
-              <p className="text-[var(--muted)] font-normal text-xs leading-4">
-                or continue with
+              <p className="text-[var(--muted)] font-normal text-xs text-center leading-4">
+                {t("or_continue_with")}
               </p>
               <span className="w-[35%] h-auto border-t text-[#E5CC7A33]"></span>
             </div>

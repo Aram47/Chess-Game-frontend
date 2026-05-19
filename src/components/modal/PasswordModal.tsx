@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
+import { useTranslation } from "../../hooks/useTranslation";
 import Modal from "../../helpers/Modal";
 
 interface IResetPasword {
@@ -14,6 +15,7 @@ const ResetPasswordModal = ({
   onSwitchToLogin,
 }: IResetPasword) => {
   const { resetPassword } = useAuth();
+  const { t } = useTranslation();
   const [email, setEmail] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -32,10 +34,10 @@ const ResetPasswordModal = ({
       onClose={onClose}
       onSubmit={handleSubmit}
       onSwitch={onSwitchToLogin}
-      text1="Reset Password"
-      subtitle="Enter your email address and we'll send you a link to reset your password."
-      text2="Send Reset Link"
-      text3="Back to Sign In"
+      text1={t("reset_password")}
+      subtitle={t("reset_password_subtitle")}
+      text2={t("send_reset_link")}
+      text3={t("back_to_sign_in")}
       isReset={true}
       resetEmail={email}
       setResetEmail={setEmail}

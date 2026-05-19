@@ -1,19 +1,23 @@
 import { useFriends } from "../../../hooks/useFriends";
+import { useTranslation } from "../../../hooks/useTranslation";
 
 export const FriendsList = () => {
+  const { t } = useTranslation();
   const { data: friends = [], isLoading } = useFriends();
 
   if (isLoading) {
-    return <p className="text-gray-500 p-4">Loading friends...</p>;
+    return <p className="text-gray-500 p-4">{t("loading_friends")}</p>;
   }
 
   return (
     <div className="bg-[#1C1C1C] border border-[#CEB86E33] rounded-[20px] p-4">
-      <h3 className="text-white mb-4 font-bold">Friends ({friends.length})</h3>
+      <h3 className="text-white mb-4 font-bold">
+        {t("friends_count", { count: friends.length })}
+      </h3>
 
       <div className="flex flex-col gap-y-3">
         {friends.length === 0 ? (
-          <p className="text-gray-500 text-sm italic">No friends found.</p>
+          <p className="text-gray-500 text-sm italic">{t("no_friends_found")}</p>
         ) : (
           friends.map((friend) => (
             <div
@@ -29,7 +33,7 @@ export const FriendsList = () => {
                     {friend.otherUser.username}
                   </p>
                   <p className="text-[10px] text-gray-400">
-                    ELO: {friend.otherUser.elo}
+                    {t("elo_short")} {friend.otherUser.elo}
                   </p>
                 </div>
               </div>

@@ -1,11 +1,15 @@
+/* 1. GOOGLE FONTS IMPORTS FIRST */
 @import url("https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Barlow:wght@400;700;900&family=Playfair+Display:ital,wght@0,700;1,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols+2&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400..700;1,400..700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Armenian:wght@100..900&display=swap");
 
 @import "./assets/css/repeated.css";
 
+/* 2. TAILWIND CORE SETUP */
 @import "tailwindcss";
 
 @theme {
@@ -14,7 +18,7 @@
   --font-dm: "DM Sans", sans-serif;
   --font-arimo: "Arimo", sans-serif;
 
-  /* Colors - This allows text-gold, bg-gold, etc. */
+  /* Colors */
   --color-gold: #e5cc7a;
   --color-gold-hover: #e8ce8c;
   --color-cream: #f0e8d0;
@@ -24,6 +28,7 @@
   --color-mute: #a39589;
 }
 
+/* 3. VARIABLES & BASE PROPERTIES */
 :root {
   --text-h: #08060d;
   --bg: #1c1c1c;
@@ -42,13 +47,18 @@
 
   --sans: system-ui, "Segoe UI", Roboto, sans-serif;
   --mono: ui-monospace, Consolas, monospace;
+
+  /* Fallbacks mapped to variables */
   --font_main: "Barlow", sans-serif;
+  --font-main: "Barlow", sans-serif;
+  --font-barlow: "Barlow", sans-serif;
+
   --font_heading: "Playfair Display", serif;
   --font_arial: "Noto Sans Symbols 2", sans-serif;
   --font-dm: "DM Sans", sans-serif;
   --font-arimo: "Arimo", sans-serif;
 
-  font-size: 16px var(--sans);
+  font-size: 16px;
   letter-spacing: 0.18px;
   color-scheme: light dark;
   color: var(--text);
@@ -60,4 +70,40 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+/* 4. HIGH-SPECIFICITY LANGUAGE OVERRIDES */
+[data-lang="ru"],
+[data-lang="ru"] *,
+:root[data-lang="ru"] {
+  --font_main: "Noto Sans", sans-serif !important;
+  --font-main: "Noto Sans", sans-serif !important;
+  --font-barlow: "Noto Sans", sans-serif !important;
+  font-family: "Noto Sans", sans-serif !important;
+}
+
+[data-lang="am"],
+[data-lang="am"] *,
+:root[data-lang="am"] {
+  --font_main: "Noto Sans Armenian", sans-serif !important;
+  --font-main: "Noto Sans Armenian", sans-serif !important;
+  --font-barlow: "Noto Sans Armenian", sans-serif !important;
+  font-family: "Noto Sans Armenian", sans-serif !important;
+}
+
+/* 5. GLOBAL DOM INHERITANCE ENFORCEMENT */
+html,
+body,
+#root,
+*,
+button,
+input,
+select,
+textarea,
+a,
+span,
+p,
+div,
+li {
+  font-family: inherit;
 }

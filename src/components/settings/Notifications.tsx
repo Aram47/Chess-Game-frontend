@@ -1,5 +1,6 @@
 import { Section } from "./Section";
 import { ToggleRow } from "../../helpers/ToggleRow";
+import { useTranslation } from "../../hooks/useTranslation";
 import notification from "../../assets/icons/settings/notification.svg";
 
 interface NotificationsProps {
@@ -19,15 +20,17 @@ const Notifications = ({
   notifications,
   setNotifications,
 }: NotificationsProps) => {
+  const { t } = useTranslation();
+
   return (
     <Section
       icon={<img src={notification} alt="notification" />}
-      title="Notifications"
-      subtitle="Manage how you receive notifications"
+      title={t("notifications_title")}
+      subtitle={t("notifications_subtitle")}
     >
       <ToggleRow
-        name="Game Invites"
-        desc="Get notified when someone challenges you"
+        name={t("game_invites")}
+        desc={t("game_invites_desc")}
         checked={notifications.gameInvites}
         onChange={(v) =>
           setNotifications((prev) => ({ ...prev, gameInvites: v }))
@@ -35,8 +38,8 @@ const Notifications = ({
       />
 
       <ToggleRow
-        name="Friend Requests"
-        desc="Be notified of new friend requests"
+        name={t("friend_requests")}
+        desc={t("friend_requests_desc")}
         checked={notifications.friendRequests}
         onChange={(v) =>
           setNotifications((prev) => ({ ...prev, friendRequests: v }))
