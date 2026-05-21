@@ -17,7 +17,7 @@ export const PasswordField = ({
   const [show, setShow] = useState(false);
 
   return (
-    <div className="font-barlow">
+    <div>
       <label className="text-xs font-medium text-[#F7F7F7] mb-2 block">
         {label}
       </label>

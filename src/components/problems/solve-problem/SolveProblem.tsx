@@ -32,7 +32,8 @@ const SolveProblem = () => {
   const [plyIndex, setPlyIndex] = useState(0);
 
   const parsedId = Number(problemId);
-  const effectiveId = stateProblem?.id ?? (Number.isFinite(parsedId) ? parsedId : null);
+  const effectiveId =
+    stateProblem?.id ?? (Number.isFinite(parsedId) ? parsedId : null);
 
   useEffect(() => {
     if (!effectiveId) return;
@@ -89,14 +90,9 @@ const SolveProblem = () => {
 
   if (!effectiveId && !stateProblem) {
     return (
-      <div className="text-white text-center pt-20 font-barlow">
-        <p className="text-[#A39589] mb-4">
-          {t("select_puzzle")}
-        </p>
-        <Link
-          to="/problems"
-          className="text-[#E5CC7A] underline"
-        >
+      <div className="text-white text-center pt-20 ">
+        <p className="text-[#A39589] mb-4">{t("select_puzzle")}</p>
+        <Link to="/problems" className="text-[#E5CC7A] underline">
           {t("browse_puzzles")}
         </Link>
       </div>
@@ -105,7 +101,7 @@ const SolveProblem = () => {
 
   if (startError) {
     return (
-      <div className="text-white text-center pt-20 font-barlow">
+      <div className="text-white text-center pt-20 ">
         <p className="text-[#A39589] mb-4">{startError}</p>
         <Link to="/problems" className="text-[#E5CC7A] underline">
           {t("back_to_puzzles")}
@@ -122,10 +118,9 @@ const SolveProblem = () => {
     );
   }
 
-  const moveHistory =
-    activeProblem.moves?.length
-      ? activeProblem.moves
-      : activeProblem.solutionMoves ?? branchMoves;
+  const moveHistory = activeProblem.moves?.length
+    ? activeProblem.moves
+    : (activeProblem.solutionMoves ?? branchMoves);
 
   return (
     <section className="w-full flex flex-col grow pt-[100px] pb-16 bg-[#1b1a17]">

@@ -23,7 +23,6 @@ export const useSubmitMoveMutation = () => {
       move: { from: string; to: string };
     }) => problemsApi.submitMove(id, move),
     onSuccess: (updatedProblem) => {
-      // Update the cache so the history updates automatically
       queryClient.setQueryData(
         [PROBLEMS_QUERY_KEY, updatedProblem.id],
         updatedProblem,

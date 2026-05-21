@@ -32,17 +32,15 @@ const RecentGames = ({ games }: RecentGamesProps) => {
       <div className="flex flex-col justify-center">
         {summaries.length === 0 ? (
           <>
-            <div className="flex flex-col items-center text-center font-barlow h-full">
+            <div className="flex flex-col items-center text-center  h-full">
               <div className="bg-[#E5CC7A14] border border-[#E5CC7A26] rounded-full p-2.5">
-                <img
-                  src={gamesIcon}
-                  alt=""
-                  className="w-[18px] h-[18px]"
-                />
+                <img src={gamesIcon} alt="" className="w-[18px] h-[18px]" />
               </div>
               <div className="mt-2 flex flex-col gap-y-2 text-[#F0EDE8]">
                 <h2>{t("no_recent_games")}</h2>
-                <p className="text-[#888888] text-sm">{t("recent_games_empty")}</p>
+                <p className="text-[#888888] text-sm">
+                  {t("recent_games_empty")}
+                </p>
               </div>
             </div>
             <Link

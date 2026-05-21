@@ -16,7 +16,7 @@ export const RoomCard: React.FC<{
     </div>
     <div className="flex flex-col items-center gap-y-2">
       <p className="text-[#F7EFD6] font-normal text-sm">{title}</p>
-      <p className="text-[var(--muted)] text-xs text-center leading-relaxed font-barlow">
+      <p className="text-[var(--muted)] text-xs text-center leading-relaxed ">
         {description}
       </p>
     </div>

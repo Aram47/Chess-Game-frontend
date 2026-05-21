@@ -11,7 +11,7 @@ const AboutPage = () => {
   const { t } = useTranslation();
 
   return (
-    <div className="min-h-screen text-gray-300 font-barlow p-6 md:p-12 relative">
+    <div className="min-h-screen text-gray-300  p-6 md:p-12 relative">
       <div className="absolute inset-0 flex justify-center items-center pointer-events-none z-0">
         <img
           src={figure}

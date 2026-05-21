@@ -30,11 +30,10 @@ const GameHistory = ({
   const displayedMoves = moveHistory;
 
   const turnCode = currentFen?.split(" ")[1];
-  const currentTurnColor =
-    turnCode === "w" ? t("white") : t("black");
+  const currentTurnColor = turnCode === "w" ? t("white") : t("black");
 
   return (
-    <div className="w-[35%] bg-[#262421] border border-[#CEB86E33] rounded-[20px] p-6 flex flex-col text-white font-barlow">
+    <div className="w-[35%] bg-[#262421] border border-[#CEB86E33] rounded-[20px] p-6 flex flex-col text-white ">
       <h2 className="text-xl font-medium mb-4 text-[#E5CC7A]">
         {t("move_history")}
       </h2>

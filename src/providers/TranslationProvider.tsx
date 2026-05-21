@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo, type ReactNode } from "react";
+import { useState, useCallback, useMemo, useEffect, type ReactNode } from "react";
 import { baseStrings, type StringKey, type UiLang } from "../constants/strings";
 import { locales } from "../locales";
 import { interpolate } from "../utils/translate";
@@ -10,6 +10,13 @@ import {
 
 export const TranslationProvider = ({ children }: { children: ReactNode }) => {
   const [lang, setLang] = useState<UiLang>("en");
+
+  useEffect(() => {
+    const htmlLang = lang === "am" ? "hy" : lang;
+    document.documentElement.lang = htmlLang;
+    document.documentElement.dataset.lang = lang;
+    document.body.dataset.lang = lang;
+  }, [lang]);
 
   const translations = locales[lang];
 

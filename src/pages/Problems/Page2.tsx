@@ -45,7 +45,7 @@ const ProblemsPage: React.FC = () => {
   };
 
   return (
-    <section className="min-h-screen text-[#e8e2d0] px-6 py-8 font-barlow">
+    <section className="min-h-screen text-[#e8e2d0] px-6 py-8 ">
       <header className="text-center mb-6">
         <h1 className="text-[clamp(2.5rem,6vw,3.5rem)] tracking-[0.02em] text-[#E5CC7A]">
           {t("problems_title")}

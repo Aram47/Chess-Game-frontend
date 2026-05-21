@@ -26,8 +26,10 @@ const OurStory = () => {
       </section>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
-        <div className="space-y-6">
-          <div className="bg-white/5 border border-white/10 rounded-3xl p-8">
+        {/* Left Column: Mission + Instant Feedback */}
+        <div className="space-y-6 flex flex-col h-full">
+          {/* Mission Card - Uses flex-1 to fill half the height if needed */}
+          <div className="bg-white/5 border border-white/10 rounded-3xl p-8 flex-1">
             <h2 className="text-2xl font-medium text-[#E5CC7A] mx-0">
               {t("our_mission_title")}
             </h2>
@@ -35,7 +37,9 @@ const OurStory = () => {
               {t("our_mission_text")}
             </p>
           </div>
-          <div className="bg-white/5 border border-white/10 rounded-3xl p-8 flex gap-x-4">
+
+          {/* Instant Feedback Card */}
+          <div className="bg-white/5 border border-white/10 rounded-3xl p-8 flex gap-x-4 flex-1">
             <div className="bg-[#FFFFFF0D] rounded-full h-[40px] w-[40px] flex shrink-0 items-center justify-center">
               <img
                 src={feedbackIcon}
@@ -54,8 +58,11 @@ const OurStory = () => {
             </div>
           </div>
         </div>
-        <div className="space-y-6">
-          <div className="bg-white/5 border border-white/10 rounded-3xl p-8 flex gap-x-4">
+
+        {/* Right Column: Deep Understanding + Professional Analysis */}
+        <div className="space-y-6 flex flex-col h-full">
+          {/* Deep Understanding Card */}
+          <div className="bg-white/5 border border-white/10 rounded-3xl p-8 flex gap-x-4 flex-1">
             <div className="bg-[#FFFFFF0D] rounded-full h-[40px] w-[40px] flex shrink-0 items-center justify-center">
               <img src={deepIcon} alt="deepIcon" width={20} height={20} />
             </div>
@@ -68,7 +75,9 @@ const OurStory = () => {
               </p>
             </div>
           </div>
-          <div className="bg-white/5 border border-white/10 rounded-3xl p-8 flex gap-x-4">
+
+          {/* Professional Analysis Card */}
+          <div className="bg-white/5 border border-white/10 rounded-3xl p-8 flex gap-x-4 flex-1">
             <div className="bg-[#FFFFFF0D] rounded-full h-[40px] w-[40px] flex shrink-0 items-center justify-center">
               <img
                 src={professionalIcon}

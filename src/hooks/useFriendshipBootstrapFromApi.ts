@@ -10,10 +10,6 @@ import {
   syncPendingFriendshipsFromApi,
 } from "../lib/friends/friendship-sse-store";
 
-/**
- * Loads accepted friends and pending requests from the API into the friendship store
- * so offline / pre-SSE state matches the server after login.
- */
 export function useFriendshipBootstrapFromApi(enabled: boolean) {
   const friendsQuery = useQuery({
     queryKey: profileQueryKeys.friends,

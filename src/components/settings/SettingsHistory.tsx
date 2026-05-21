@@ -27,7 +27,7 @@ const SettingsModal = ({ onClose }: SettingsModalProps) => {
 
   return (
     <div
-      className="fixed inset-0 bg-[#1C1C1C1A]/80 backdrop-blur-xs flex items-center justify-center z-50 font-barlow"
+      className="fixed inset-0 bg-[#1C1C1C1A]/80 backdrop-blur-xs flex items-center justify-center z-50 "
       onClick={onClose}
     >
       <div

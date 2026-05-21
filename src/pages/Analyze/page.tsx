@@ -36,7 +36,7 @@ const AnalysisContent = () => {
 
   if (isLoading)
     return (
-      <div className="text-[#E5CC7A] p-20 text-center font-barlow text-2xl">
+      <div className="text-[#E5CC7A] p-20 text-center  text-2xl">
         {t("loading_history")}
       </div>
     );

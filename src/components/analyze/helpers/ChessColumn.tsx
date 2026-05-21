@@ -61,10 +61,7 @@ export const ChessColumn = ({
   const [showPiece, setShowPiece] = useState(false);
 
   const analysisEnabled = Boolean(enableAnalysis && analyzeControls && fen);
-  const analysisQuery = usePositionAnalysis(
-    fen,
-    analysisEnabled && showPiece,
-  );
+  const analysisQuery = usePositionAnalysis(fen, analysisEnabled && showPiece);
   const bestLine = analysisQuery.data?.lines?.[0];
   const bestMoveLabel = bestLine
     ? `${bestLine.move.from} → ${bestLine.move.to}`
@@ -184,7 +181,9 @@ export const ChessColumn = ({
       </div>
       <div className="flex items-center gap-x-3">
         <div className="bg-[#0000004D] rounded-[20px] justify-center p-4 text-sm text-[#F7EFD6] w-full mx-auto text-center">
-          <p className="font-normal text-xs text-[#F7EFD6]">{t("current_move")}</p>
+          <p className="font-normal text-xs text-[#F7EFD6]">
+            {t("current_move")}
+          </p>
         </div>
         <button
           className="w-[184px] bg-[linear-gradient(180deg,#E5CC7A_0%,#F4E09E_100%)] rounded-full text-[#1C1C1C] font-semibold text-sm hover:shadow-[0px_4px_20px_0px_#E5CC7A4D] py-3 cursor-pointer"
@@ -193,7 +192,7 @@ export const ChessColumn = ({
           {t("analyze_btn")}
         </button>
       </div>
-      <div className="flex flex-col items-center gap-y-6 font-barlow">
+      <div className="flex flex-col items-center gap-y-6 ">
         <h2 className="text-[#A39589]">{t("ai_insights_desc")}</h2>
         {showPiece && analysisEnabled && (
           <div className="flex flex-col gap-y-4 bg-[#FFFFFF0D] py-3 px-4 rounded-[20px] w-full">
@@ -212,7 +211,9 @@ export const ChessColumn = ({
               <>
                 <div className="flex items-center gap-x-3">
                   <div className="w-10 h-10 flex items-center justify-center rounded-full bg-[#3A92F91A]">
-                    <span className="text-xl text-[#3A92F9]">{t("ai_label")}</span>
+                    <span className="text-xl text-[#3A92F9]">
+                      {t("ai_label")}
+                    </span>
                   </div>
                   <div className="flex flex-col">
                     <h3 className="text-[#CFCFCF] font-normal">
@@ -228,31 +229,32 @@ export const ChessColumn = ({
                   {t("recommended_move")}{" "}
                   <b className="text-[#CFCFCF] tabular-nums">{bestMoveLabel}</b>
                 </p>
-                {analysisQuery.data?.lines && analysisQuery.data.lines.length > 1 && (
-                  <div className="flex items-start gap-x-2 py-3 px-4 bg-[#1C1C1C4D] rounded-[8px]">
-                    <img src={controls} alt="" width={16} height={16} />
-                    <p className="text-[#A39589] font-medium text-xs">
-                      {t("alternatives")}{" "}
-                      {analysisQuery.data.lines
-                        .slice(1, 3)
-                        .map((line) => `${line.move.from}→${line.move.to}`)
-                        .join(", ")}
-                    </p>
-                  </div>
-                )}
+                {analysisQuery.data?.lines &&
+                  analysisQuery.data.lines.length > 1 && (
+                    <div className="flex items-start gap-x-2 py-3 px-4 bg-[#1C1C1C4D] rounded-[8px]">
+                      <img src={controls} alt="" width={16} height={16} />
+                      <p className="text-[#A39589] font-medium text-xs">
+                        {t("alternatives")}{" "}
+                        {analysisQuery.data.lines
+                          .slice(1, 3)
+                          .map((line) => `${line.move.from}→${line.move.to}`)
+                          .join(", ")}
+                      </p>
+                    </div>
+                  )}
               </>
             )}
-            {!bestLine && !analysisQuery.isLoading && !analysisQuery.isError && (
-              <p className="text-sm text-[#A39589] text-center py-4">
-                {t("no_engine_lines")}
-              </p>
-            )}
+            {!bestLine &&
+              !analysisQuery.isLoading &&
+              !analysisQuery.isError && (
+                <p className="text-sm text-[#A39589] text-center py-4">
+                  {t("no_engine_lines")}
+                </p>
+              )}
           </div>
         )}
 
-        <p className="text-[#A39589]">
-          {t("use_arrow_keys")}
-        </p>
+        <p className="text-[#A39589]">{t("use_arrow_keys")}</p>
       </div>
 
       {analyzeControls && <AnalyzeButtons {...analyzeControls} />}

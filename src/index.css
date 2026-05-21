@@ -1,4 +1,3 @@
-/* 1. GOOGLE FONTS IMPORTS FIRST */
 @import url("https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols+2&display=swap");
@@ -9,16 +8,13 @@
 
 @import "./assets/css/repeated.css";
 
-/* 2. TAILWIND CORE SETUP */
 @import "tailwindcss";
 
 @theme {
-  --font-playfair: "Playfair Display", serif;
-  --font-barlow: "Barlow", sans-serif;
-  --font-dm: "DM Sans", sans-serif;
-  --font-arimo: "Arimo", sans-serif;
+  --font-sans: var(--font-main);
+  --font-barlow: var(--font-main);
+  --font-playfair: var(--font-heading);
 
-  /* Colors */
   --color-gold: #e5cc7a;
   --color-gold-hover: #e8ce8c;
   --color-cream: #f0e8d0;
@@ -28,7 +24,22 @@
   --color-mute: #a39589;
 }
 
-/* 3. VARIABLES & BASE PROPERTIES */
+:root,
+html[data-lang="en"] {
+  --font-main: "Barlow", sans-serif;
+  --font-heading: "Playfair Display", serif;
+}
+
+html[data-lang="ru"] {
+  --font-main: "Noto Sans", sans-serif;
+  --font-heading: "Noto Sans", sans-serif;
+}
+
+html[data-lang="am"] {
+  --font-main: "Noto Sans Armenian", sans-serif;
+  --font-heading: "Noto Sans Armenian", sans-serif;
+}
+
 :root {
   --text-h: #08060d;
   --bg: #1c1c1c;
@@ -44,19 +55,7 @@
   --head: #d4af37;
   --shadow:
     rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
-
-  --sans: system-ui, "Segoe UI", Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
-
-  /* Fallbacks mapped to variables */
-  --font_main: "Barlow", sans-serif;
-  --font-main: "Barlow", sans-serif;
-  --font-barlow: "Barlow", sans-serif;
-
-  --font_heading: "Playfair Display", serif;
-  --font_arial: "Noto Sans Symbols 2", sans-serif;
-  --font-dm: "DM Sans", sans-serif;
-  --font-arimo: "Arimo", sans-serif;
+  --font-arial: "Noto Sans Symbols 2", sans-serif;
 
   font-size: 16px;
   letter-spacing: 0.18px;
@@ -72,38 +71,29 @@
   padding: 0;
 }
 
-/* 4. HIGH-SPECIFICITY LANGUAGE OVERRIDES */
-[data-lang="ru"],
-[data-lang="ru"] *,
-:root[data-lang="ru"] {
-  --font_main: "Noto Sans", sans-serif !important;
-  --font-main: "Noto Sans", sans-serif !important;
-  --font-barlow: "Noto Sans", sans-serif !important;
-  font-family: "Noto Sans", sans-serif !important;
-}
-
-[data-lang="am"],
-[data-lang="am"] *,
-:root[data-lang="am"] {
-  --font_main: "Noto Sans Armenian", sans-serif !important;
-  --font-main: "Noto Sans Armenian", sans-serif !important;
-  --font-barlow: "Noto Sans Armenian", sans-serif !important;
-  font-family: "Noto Sans Armenian", sans-serif !important;
-}
-
-/* 5. GLOBAL DOM INHERITANCE ENFORCEMENT */
 html,
 body,
-#root,
-*,
+#root {
+  font-family: var(--font-main);
+}
+
+body {
+  font-family: var(--font-main);
+}
+
+.font-barlow,
+[class*="font-barlow"] {
+  font-family: var(--font-main) !important;
+}
+
+.font-playfair,
+[class*="font-playfair"] {
+  font-family: var(--font-heading) !important;
+}
+
 button,
 input,
 select,
-textarea,
-a,
-span,
-p,
-div,
-li {
+textarea {
   font-family: inherit;
 }

@@ -67,7 +67,6 @@ const ConnectionBadge: React.FC<ConnectionBadgeProps> = ({
   );
 };
 
-
 function useHistoryReplay(
   selectedGameId: string | null,
   historyList: { _id: string; allMoves?: unknown[] }[],
@@ -83,7 +82,10 @@ function useHistoryReplay(
 
   const selectedGame: typeof activeGame | null = useMemo(() => {
     if (activeGame) return activeGame;
-    return historyList.find((g) => g._id === effectiveId) as typeof activeGame ?? null;
+    return (
+      (historyList.find((g) => g._id === effectiveId) as typeof activeGame) ??
+      null
+    );
   }, [activeGame, historyList, effectiveId]);
 
   const { currentFen, isTerminal } = useMemo(() => {
@@ -182,7 +184,7 @@ export const ChessGamePage: React.FC = () => {
   }, [isLiveGame, gameStatus, level, t]);
 
   return (
-    <section className="w-full flex flex-col grow pt-[170px] pb-16 bg-[#1b1a17] font-barlow">
+    <section className="w-full flex flex-col grow pt-[170px] pb-16 bg-[#1b1a17] ">
       <div className="text-white flex flex-col px-8 w-full">
         {/* Header */}
         <header className="flex items-center w-full text-center mb-8">

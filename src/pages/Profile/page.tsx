@@ -20,7 +20,10 @@ const ProfileDashboard: React.FC = () => {
   if (loading) {
     return (
       <div className="flex min-h-[50vh] items-center justify-center text-[#E5CC7A]">
-        <Loader2 className="h-8 w-8 animate-spin" aria-label={t("loading_profile")} />
+        <Loader2
+          className="h-8 w-8 animate-spin"
+          aria-label={t("loading_profile")}
+        />
       </div>
     );
   }
@@ -43,7 +46,7 @@ const ProfileDashboard: React.FC = () => {
   const recentGames = (profile.recentGames ?? []) as RecentGameSnapshot[];
 
   return (
-    <div className="w-full min-h-screen p-8 text-white font-barlow mx-auto flex flex-col gap-y-8 mb-10 mt-13">
+    <div className="w-full min-h-screen p-8 text-white  mx-auto flex flex-col gap-y-8 mb-10 mt-13">
       {problemsError && (
         <p className="text-sm text-amber-500/90 text-center">
           {t("puzzle_breakdown_unavailable")}{" "}

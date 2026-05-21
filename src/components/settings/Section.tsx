@@ -2,7 +2,7 @@ import type { SectionProps } from "../../types/settingsType";
 
 export const Section = ({ icon, title, subtitle, children }: SectionProps) => (
   <div
-    className="bg-[#FFFFFF0D] border border-[#CEB86E26] rounded-[24px] p-8 font-barlow
+    className="bg-[#FFFFFF0D] border border-[#CEB86E26] rounded-[24px] p-8 
 "
   >
     <div className="flex items-center gap-3 mb-4">

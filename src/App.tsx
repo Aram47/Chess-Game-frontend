@@ -7,7 +7,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ProfileProvider } from "./providers/ProfileProvider";
 import { ProblemsProvider } from "./providers/ProblemsProvider";
 import { TranslationProvider } from "./providers/TranslationProvider";
-import { useTranslation } from "react-i18next";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -18,16 +17,6 @@ const queryClient = new QueryClient({
   },
 });
 
-const AppLayout = () => {
-  const { lang } = useTranslation();
-
-  return (
-    <div className="app-root" data-lang={lang}>
-      <RouterProvider router={router} />
-    </div>
-  );
-};
-
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
@@ -37,7 +26,7 @@ function App() {
             <ProfileProvider>
               <GameProvider>
                 <ProblemsProvider>
-                  <AppLayout />
+                  <RouterProvider router={router} />
                 </ProblemsProvider>
               </GameProvider>
             </ProfileProvider>

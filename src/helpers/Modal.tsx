@@ -47,7 +47,7 @@ const Modal = ({
 
           {/* Header */}
           <div className="mb-8">
-            <h1 className="text-white text-3xl font-bold font-barlow">
+            <h1 className="text-white text-3xl font-bold">
               {text1}
             </h1>
             {subtitle && (
@@ -142,7 +142,7 @@ const Modal = ({
                     </label>
                     <button
                       type="button"
-                      className="text-[#c8a84b] text-sm hover:underline font-barlow"
+                      className="text-[#c8a84b] text-sm hover:underline"
                       onClick={isOpen}
                     >
                       {t("forgot_password")}
@@ -155,7 +155,7 @@ const Modal = ({
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-[linear-gradient(180deg,#E5CC7A_0%,#F4E09E_100%)] hover:bg-[#b8963e] text-[var(--bg)] font-bold py-4 rounded-full transition-colors mt-1 text-sm tracking-wide disabled:opacity-60 hover:translate-y-[-5px] cursor-pointer font-barlow"
+              className="w-full bg-[linear-gradient(180deg,#E5CC7A_0%,#F4E09E_100%)] hover:bg-[#b8963e] text-[var(--bg)] font-bold py-4 rounded-full transition-colors mt-1 text-sm tracking-wide disabled:opacity-60 hover:translate-y-[-5px] cursor-pointer"
             >
               {loading ? t("processing") : text2}
             </button>
@@ -188,7 +188,7 @@ const Modal = ({
               onClick={handleGoogle}
             >
               <img src={google} alt="google" width="20" height="20" />
-              <button className="font-medium text-sm text-[var(--text)] font-barlow cursor-pointer">
+              <button className="font-medium text-sm text-[var(--text)] cursor-pointer">
                 {text4}
               </button>
             </div>

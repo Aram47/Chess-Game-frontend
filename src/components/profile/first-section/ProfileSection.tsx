@@ -53,7 +53,7 @@ const ProfileSection = () => {
 
       {isModalOpen && (
         <div
-          className="fixed inset-0 bg-[#2A2A2ACC]/80 flex items-center justify-center z-50  font-barlow shadow-[0px_8px_32px_0px_#00000080]"
+          className="fixed inset-0 bg-[#2A2A2ACC]/80 flex items-center justify-center z-50   shadow-[0px_8px_32px_0px_#00000080]"
           onClick={() => setIsModalOpen(false)}
         >
           <div

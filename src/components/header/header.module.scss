@@ -14,38 +14,6 @@ header[data-modal-open="true"] {
   top: 0;
   z-index: 1;
 
-  &[data-lang="ru"] {
-    --font_main: "Noto Sans", sans-serif;
-    --font-main: "Noto Sans", sans-serif;
-    --font-barlow:
-      "Noto Sans", sans-serif; // Overwrites your Tailwind variable locally
-    font-family: "Noto Sans", sans-serif !important;
-
-    *,
-    button,
-    a,
-    span,
-    .cm_signup,
-    .cm_logo {
-      font-family: "Noto Sans", sans-serif !important;
-    }
-  }
-
-  &[data-lang="am"] {
-    --font_main: "Noto Sans Armenian", sans-serif;
-    --font-main: "Noto Sans Armenian", sans-serif;
-    --font-barlow: "Noto Sans Armenian", sans-serif;
-    font-family: "Noto Sans Armenian", sans-serif !important;
-
-    *,
-    button,
-    a,
-    span,
-    .cm_signup,
-    .cm_logo {
-      font-family: "Noto Sans Armenian", sans-serif !important;
-    }
-  }
   .cm_header {
     width: 100%;
     height: 64px;
@@ -64,7 +32,7 @@ header[data-modal-open="true"] {
         color: #e5cc7a;
       }
       .cm_logo {
-        font-family: var(--font_main);
+        font-family: var(--font-main);
         font-size: 1.875rem;
         font-weight: 700;
         color: var(--gold);
@@ -96,7 +64,7 @@ header[data-modal-open="true"] {
             letter-spacing: 0.03em;
             transition: color 0.18s;
             padding-bottom: 4px;
-            font-family: var(--font_main);
+            font-family: var(--font-main);
 
             &::after {
               content: "";
@@ -248,7 +216,7 @@ header[data-modal-open="true"] {
       border: none;
       border-radius: 999px;
       padding: 0.625rem 1.5rem;
-      font-family: var(--font_main);
+      font-family: var(--font-main);
       font-size: 0.875rem;
       font-weight: 700;
       cursor: pointer;

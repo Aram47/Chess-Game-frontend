@@ -40,7 +40,7 @@
 //   const currentTurnColor = turnCode === "w" ? "White" : "Black";
 
 //   return (
-//     <div className="w-[35%] bg-[#262421] border border-[#CEB86E33] rounded-[20px] p-6 flex flex-col text-white font-barlow">
+//     <div className="w-[35%] bg-[#262421] border border-[#CEB86E33] rounded-[20px] p-6 flex flex-col text-white ">
 //       <h2 className="text-xl font-medium mb-4 text-[#E5CC7A]">Move History</h2>
 
 //       {historyQuery.isPending ? (
@@ -134,8 +134,10 @@ const SolveHistory = ({
   const currentTurnColor = turnCode === "w" ? t("white") : t("black");
 
   return (
-    <div className="w-[35%] bg-[#262421] border border-[#CEB86E33] rounded-[20px] p-6 flex flex-col text-white font-barlow">
-      <h2 className="text-xl font-medium mb-4 text-[#E5CC7A]">{t("move_history")}</h2>
+    <div className="w-[35%] bg-[#262421] border border-[#CEB86E33] rounded-[20px] p-6 flex flex-col text-white ">
+      <h2 className="text-xl font-medium mb-4 text-[#E5CC7A]">
+        {t("move_history")}
+      </h2>
 
       {historyQuery.isPending ? (
         <div className="flex items-center justify-center">
