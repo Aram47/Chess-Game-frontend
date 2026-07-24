@@ -4,6 +4,7 @@ import { useTranslation } from "../../hooks/useTranslation";
 import type { GameHistoryItem, MoveType } from "../../types/gameType";
 import { normalizeMove } from "../../lib/chess/formatMove";
 import { MoveHistoryEntry } from "./MoveHistoryEntry";
+import { useTheme } from "../../context/ThemeContext";
 
 interface Props {
   currentFen: string | undefined;
@@ -28,12 +29,15 @@ const GameHistory = ({
   const { t } = useTranslation();
   const isLoadingDetail = !selectedGame?.allMoves && selectedGame?._id;
   const displayedMoves = moveHistory;
+  const { theme } = useTheme();
 
   const turnCode = currentFen?.split(" ")[1];
   const currentTurnColor = turnCode === "w" ? t("white") : t("black");
 
   return (
-    <div className="w-[35%] bg-[#262421] border border-[#CEB86E33] rounded-[20px] p-6 flex flex-col text-white ">
+    <div
+      className={`w-[35%]  border border-[#CEB86E33] rounded-[20px] p-6 flex flex-col text-white ${theme ? "bg-[var(--bg)]" : "bg-[#262421]"}`}
+    >
       <h2 className="text-xl font-medium mb-4 text-[#E5CC7A]">
         {t("move_history")}
       </h2>

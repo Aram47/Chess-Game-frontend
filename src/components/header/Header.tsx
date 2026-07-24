@@ -13,6 +13,7 @@ import logoutIcon from "../../assets/icons/header/logout.svg";
 
 import style from "./header.module.scss";
 import NotificationBell from "../notification/NotificationBell";
+import { useTheme } from "../../context/ThemeContext";
 
 interface HeaderType {
   setActiveModal: (type: "signup" | "signin" | null) => void;
@@ -31,7 +32,7 @@ const Header = ({
   const isHomePage = location.pathname === "/";
   const [showFlag, setShowFlag] = useState(false);
   const { t, lang, setLang } = useTranslation();
-
+  const { theme } = useTheme();
   const flags: { id: UiLang; icon: string; alt: string }[] = [
     { id: "en", icon: usaIcon, alt: "usa flag" },
     { id: "ru", icon: rusIcon, alt: "rus flag" },
@@ -51,7 +52,8 @@ const Header = ({
       <header
         data-lang={lang}
         data-modal-open={isSettingsOpen ? "true" : "false"}
-        className={`
+        className={`border-1
+            ${theme ? "border-[#F0C4B4]" : "border-[rgba(229, 204, 122, 0.2)]"}
             ${style.cm_container} transition-shadow duration-300
             ${isSettingsOpen ? "shadow-none" : "shadow-[your-existing-shadow-class]"} 
             ${!isHomePage ? "static transform-none" : style.headerAnimate}`}

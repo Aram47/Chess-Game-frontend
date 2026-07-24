@@ -8,10 +8,11 @@ import { getMyGameHistory } from "../../api/history";
 import AnalyzeColumn from "../../components/analyze/containers/AnalyzeColumn";
 import LeftColumn from "../../components/analyze/containers/LeftColumn";
 
-import leftIcon from "../../assets/icons/analyze/left.svg";
 import NotPlayed from "../../components/analyze/NotPlayed";
 import ChessAnalysisHero from "../../components/analyze/FirstAnalyzePage";
 import { useTranslation } from "../../hooks/useTranslation";
+import { useTheme } from "../../context/ThemeContext";
+import { LeftIcon } from "../../assets/icons/analyze/leftIcon";
 
 const AnalysisContent = () => {
   const { t } = useTranslation();
@@ -63,15 +64,18 @@ const AnalysisContent = () => {
 export const ChessAnalysisUI = () => {
   const { t } = useTranslation();
   const { user } = useAuth();
+  const { theme } = useTheme();
 
   return (
     <ChessAnalysisProvider>
       {!user ? (
         <ChessAnalysisHero />
       ) : (
-        <section className="w-full flex flex-col grow pt-[100px] pb-16 bg-[#1b1a17]">
+        <section
+          className={`w-full flex flex-col grow pt-[100px] pb-16 ${theme ? "bg-[var(--bodyBg)]" : "bg-[#1b1a17] "}`}
+        >
           <header className="w-full text-center mb-8">
-            <h1 className="text-6xl text-gold font-playfair font-black">
+            <h1 className="text-6xl text-[var(--gold)] font-playfair font-black">
               {t("game_analysis")}
             </h1>
           </header>
@@ -80,7 +84,7 @@ export const ChessAnalysisUI = () => {
               to="/"
               className="w-[72px] flex justify-center border-2 border-[#E5CC7A] py-2.5 rounded-3xl"
             >
-              <img src={leftIcon} alt="back" />
+              <LeftIcon theme={theme} />
             </Link>
           </div>
           <AnalysisContent />

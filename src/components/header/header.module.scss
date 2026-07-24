@@ -9,7 +9,6 @@ header[data-modal-open="true"] {
   margin: 33px auto 0 auto;
   border-radius: 999px;
   box-shadow: 0px 8px 32px 0px #00000080;
-  border: 1px solid rgba(229, 204, 122, 0.2);
   position: sticky;
   top: 0;
   z-index: 1;
@@ -123,7 +122,8 @@ header[data-modal-open="true"] {
 
         .cm_btn {
           cursor: pointer;
-
+          background: var(--gold);
+          
           &:hover {
             transform: translateY(-3px);
             transition-duration: 2s;
@@ -200,7 +200,7 @@ header[data-modal-open="true"] {
           font-family: var(--font-barlow);
           border-radius: 50%;
           color: var(--bg);
-          background: linear-gradient(180deg, #e5cc7a 0%, #f4e09e 100%);
+          background: var(--bg-line);
           box-shadow: 0px 4px 20px 0px #e5cc7a4d;
           display: flex;
           align-items: center;
@@ -210,7 +210,7 @@ header[data-modal-open="true"] {
       }
     }
     .cm_signin {
-      background: linear-gradient(180deg, #e5cc7a 0%, #f4e09e 100%);
+      background: var(--bg-line);
       box-shadow: 0px 4px 20px 0px #e5cc7a4d;
       color: #1c1c1c;
       border: none;

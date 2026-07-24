@@ -69,7 +69,7 @@ const PlatformCard = ({
           onClick={() => onConfirm(selected)}
           className="max-w-[382px] w-full py-4.5 mt-4.5 rounded-[90px] transition text-[#1C1C1C] font-semibold text-center"
           style={{
-            background: "linear-gradient(180deg, #E5CC7A 0%, #F4E09E 100%)",
+            background: "var(--bg-line)",
             boxShadow: "0px 4px 20px 0px #E5CC7A4D",
           }}
         >

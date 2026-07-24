@@ -14,8 +14,8 @@ import { BOARD_THEMES, type BoardTheme } from "./board-theme/boardThemes";
 import { GameColumn } from "./gameColumn";
 import GameHistory from "./gameHistory";
 import SignInModal from "../modal/SignInModal";
-import leftIcon from "../../assets/icons/analyze/left.svg";
 import type { GamePageLocationState } from "../../types/playPageState";
+import { LeftIcon } from "../../assets/icons/analyze/leftIcon";
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
@@ -184,7 +184,7 @@ export const ChessGamePage: React.FC = () => {
   }, [isLiveGame, gameStatus, level, t]);
 
   return (
-    <section className="w-full flex flex-col grow pt-[170px] pb-16 bg-[#1b1a17] ">
+    <section className="w-full flex flex-col grow pt-[170px] pb-16 bg-[var(--bodyBg)] ">
       <div className="text-white flex flex-col px-8 w-full">
         {/* Header */}
         <header className="flex items-center w-full text-center mb-8">
@@ -193,11 +193,11 @@ export const ChessGamePage: React.FC = () => {
             state={{ tab: isLiveGame ? "live" : "platform" }}
             className="w-[72px] flex justify-center border-2 border-[#E5CC7A] py-2.5 rounded-3xl"
           >
-            <img src={leftIcon} alt="" aria-hidden />
+            <LeftIcon />
           </Link>
 
           <div className="w-full flex flex-col items-center gap-1">
-            <h1 className="text-4xl md:text-5xl text-gold font-medium tracking-tight">
+            <h1 className="text-4xl md:text-5xl text-[var(--gold)] font-medium tracking-tight">
               {isLiveGame ? t("live_game") : t("chess_game")}
             </h1>
             <p className="text-lg text-[#A39589] font-medium">{subtitle}</p>

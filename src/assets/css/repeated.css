@@ -30,7 +30,7 @@
 }
 
 .cm_btn_fill {
-  background: linear-gradient(180deg, #e5cc7a 0%, #f4e09e 100%);
+  background: var(--bg-line);
   color: #1a1613;
   border: none;
   border-radius: 16777200px;

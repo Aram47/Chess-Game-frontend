@@ -7,6 +7,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ProfileProvider } from "./providers/ProfileProvider";
 import { ProblemsProvider } from "./providers/ProblemsProvider";
 import { TranslationProvider } from "./providers/TranslationProvider";
+import { ThemeProvider } from "./providers/ThemeProvider";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -20,19 +21,21 @@ const queryClient = new QueryClient({
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <TranslationProvider>
-        <AuthProvider>
-          <AuthBootstrap>
-            <ProfileProvider>
-              <GameProvider>
-                <ProblemsProvider>
-                  <RouterProvider router={router} />
-                </ProblemsProvider>
-              </GameProvider>
-            </ProfileProvider>
-          </AuthBootstrap>
-        </AuthProvider>
-      </TranslationProvider>
+      <ThemeProvider>
+        <TranslationProvider>
+          <AuthProvider>
+            <AuthBootstrap>
+              <ProfileProvider>
+                <GameProvider>
+                  <ProblemsProvider>
+                    <RouterProvider router={router} />
+                  </ProblemsProvider>
+                </GameProvider>
+              </ProfileProvider>
+            </AuthBootstrap>
+          </AuthProvider>
+        </TranslationProvider>
+      </ThemeProvider>
     </QueryClientProvider>
   );
 }

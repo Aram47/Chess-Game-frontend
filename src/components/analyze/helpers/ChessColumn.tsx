@@ -13,6 +13,7 @@ import { usePositionAnalysis } from "../../../hooks/usePositionAnalysis";
 import { Loader2 } from "lucide-react";
 import { useTranslation } from "../../../hooks/useTranslation";
 import type { StringKey } from "../../../constants/strings";
+import { useTheme } from "../../../context/ThemeContext";
 
 type AnalyzeControls = {
   goBack: () => void;
@@ -53,11 +54,12 @@ export const ChessColumn = ({
   enableAnalysis?: boolean;
 }) => {
   const { t } = useTranslation();
+  const { theme } = useTheme();
   const winnerPlayer = winner ? t("win") : t("loss");
   const boardOrientation = playerColor === "w" ? "white" : "black";
   const playerSideKey: StringKey = playerColor === "w" ? "white" : "black";
   const opponentSideKey: StringKey = playerColor === "w" ? "black" : "white";
-  const theme = boardTheme ?? BOARD_THEMES[0];
+  const themes = boardTheme ?? BOARD_THEMES[0];
   const [showPiece, setShowPiece] = useState(false);
 
   const analysisEnabled = Boolean(enableAnalysis && analyzeControls && fen);
@@ -99,22 +101,28 @@ export const ChessColumn = ({
   return (
     <div className="flex flex-col gap-8 border-[#CEB86E33] border rounded-[20px] p-8 bg-[#FFFFFF0D]">
       {/* Bot Info */}
-      <div className="flex items-center justify-between bg-[#1C1C1C4D] px-4 py-3 rounded-[20px]">
+      <div
+        className={`flex items-center justify-between px-4 py-3 rounded-[20px] ${theme ? "bg-[#F0F0F066]" : "bg-[#1C1C1C4D]"}`}
+      >
         <div className="flex items-center gap-x-3">
           <div className="w-10 h-10 border-2 border-[#1C1C1C] flex items-center justify-center rounded-full">
             <span className="text-2xl text-[#1C1C1C]">♚</span>
           </div>
           <div className="flex flex-col ">
-            <h3 className="text-gold capitalize">
+            <h3 className="text-[var(--gold)] capitalize">
               {opponentName || t("platform")}
             </h3>
-            <p className="text-[#A39589] text-sm">
+            <p
+              className={`text-sm ${theme ? "text-[#5E6470]" : "text-[#A39589]"}`}
+            >
               {t("playing_color", { color: t(opponentSideKey) })}
             </p>
           </div>
         </div>
 
-        <p className="text-xl text-[#AD1414] bg-[#EF66661A] py-2 px-4 rounded-[10px]">
+        <p
+          className={`${theme ? "bg-[#5E64701A] text-[#5E6470]" : "text-[#AD1414] bg-[#EF66661A]"} text-xl py-2 px-4 rounded-[10px]`}
+        >
           {winnerPlayer}
         </p>
       </div>
@@ -133,12 +141,12 @@ export const ChessColumn = ({
               pieces: figurePieces,
               squareStyles: boardInteraction.squareStyles,
               darkSquareStyle: {
-                backgroundColor: theme.dark,
-                color: theme.light,
+                backgroundColor: themes.dark,
+                color: themes.light,
               },
               lightSquareStyle: {
-                backgroundColor: theme.light,
-                color: theme.dark,
+                backgroundColor: themes.light,
+                color: themes.dark,
               },
             }}
           />
@@ -166,7 +174,9 @@ export const ChessColumn = ({
       </div>
 
       {/* Player Info */}
-      <div className="flex items-center justify-between bg-[#1C1C1C4D] px-4 py-3 rounded-3xl">
+      <div
+        className={`flex items-center justify-between px-4 py-3 rounded-[20px] ${theme ? "bg-[#F0F0F066]" : "bg-[#1C1C1C4D]"}`}
+      >
         <div className="flex items-center gap-x-3">
           <div className="w-10 h-10 border-2 border-[#FFFFFF] flex items-center justify-center rounded-full">
             <span className="text-2xl text-[#FFFFFF]">♚</span>

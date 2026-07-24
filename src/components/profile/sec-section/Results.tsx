@@ -1,7 +1,8 @@
+import { useTheme } from "../../../context/ThemeContext";
+import { useTranslation } from "../../../hooks/useTranslation";
 import { Loader2 } from "lucide-react";
 import type { ProfileStats } from "../../../types/profile";
 import type { CompletedProblemsStats } from "../../../api/snapshot";
-import { useTranslation } from "../../../hooks/useTranslation";
 import type { StringKey } from "../../../constants/strings";
 
 interface ResultsProps {
@@ -12,10 +13,15 @@ interface ResultsProps {
 
 const Results = ({ stats, problemStats, problemsLoading }: ResultsProps) => {
   const { t } = useTranslation();
+  const { theme } = useTheme();
 
-  const formatData = (gameStats: ProfileStats, puzzles?: CompletedProblemsStats) => {
-    const totalGames =
-      gameStats.wins + gameStats.losses + gameStats.draws || 0;
+  const isDark = theme === "dark";
+
+  const formatData = (
+    gameStats: ProfileStats,
+    puzzles?: CompletedProblemsStats,
+  ) => {
+    const totalGames = gameStats.wins + gameStats.losses + gameStats.draws || 0;
 
     const getPercent = (val: number, total: number) =>
       total > 0 ? `${((val / total) * 100).toFixed(1)}%` : "0%";
@@ -90,7 +96,7 @@ const Results = ({ stats, problemStats, problemsLoading }: ResultsProps) => {
   const dynamicData = formatData(stats, problemStats);
 
   return (
-    <section className="flex flex-col gap-y-4 w-full bg-[#1C1C1C] border border-[#CEB86E33] rounded-[20px] p-6 h-full">
+    <section className="flex flex-col gap-y-4 w-full border border-[#CEB86E33] rounded-[20px] p-6 h-full bg-[var(--bg)]">
       {problemsLoading && (
         <div className="flex items-center gap-2 text-[#A39589] text-sm mb-2">
           <Loader2 className="h-4 w-4 animate-spin" />
@@ -99,7 +105,9 @@ const Results = ({ stats, problemStats, problemsLoading }: ResultsProps) => {
       )}
       {dynamicData.map((section, index) => (
         <div key={section.id} className="flex flex-col gap-y-8">
-          <h2 className="text-lg font-semibold text-[#F0EDE8]">
+          <h2
+            className={`text-lg font-semibold ${isDark ? "text-[var(--text)]" : "text-[#F0EDE8]"} `}
+          >
             {t(section.titleKey)}
           </h2>
           <div className="flex gap-x-12 items-center py-4">
@@ -113,7 +121,9 @@ const Results = ({ stats, problemStats, problemsLoading }: ResultsProps) => {
                   }}
                 />
               </div>
-              <div className="absolute inset-[8px] bg-[#1C1C1C] rounded-full z-10" />
+              <div
+                className={`absolute inset-[8px] rounded-full z-10 bg-[var(--bg)]"}`}
+              />
               <div className="relative z-20 flex flex-col items-center justify-center text-center">
                 <h2 className="text-3xl font-light text-white leading-none">
                   {section.total}
@@ -131,7 +141,9 @@ const Results = ({ stats, problemStats, problemsLoading }: ResultsProps) => {
                       className="w-3 h-3 rounded-full"
                       style={{ backgroundColor: stat.color }}
                     />
-                    <span className="text-sm font-medium text-gray-300">
+                    <span
+                      className={`text-sm font-semibold ${isDark ? "text-[var(--text)]" : "text-gray-300"} `}
+                    >
                       {t(stat.labelKey)}
                     </span>
                   </div>

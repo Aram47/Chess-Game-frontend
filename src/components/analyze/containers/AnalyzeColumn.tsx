@@ -4,6 +4,7 @@ import { useMemo, useEffect, useRef } from "react";
 import type { MoveType } from "../../../types/gameType";
 import AllPlayedGames from "../AllPlayedGames";
 import { useTranslation } from "../../../hooks/useTranslation";
+import { useTheme } from "../../../context/ThemeContext";
 
 const formatMove = (move: string | MoveType): string => {
   if (typeof move === "string") return move;
@@ -18,7 +19,7 @@ const AnalyzeColumn = ({
   const { t } = useTranslation();
   const { selectedGame, plyIndex, setPlyIndex, setSelectedGameId, games } =
     useChessAnalysis();
-
+  const { theme } = useTheme();
   const activeRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
@@ -50,8 +51,12 @@ const AnalyzeColumn = ({
   return (
     <div className="flex flex-col gap-6 h-full">
       {/* All Moves */}
-      <div className="bg-[#262421] border border-[#CEB86E33] rounded-xl p-6">
-        <h2 className="text-[#FCFAF2] mb-4 text-xs tracking-widest uppercase">
+      <div
+        className={`${theme ? "bg-[var(--bg)]" : "bg-[#262421]"} border border-[#CEB86E33] rounded-xl p-6`}
+      >
+        <h2
+          className={`${theme ? "text-[var(--text)]" : "text-[#FCFAF2]"} mb-4 text-xs tracking-widest uppercase font-medium`}
+        >
           {t("all_moves")}
         </h2>
 
@@ -71,7 +76,9 @@ const AnalyzeColumn = ({
                 className="grid grid-cols-[60px_1fr_1fr] items-center gap-2"
               >
                 {/* Move number */}
-                <span className="text-center font-mono bg-[#00000033] rounded-[10px] px-6 py-3 text-[#4a4540] font-mono text-md">
+                <span
+                  className={`text-center font-mono rounded-[10px] px-6 py-3 text-[#4a4540] font-mono text-md ${theme ? "bg-[#F0F0F0CC]" : "bg-[#00000033]"}`}
+                >
                   {i + 1}.
                 </span>
 
@@ -79,7 +86,7 @@ const AnalyzeColumn = ({
                 <button
                   ref={plyIndex === pair.whitePly ? activeRef : null}
                   onClick={() => setPlyIndex(pair.whitePly)}
-                  className="text-left font-mono px-4 py-2.5 border-1 border-[#E5CC7A1A] transition-all duration-150 cursor-pointer bg-[#00000033] rounded-[10px] text-[#E5CC7A]"
+                  className={`text-left font-mono px-4 py-2.5 border-1 border-[#E5CC7A1A] transition-all duration-150 cursor-pointer rounded-[10px] text-[var(--gold)] ${theme ? "bg-[#F0F0F0CC]" : "bg-[#00000033]"}`}
                 >
                   {pair.white}
                 </button>
@@ -89,7 +96,7 @@ const AnalyzeColumn = ({
                   <button
                     ref={plyIndex === pair.blackPly ? activeRef : null}
                     onClick={() => setPlyIndex(pair.blackPly)}
-                    className="text-left font-mono px-4 py-2.5 rounded transition-all duration-150 border-1 border-[#E5CC7A1A] cursor-pointer bg-[#00000033] rounded-[10px]"
+                    className={`text-left font-mono px-4 py-2.5 rounded transition-all duration-150 border-1 border-[#E5CC7A1A] cursor-pointer rounded-[10px] ${theme ? "bg-[#F0F0F0CC]" : "bg-[#00000033]"}`}
                   >
                     {pair.black}
                   </button>
@@ -106,9 +113,13 @@ const AnalyzeColumn = ({
       {!selectedGame ? (
         <AllPlayedGames games={games} />
       ) : (
-        <div className="bg-[#262421] border border-[#CEB86E33] rounded-xl p-8 flex flex-col flex-1">
+        <div
+          className={`${theme ? "bg-[var(--bg)]" : "bg-[#262421]"} border border-[#CEB86E33] rounded-xl p-8 flex flex-col flex-1`}
+        >
           <div className="flex justify-between">
-            <h2 className="text-gold mb-4 text-xs font-bold">{t("game_history")}</h2>
+            <h2 className="text-[var(--gold)] mb-4 text-xs font-bold">
+              {t("game_history")}
+            </h2>
             <p className="text-[#A39589] font-normal">
               {t("games_count", { count: games.length })}
             </p>
@@ -119,21 +130,24 @@ const AnalyzeColumn = ({
               <button
                 key={game._id}
                 onClick={() => setSelectedGameId(game._id)}
-                className={`w-full text-left bg-[#1C1C1C4D] py-2.5 px-3 rounded-[10px] transition-all ${
+                className={`w-full text-left py-2.5 px-3 rounded-[10px] transition-all ${
                   selectedGame?._id === game._id
                     ? "bg-[#1C1C1C4D]"
                     : "border-white/5 hover:bg-white/5"
-                }`}
+                }
+                    ${theme ? "bg-[#F3F3F3FF]" : "bg-[#1C1C1C4D]"}`}
               >
                 <div className="flex items-center justify-between">
                   <div className="flex gap-x-3">
                     {game.isBot && (
                       <div className="rounded-full bg-[#E5CC7A14] py-2 px-3 flex justify-center items-center">
-                        <Bot size={24} className="text-gold" />
+                        <Bot size={24} className="text-[#374151FF]" />
                       </div>
                     )}
                     <div className="flex flex-col gap-y-1">
-                      <span className="text-sm font-normal text-[#F7F7F7]">
+                      <span
+                        className={`text-sm font-normal ${theme ? "text-[var(--text)]" : "text-[#F7F7F7]"}`}
+                      >
                         {game.isBot ? t("bot_name") : t("vs_player")}
                       </span>
                       <p className="text-xs text-[#676767]">

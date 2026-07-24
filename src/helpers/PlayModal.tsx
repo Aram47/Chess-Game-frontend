@@ -46,7 +46,7 @@ const PlayModal = ({
               onClick={onClose}
               className="bg-[#E5CC7A] text-black hover:bg-[#d4b86a] py-2.5 px-6 rounded-3xl text-sm font-semibold"
               style={{
-                background: "linear-gradient(180deg, #E5CC7A 0%, #F4E09E 100%)",
+                background: "var(--bg-line)",
                 boxShadow: "0px 4px 20px 0px #E5CC7A4D",
               }}
             >
