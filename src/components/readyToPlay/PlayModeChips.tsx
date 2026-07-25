@@ -1,5 +1,6 @@
 import monitor from "../../assets/icons/play/platform.svg";
 import user from "../../assets/icons/play/player.svg";
+import { useTheme } from "../../context/ThemeContext";
 import { useTranslation } from "../../hooks/useTranslation";
 
 export type PlayMode = "platform" | "live";
@@ -19,6 +20,21 @@ export function PlayModeChips({
   onLiveClick,
 }: PlayModeChipsProps) {
   const { t } = useTranslation();
+  const { theme } = useTheme();
+
+  const getChipClassName = (tabName: PlayMode) => {
+    const isActive = activeTab === tabName;
+
+    if (isActive) {
+      return theme === "dark"
+        ? `${chipBase} bg-[#E5CC7A] text-[#1C1C1C]`
+        : `${chipBase} text-white bg-[linear-gradient(180deg,#DA7756_0%,#D77554_8.33%,#D47251_16.67%,#D1704F_25%,#CF6E4D_33.33%,#CC6C4A_41.67%,#C96948_50%,#C66746_58.33%,#C36543_66.67%,#C06341_75%,#BE603F_83.33%,#BB5E3C_91.67%,#B85C3A_100%)]`;
+    }
+
+    return theme === "dark"
+      ? `${chipBase} bg-transparent text-[#F7EFD6]`
+      : `${chipBase} bg-transparent text-[#da7756]`;
+  };
 
   return (
     <div
@@ -26,33 +42,35 @@ export function PlayModeChips({
       role="tablist"
       aria-label="Game mode"
     >
+      {/* Platform Button */}
       <button
         type="button"
         role="tab"
         aria-selected={activeTab === "platform"}
         onClick={onPlatformClick}
-        className={`${chipBase} ${
-          activeTab === "platform"
-            ? "bg-[#E5CC7A] text-[#1C1C1C]"
-            : "text-[#F7EFD6] bg-transparent"
-        }`}
+        className={getChipClassName("platform")}
       >
         <span className="rounded-[5px] w-6 h-6 flex items-center justify-center bg-[#E5CC7A33]">
-          <img src={monitor} alt="" className="w-4 h-3.5" aria-hidden />
+          <img
+            src={monitor}
+            alt=""
+            className="w-4 h-3.5"
+            aria-hidden
+            style={{
+              filter: activeTab === "platform" ? "brightness(0)" : "brightness(0.5)",
+            }}
+          />
         </span>
         {t("vs_platform")}
       </button>
 
+      {/* Live Button */}
       <button
         type="button"
         role="tab"
         aria-selected={activeTab === "live"}
         onClick={onLiveClick}
-        className={`${chipBase} ${
-          activeTab === "live"
-            ? "bg-[#E5CC7A] text-[#1C1C1C]"
-            : "text-[#F7EFD6] bg-transparent"
-        }`}
+        className={getChipClassName("live")}
       >
         <span className="rounded-[5px] w-6 h-6 flex items-center justify-center bg-[#E5CC7A33]">
           <img
@@ -61,7 +79,7 @@ export function PlayModeChips({
             className="w-4 h-3.5"
             aria-hidden
             style={{
-              filter: activeTab === "live" ? "brightness(0)" : "none",
+              filter: activeTab === "live" ? "brightness(0)" : "brightness(0.5)",
             }}
           />
         </span>

@@ -63,16 +63,17 @@ html[data-lang="am"] {
   --card: #1e293b;
   --border: #334155;
   --text: #1c1c1c;
-  --text-h: #f5f1e8;
-  --bodyBg: #F9F6F3FF;
+  --text-h: #da7756;
+  --bodyBg: #f9f6f3ff;
   --nav_border: rgba(255, 255, 255, 0.07);
   --gold: #da7756;
   --gold_hover: #e8ce8c;
+  --muted: #5E6470;
   color-scheme: dark;
 }
 
 [data-theme="dark"] {
-  --text-h: #08060d;
+  --text-h: #e5cc7a;
   --bg: #1c1c1c;
   --bodyBg: #1c1c1c;
   --bg-line: linear-gradient(180deg, #e5cc7a 0%, #f4e09e 100%);
@@ -122,4 +123,10 @@ input,
 select,
 textarea {
   font-family: inherit;
+}
+
+h1,
+h2,
+h3 {
+  color: var(--text-h);
 }

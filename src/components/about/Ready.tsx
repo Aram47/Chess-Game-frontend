@@ -23,7 +23,7 @@ const Ready = () => {
   };
   return (
     <>
-      <footer className="bg-white/[0.03] backdrop-blur-md border border-white/10 rounded-3xl p-12 text-center ">
+      <footer className="bg-white/[0.03] backdrop-blur-md border border-white/10 rounded-3xl p-12 text-center">
         <div className="bg-white/10 w-16 h-16 rounded-[20px] flex items-center justify-center mx-auto mb-8 p-3">
           <img src={Trophy} alt="Trophy" width={40} height={40} />
         </div>
