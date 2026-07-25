@@ -114,6 +114,7 @@ import type { MoveType } from "../../../types/gameType";
 import { normalizeMove } from "../../../lib/chess/formatMove";
 import { MoveHistoryEntry } from "../../game/MoveHistoryEntry";
 import { useTranslation } from "../../../hooks/useTranslation";
+import { useTheme } from "../../../context/ThemeContext";
 
 interface Props {
   currentFen: string | undefined;
@@ -130,11 +131,13 @@ const SolveHistory = ({
 }: Props) => {
   const { t } = useTranslation();
   const turnCode = currentFen?.split(" ")[1];
-
+  const { theme } = useTheme();
   const currentTurnColor = turnCode === "w" ? t("white") : t("black");
 
   return (
-    <div className="w-[35%] bg-[#262421] border border-[#CEB86E33] rounded-[20px] p-6 flex flex-col text-white ">
+    <div
+      className={`w-[35%] border border-[#CEB86E33] rounded-[20px] p-6 flex flex-col text-white ${theme === "dark" ? "bg-[#262421]" : "bg-white"}`}
+    >
       <h2 className="text-xl font-medium mb-4 text-[#E5CC7A]">
         {t("move_history")}
       </h2>

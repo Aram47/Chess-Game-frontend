@@ -14,7 +14,7 @@ import type { ChessProblem } from "../../../types/problems";
 import type { MoveType } from "../../../types/gameType";
 import { useTranslation } from "../../../hooks/useTranslation";
 
-import { LeftIcon } from "../../../assets/icons/analyze/leftIcon";
+import leftIcon  from "../../../assets/icons/analyze/leftIcon.svg";
 
 const SolveProblem = () => {
   const { t } = useTranslation();
@@ -135,7 +135,7 @@ const SolveProblem = () => {
           className="w-[72px] flex justify-center border-2 border-[#E5CC7A] py-2.5 rounded-3xl"
           aria-label="Back to puzzles"
         >
-          <LeftIcon />
+          <img src={leftIcon} alt='left-icon' />
         </Link>
       </div>
       <div className="flex flex-col lg:flex-row gap-8 px-8">

@@ -2,17 +2,15 @@ import { useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+import { useTranslation } from "../../hooks/useTranslation";
 import { useChessAnalysis } from "../../context/ChessAnalysisContext";
 import { ChessAnalysisProvider } from "../../providers/AnalysisProvider";
 import { getMyGameHistory } from "../../api/history";
 import AnalyzeColumn from "../../components/analyze/containers/AnalyzeColumn";
 import LeftColumn from "../../components/analyze/containers/LeftColumn";
-
 import NotPlayed from "../../components/analyze/NotPlayed";
 import ChessAnalysisHero from "../../components/analyze/FirstAnalyzePage";
-import { useTranslation } from "../../hooks/useTranslation";
-import { useTheme } from "../../context/ThemeContext";
-import { LeftIcon } from "../../assets/icons/analyze/leftIcon";
+import leftIcon from "../../assets/icons/analyze/leftIcon.svg";
 
 const AnalysisContent = () => {
   const { t } = useTranslation();
@@ -64,7 +62,6 @@ const AnalysisContent = () => {
 export const ChessAnalysisUI = () => {
   const { t } = useTranslation();
   const { user } = useAuth();
-  const { theme } = useTheme();
 
   return (
     <ChessAnalysisProvider>
@@ -72,7 +69,7 @@ export const ChessAnalysisUI = () => {
         <ChessAnalysisHero />
       ) : (
         <section
-          className={`w-full flex flex-col grow pt-[100px] pb-16 ${theme ? "bg-[var(--bodyBg)]" : "bg-[#1b1a17] "}`}
+          className={`w-full flex flex-col grow pt-[100px] pb-16`}
         >
           <header className="w-full text-center mb-8">
             <h1 className="text-6xl text-[var(--gold)] font-playfair font-black">
@@ -84,7 +81,7 @@ export const ChessAnalysisUI = () => {
               to="/"
               className="w-[72px] flex justify-center border-2 border-[#E5CC7A] py-2.5 rounded-3xl"
             >
-              <LeftIcon theme={theme} />
+              <img src={leftIcon} alt="left-icon" />
             </Link>
           </div>
           <AnalysisContent />

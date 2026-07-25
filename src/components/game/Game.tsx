@@ -1,118 +1,24 @@
 import { useState, useCallback, useMemo } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { Chess } from "chess.js";
 
 import { useGame } from "../../context/GameContext";
 import { useAuth } from "../../context/AuthContext";
 import { useTranslation } from "../../hooks/useTranslation";
 import type { StringKey } from "../../constants/strings";
 import { useGameHistory } from "../../hooks/useGameHistory";
-import { getMyGameHistoryItem } from "../../api/history";
 import { BOARD_THEMES, type BoardTheme } from "./board-theme/boardThemes";
 
 import { GameColumn } from "./gameColumn";
-import GameHistory from "./gameHistory";
+import GameHistory from "./GameHistory.tsx";
 import SignInModal from "../modal/SignInModal";
 import type { GamePageLocationState } from "../../types/playPageState";
-import { LeftIcon } from "../../assets/icons/analyze/leftIcon";
+import { LeftIcon } from "../../assets/icons/analyze/leftIcon.tsx";
+import { useHistoryReplay } from "../../hooks/useHistoryReplay.tsx";
+import { ConnectionBadge } from "../../helpers/games/ConnectionBadge.tsx";
+import { LockedBoard } from "../../helpers/games/LockedBoard.tsx";
+import { useTheme } from "../../context/ThemeContext";
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
-
-interface LockedBoardProps {
-  onLogin: () => void;
-}
-
-const LockedBoard: React.FC<LockedBoardProps> = ({ onLogin }) => {
-  const { t } = useTranslation();
-  return (
-    <div className="relative w-full h-[600px] bg-[#1c1c1c] flex flex-col justify-center items-center rounded-3xl border-2 border-dashed border-[#CEB86E33]">
-      <div className="max-w-[300px] text-center space-y-6">
-        <p className="text-[#A39589] text-lg">{t("game_locked_message")}</p>
-        <button
-          onClick={onLogin}
-          className="w-full bg-[#E5CC7A] text-black py-3 rounded-xl font-bold hover:scale-105 transition-transform"
-        >
-          {t("login_register")}
-        </button>
-      </div>
-    </div>
-  );
-};
-
-interface ConnectionBadgeProps {
-  status: string;
-  gameStatus: string;
-}
-
-const ConnectionBadge: React.FC<ConnectionBadgeProps> = ({
-  status,
-  gameStatus,
-}) => {
-  const { t } = useTranslation();
-  if (gameStatus === "waiting") {
-    return (
-      <span className="text-sm text-[#E5CC7A] animate-pulse">
-        ● {t("finding_opponent")}
-      </span>
-    );
-  }
-  const connected = status === "connected";
-  return (
-    <span
-      className={`text-sm ${connected ? "text-green-500" : "text-amber-500"}`}
-    >
-      ● {connected ? t("connected") : t("reconnecting")}
-    </span>
-  );
-};
-
-function useHistoryReplay(
-  selectedGameId: string | null,
-  historyList: { _id: string; allMoves?: unknown[] }[],
-  plyIndex: number,
-) {
-  const effectiveId = selectedGameId ?? historyList[0]?._id;
-
-  const { data: activeGame } = useQuery({
-    queryKey: ["game-detail", effectiveId],
-    queryFn: () => getMyGameHistoryItem(effectiveId!),
-    enabled: !!effectiveId,
-  });
-
-  const selectedGame: typeof activeGame | null = useMemo(() => {
-    if (activeGame) return activeGame;
-    return (
-      (historyList.find((g) => g._id === effectiveId) as typeof activeGame) ??
-      null
-    );
-  }, [activeGame, historyList, effectiveId]);
-
-  const { currentFen, isTerminal } = useMemo(() => {
-    const chess = new Chess();
-
-    if (!selectedGame?.allMoves?.length) {
-      return { currentFen: chess.fen(), isTerminal: false };
-    }
-
-    try {
-      for (let i = 0; i < plyIndex; i++) {
-        const move = selectedGame.allMoves[i];
-        if (!move) break;
-        if (!chess.move(move)) {
-          console.warn(`Invalid move at index ${i}`, move);
-          break;
-        }
-      }
-    } catch (e) {
-      console.error("Chess replay error:", e);
-    }
-
-    return { currentFen: chess.fen(), isTerminal: chess.isGameOver() };
-  }, [selectedGame, plyIndex]);
-
-  return { selectedGame, currentFen, isTerminal };
-}
 
 const LEVEL_KEYS: Record<string, StringKey> = {
   easy: "easy",
@@ -143,7 +49,7 @@ export const ChessGamePage: React.FC = () => {
   } = useGame();
 
   const historyQuery = useGameHistory();
-
+  const { theme } = useTheme();
   const [showModalAuth, setShowModalAuth] = useState(false);
   const [boardTheme, setBoardTheme] = useState<BoardTheme>(BOARD_THEMES[0]);
   const [selectedGameId, setSelectedGameId] = useState<string | null>(null);
@@ -184,16 +90,16 @@ export const ChessGamePage: React.FC = () => {
   }, [isLiveGame, gameStatus, level, t]);
 
   return (
-    <section className="w-full flex flex-col grow pt-[170px] pb-16 bg-[var(--bodyBg)] ">
+    <section className={`w-full flex flex-col grow pt-[170px] pb-16`}>
       <div className="text-white flex flex-col px-8 w-full">
         {/* Header */}
         <header className="flex items-center w-full text-center mb-8">
           <Link
             to="/play"
             state={{ tab: isLiveGame ? "live" : "platform" }}
-            className="w-[72px] flex justify-center border-2 border-[#E5CC7A] py-2.5 rounded-3xl"
+            className={`w-[72px] flex justify-center border-2  py-2.5 rounded-3xl ${theme === "dark" ? "border-[#E5CC7A]" : "border-[#DA775626]"}`}
           >
-            <LeftIcon />
+            <LeftIcon theme={theme} />
           </Link>
 
           <div className="w-full flex flex-col items-center gap-1">

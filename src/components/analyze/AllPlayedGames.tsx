@@ -86,10 +86,12 @@ const AllPlayedGames = ({ games }: AllPlayedGamesProps) => {
   return (
     <section className="w-full h-full flex flex-col grow bg-[#1b1a17]">
       <div
-        className={` ${theme ? "bg-[var(--bg)]" : "bg-[#262421]"} border border-[#CEB86E33] flex flex-col rounded-[20px] p-8 min-h-[670px]`}
+        className={`${theme === "dark" ? "bg-[#262421]" : "bg-[var(--bg)]"} border border-[#CEB86E33] flex flex-col rounded-[20px] p-8 min-h-[1000px]`}
       >
         <div className="flex items-center justify-between">
-          <h2 className="text-[#E5CC7A] font-normal text-xl">
+          <h2
+            className={`${theme === "dark" ? "text-[#E5CC7A]" : "text-[#da7756]"} text-[#E5CC7A] font-normal text-xl`}
+          >
             {t("game_history")}
           </h2>
           <span className="text-[#A39589]">
@@ -99,7 +101,9 @@ const AllPlayedGames = ({ games }: AllPlayedGamesProps) => {
         {!games ? (
           <div className="flex-1 flex flex-col items-center justify-center w-full gap-y-2">
             <AnalyzeIcon games={games} />
-            <p className="text-[#EEDDA6] font-medium text-xl">
+            <p
+              className={`font-medium text-xl ${theme === "dark" ? "text-[#EEDDA6]" : "text-[#DA7756B2]"}`}
+            >
               {t("no_game_selected")}
             </p>
             <p className="text-[#A39589] text-md font-normal">

@@ -52,10 +52,10 @@ const AnalyzeColumn = ({
     <div className="flex flex-col gap-6 h-full">
       {/* All Moves */}
       <div
-        className={`${theme ? "bg-[var(--bg)]" : "bg-[#262421]"} border border-[#CEB86E33] rounded-xl p-6`}
+        className={`${theme === "dark" ? "bg-[#262421]" : "bg-[var(--bg)]"} border border-[#CEB86E33] rounded-xl p-6`}
       >
         <h2
-          className={`${theme ? "text-[var(--text)]" : "text-[#FCFAF2]"} mb-4 text-xs tracking-widest uppercase font-medium`}
+          className={`${theme === "dark" ? "text-[#FCFAF2]" : "text-[var(--text)]"} mb-4 text-xs tracking-widest uppercase font-medium`}
         >
           {t("all_moves")}
         </h2>
@@ -77,7 +77,7 @@ const AnalyzeColumn = ({
               >
                 {/* Move number */}
                 <span
-                  className={`text-center font-mono rounded-[10px] px-6 py-3 text-[#4a4540] font-mono text-md ${theme ? "bg-[#F0F0F0CC]" : "bg-[#00000033]"}`}
+                  className={`text-center font-mono rounded-[10px] px-6 py-3 text-[#4a4540] font-mono text-md ${theme === "light" ? "bg-[#F0F0F0CC]" : "bg-[#00000033]"}`}
                 >
                   {i + 1}.
                 </span>
@@ -86,7 +86,7 @@ const AnalyzeColumn = ({
                 <button
                   ref={plyIndex === pair.whitePly ? activeRef : null}
                   onClick={() => setPlyIndex(pair.whitePly)}
-                  className={`text-left font-mono px-4 py-2.5 border-1 border-[#E5CC7A1A] transition-all duration-150 cursor-pointer rounded-[10px] text-[var(--gold)] ${theme ? "bg-[#F0F0F0CC]" : "bg-[#00000033]"}`}
+                  className={`text-left font-mono px-4 py-2.5 border-1 border-[#E5CC7A1A] transition-all duration-150 cursor-pointer rounded-[10px]  ${theme === "light" ? "bg-[#F0F0F0CC] text-[#DA7756]" : "bg-[#00000033] text-[#e5cc7a]"}`}
                 >
                   {pair.white}
                 </button>
@@ -96,7 +96,7 @@ const AnalyzeColumn = ({
                   <button
                     ref={plyIndex === pair.blackPly ? activeRef : null}
                     onClick={() => setPlyIndex(pair.blackPly)}
-                    className={`text-left font-mono px-4 py-2.5 rounded transition-all duration-150 border-1 border-[#E5CC7A1A] cursor-pointer rounded-[10px] ${theme ? "bg-[#F0F0F0CC]" : "bg-[#00000033]"}`}
+                    className={`text-left font-mono px-4 py-2.5 rounded transition-all duration-150 border-1 border-[#E5CC7A1A] cursor-pointer rounded-[10px] ${theme === "light" ? "bg-[#F0F0F0CC] text-[var(--text)]" : "bg-[#00000033] text-[#F7EFD6]"}`}
                   >
                     {pair.black}
                   </button>
@@ -114,10 +114,12 @@ const AnalyzeColumn = ({
         <AllPlayedGames games={games} />
       ) : (
         <div
-          className={`${theme ? "bg-[var(--bg)]" : "bg-[#262421]"} border border-[#CEB86E33] rounded-xl p-8 flex flex-col flex-1`}
+          className={`${theme === "dark" ? "bg-[#262421]" : "bg-[var(--bg)]"} border border-[#CEB86E33] rounded-xl p-8 flex flex-col flex-1`}
         >
           <div className="flex justify-between">
-            <h2 className="text-[var(--gold)] mb-4 text-xs font-bold">
+            <h2
+              className={`mb-4 text-xs font-bold ${theme === "dark" ? "text-[#E5CC7A]" : "text-[#da7756]"}`}
+            >
               {t("game_history")}
             </h2>
             <p className="text-[#A39589] font-normal">
@@ -135,7 +137,7 @@ const AnalyzeColumn = ({
                     ? "bg-[#1C1C1C4D]"
                     : "border-white/5 hover:bg-white/5"
                 }
-                    ${theme ? "bg-[#F3F3F3FF]" : "bg-[#1C1C1C4D]"}`}
+                    ${theme === "dark" ? "bg-[#1C1C1C4D]" : "bg-[#F3F3F3FF]"}`}
               >
                 <div className="flex items-center justify-between">
                   <div className="flex gap-x-3">
@@ -146,7 +148,7 @@ const AnalyzeColumn = ({
                     )}
                     <div className="flex flex-col gap-y-1">
                       <span
-                        className={`text-sm font-normal ${theme ? "text-[var(--text)]" : "text-[#F7F7F7]"}`}
+                        className={`text-sm font-normal ${theme === "dark" ? "text-[#F7F7F7]" : "text-[var(--text)]"}`}
                       >
                         {game.isBot ? t("bot_name") : t("vs_player")}
                       </span>

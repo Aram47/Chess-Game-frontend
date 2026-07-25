@@ -15,11 +15,10 @@ const Layout: React.FC = () => {
     "signup" | "signin" | "reset" | null
   >(null);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-
   const closeModal = () => setActiveModal(null);
 
   return (
-    <div className="app-container">
+    <div className="app-container min-h-screen text-[var(--text)] transition-colors duration-300">
       <div className="headerWrapper">
         <Header
           setActiveModal={setActiveModal}
