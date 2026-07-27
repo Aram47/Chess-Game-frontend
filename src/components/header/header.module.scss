@@ -223,9 +223,12 @@ header[data-modal-open="true"] {
       transition:
         transform 0.7s ease,
         box-shadow 0.7s ease;
-
+      [data-theme="dark"] & {
+        &:hover {
+          background: var(--gold_hover);
+        }
+      }
       &:hover {
-        background: var(--gold_hover);
         transform: translateY(-5px);
         box-shadow: 0 0 20px 5px rgba(229, 204, 122, 0.6);
       }
@@ -238,7 +241,6 @@ header[data-modal-open="true"] {
       font-weight: 600;
       border: none;
       background: none;
-      color: #f7efd6;
       cursor: pointer;
 
       &:hover {

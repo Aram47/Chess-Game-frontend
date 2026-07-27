@@ -168,13 +168,13 @@ const Header = ({
             ) : (
               <div>
                 <button
-                  className={style.cm_signup}
+                  className={`${style.cm_signup} text-[var(--text-h)]`}
                   onClick={() => setActiveModal("signup")}
                 >
                   {t("header_signup")}
                 </button>
                 <button
-                  className={style.cm_signin}
+                   className={style.cm_signin}
                   onClick={() => setActiveModal("signin")}
                 >
                   {t("header_signin")}

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Chessboard } from "react-chessboard";
+import { useTheme } from "../../context/ThemeContext";
 import { figurePieces } from "../../helpers/chess-figures/FiguresChess";
 import SignInModal from "../modal/SignInModal";
 import { useTranslation } from "../../hooks/useTranslation";
@@ -12,14 +13,17 @@ const PREVIEW_FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 
 export default function ChessAnalysisHero() {
   const { t } = useTranslation();
+  const { theme } = useTheme();
   const [activeModal, setActiveModal] = useState(false);
   const [boardTheme] = useState<BoardTheme>(BOARD_THEMES[0]);
-  const theme = boardTheme;
+  const themes = boardTheme;
 
   return (
     <div className="w-full grid grid-cols-1 lg:grid-cols-2 items-center gap-12 px-6 lg:px-[100px] min-h-screen ">
       <div className="w-full order-2 lg:order-1">
-        <div className="bg-[#1c1b18] border border-[rgba(206,184,110,0.15)] rounded-2xl p-6 shadow-[0_32px_80px_rgba(0,0,0,0.6)]">
+        <div
+          className={`border border-[rgba(206,184,110,0.15)] rounded-2xl p-6 shadow-[0_32px_80px_rgba(0,0,0,0.6)] ${theme === "dark" ? "bg-[#1c1b18]" : "bg-[#FFFFFF]"}`}
+        >
           <div className="relative overflow-hidden rounded-[10px] mx-auto w-full max-w-[304px]">
             <Chessboard
               options={{
@@ -28,12 +32,12 @@ export default function ChessAnalysisHero() {
                 pieces: figurePieces,
                 allowDragging: false,
                 darkSquareStyle: {
-                  backgroundColor: theme.dark,
-                  color: theme.light,
+                  backgroundColor: themes.dark,
+                  color: themes.light,
                 },
                 lightSquareStyle: {
-                  backgroundColor: theme.light,
-                  color: theme.dark,
+                  backgroundColor: themes.light,
+                  color: themes.dark,
                 },
               }}
             />

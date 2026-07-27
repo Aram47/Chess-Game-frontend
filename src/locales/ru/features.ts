@@ -143,7 +143,8 @@ export const ruFeatures = {
   footer_careers: "Карьера",
   footer_support: "Поддержка",
   footer_contact: "Контакты",
-  footer_copyright: "© 2026 ChessMaster Pro. Все права защищены.",
+  footer_copyright: "© 2026 ChessMaster. Все права защищены.",
   footer_terms: "Условия использования",
   footer_privacy: "Политика конфиденциальности",
+  footer_cookies: "Файлы cookie"
 } as const;

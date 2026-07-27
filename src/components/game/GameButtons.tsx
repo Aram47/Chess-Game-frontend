@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { useTranslation } from "../../hooks/useTranslation";
+import { useTheme } from "../../context/ThemeContext";
 import { NavButton } from "../../helpers/buttons";
 import { type BoardTheme, BOARD_THEMES } from "./board-theme/boardThemes";
 import { BoardThemeModal } from "./board-theme/BoardThemeModal";
 
-import newGame from "../../assets/icons/game/newGame.svg";
-import resign from "../../assets/icons/game/sign.svg";
-import colors from "../../assets/icons/game/colors.svg";
+import { NewGameIcon } from "../../assets/icons/game/newGame";
+import { ColorsIcon } from "../../assets/icons/game/colors";
+import { ReSignIcon } from "../../assets/icons/game/sign";
 
 interface Props {
   goFirst?: () => void;
@@ -15,6 +16,7 @@ interface Props {
 
 export const GameButtons: React.FC<Props> = ({ goFirst, onThemeChange }) => {
   const { t } = useTranslation();
+  const { theme } = useTheme();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTheme, setSelectedTheme] = useState<BoardTheme>(
     BOARD_THEMES[0],
@@ -31,21 +33,21 @@ export const GameButtons: React.FC<Props> = ({ goFirst, onThemeChange }) => {
         <NavButton
           text={t("new_game")}
           onClick={goFirst}
-          icon={<img src={newGame} alt="newGame" width={24} height={24} />}
-          className="flex items-center gap-x-3 px-6 py-2.5 bg-[#262421] rounded-full hover:bg-[#E5CC7A4D] transition-all cursor-pointer border-1 hover:shadow-[0px_4px_20px_0px_#E5CC7A4D] border-[#E5CC7A4D]"
+          icon={<NewGameIcon />}
+          className={`flex items-center gap-x-3 px-6 py-2.5 rounded-full hover:bg-[#E5CC7A4D] transition-all cursor-pointer border-1 hover:shadow-[0px_4px_20px_0px_#E5CC7A4D] border-[#E5CC7A4D] ${theme === "dark" ? "bg-[#262421]" : "bg-[#FFFFFF] text-[#374151]"}`}
         />
 
         <NavButton
           text={t("resign")}
-          icon={<img src={resign} alt="resign" width={24} height={24} />}
-          className="flex items-center gap-x-3 px-6 py-2.5 bg-[#262421] rounded-full hover:bg-[#E5CC7A4D] transition-all cursor-pointer border-1 hover:shadow-[0px_4px_20px_0px_#E5CC7A4D] border-[#E5CC7A4D]"
+          icon={<ReSignIcon />}
+          className={`flex items-center gap-x-3 px-6 py-2.5 rounded-full hover:bg-[#E5CC7A4D] transition-all cursor-pointer border-1 hover:shadow-[0px_4px_20px_0px_#E5CC7A4D] border-[#E5CC7A4D] ${theme === "dark" ? "bg-[#262421]" : "bg-[#DA77560D] text-[#374151]"}`}
         />
 
         <NavButton
           text={t("board_colors")}
           onClick={() => setIsModalOpen(true)}
-          icon={<img src={colors} alt="colors" width={24} height={24} />}
-          className="flex items-center gap-x-3 px-6 py-2.5 bg-[#262421] rounded-full hover:bg-[#E5CC7A4D] transition-all cursor-pointer border-1 hover:shadow-[0px_4px_20px_0px_#E5CC7A4D] border-[#E5CC7A4D]"
+          icon={<ColorsIcon />}
+          className={`flex items-center gap-x-3 px-6 py-2.5 rounded-full hover:bg-[#E5CC7A4D] transition-all cursor-pointer border-1 hover:shadow-[0px_4px_20px_0px_#E5CC7A4D] border-[#E5CC7A4D] ${theme === "dark" ? "bg-[#262421]" : "bg-[#FFFFFF] text-[#374151]"}`}
         />
       </div>
 

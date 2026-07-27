@@ -321,9 +321,10 @@ export const baseStrings = {
   footer_careers: "Careers",
   footer_support: "Support",
   footer_contact: "Contact",
-  footer_copyright: "© 2026 ChessMaster Pro. All rights reserved.",
-  footer_terms: "Terms of Service",
-  footer_privacy: "Privacy Policy",
+  footer_copyright: "© 2026 ChessMaster. All rights reserved.",
+  footer_terms: "Terms",
+  footer_privacy: "Privacy",
+  footer_cookies: "Cookies",
 
   // About (existing)
   about_title: "About ChessMaster",

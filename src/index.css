@@ -15,7 +15,7 @@
   --font-barlow: var(--font-main);
   --font-playfair: var(--font-heading);
 
-  --color-gold: #e5cc7a;
+  --color-gold: #da7756;
   --color-gold-hover: #e8ce8c;
   --color-cream: #f0e8d0;
   --color-app-bg: #1c1c1c;
@@ -64,6 +64,7 @@ html[data-lang="am"] {
   --border: #334155;
   --text: #1c1c1c;
   --text-h: #da7756;
+  --span: #DA7756;
   --bodyBg: #f9f6f3ff;
   --nav_border: rgba(255, 255, 255, 0.07);
   --gold: #da7756;
@@ -87,6 +88,7 @@ html[data-lang="am"] {
   --sq_dark: #b58863;
   --code-g: #f4f3ec;
   --head: #d4af37;
+  --span: #CFCFCF;
   --shadow:
     rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
   --font-arial: "Noto Sans Symbols 2", sans-serif;

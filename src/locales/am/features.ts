@@ -2,8 +2,7 @@ export const amFeatures = {
   sign_in_to_analyze:
     "Մուտք գործեք՝ ձեր իրական պարտիաները շարժիչով վերլուծելու համար։",
   analyze_your_games: "Վերլուծեք ձեր պարտիաները",
-  analyze_subtitle:
-    "Խորացված վերլուծություն ԱԲ-ով արագ աճի համար։",
+  analyze_subtitle: "Խորացված վերլուծություն ԱԲ-ով արագ աճի համար։",
   start_analyzing: "Սկսել վերլուծությունը",
   already_have_account_play: "Արդեն ունե՞ք հաշիվ: Նախ խաղացեք պարտիա",
   game_history: "Պարտիաների պատմություն",
@@ -23,8 +22,7 @@ export const amFeatures = {
   player_id: "Խաղացող {{id}}",
   current_move: "Ընթացիկ քայլ:",
   analyze_btn: "Վերլուծել",
-  ai_insights_desc:
-    "Ստացեք ԱԲ պատկերացումներ և լավագույն քայլերի առաջարկներ",
+  ai_insights_desc: "Ստացեք ԱԲ պատկերացումներ և լավագույն քայլերի առաջարկներ",
   analyzing_position: "Դիրքի վերլուծում…",
   analysis_unavailable: "Վերլուծությունը հասանելի չէ: Փորձեք մի փոքր ուշ։",
   ai_label: "ԱԲ",
@@ -49,8 +47,7 @@ export const amFeatures = {
   difficulty_advanced: "Առաջադեմ",
   difficulty_expert: "Փորձագետ",
   solve_problem: "Լուծել խնդիրը",
-  could_not_start_puzzle:
-    "Չհաջողվեց սկսել խնդիրը: Վերադարձեք և կրկին փորձեք։",
+  could_not_start_puzzle: "Չհաջողվեց սկսել խնդիրը: Վերադարձեք և կրկին փորձեք։",
   select_puzzle: "Ընտրեք խնդիր ցանկից՝ լուծումը սկսելու համար։",
   browse_puzzles: "Դիտարկել խնդիրները",
   back_to_puzzles: "Դեպի խնդիրներ",
@@ -61,7 +58,8 @@ export const amFeatures = {
   elo_rating: "ELO վարկանիշ",
   armenia: "Հայաստան",
   edit_profile: "Խմբագրել պրոֆիլը",
-  upload_photo_hint: "Սեղմեք տեսախցիկի պատկերակը նոր լուսանկար վերբեռնելու համար",
+  upload_photo_hint:
+    "Սեղմեք տեսախցիկի պատկերակը նոր լուսանկար վերբեռնելու համար",
   nickname_label: "Մականուն",
   email_label: "Email",
   country_label: "Երկիր",
@@ -94,8 +92,7 @@ export const amFeatures = {
   add_friends_compare: "Ավելացրեք ընկերներ վարկանիշները համեմատելու համար։",
   you_suffix: "· Դուք",
   no_friends_yet: "Դեռ ընկերներ չկան",
-  no_friends_search:
-    "Կապվեք այլ խաղացողների հետ պրոֆիլից կամ որոնումից։",
+  no_friends_search: "Կապվեք այլ խաղացողների հետ պրոֆիլից կամ որոնումից։",
   find_players: "Գտնել խաղացողներ",
   no_friends_match: "Որոնմանը համապատասխան ընկերներ չկան։",
   search_friends: "Որոնել ընկերներ…",
@@ -103,8 +100,7 @@ export const amFeatures = {
   puzzle_breakdown_unavailable: "Խնդիրների վիճակագրությունը հասանելի չէ։",
   settings_title: "Կարգավորումներ",
   password_security: "Գաղտնաբառ և անվտանգություն",
-  password_security_subtitle:
-    "Թարմացրեք գաղտնաբառը հաշիվը պաշտպանելու համար",
+  password_security_subtitle: "Թարմացրեք գաղտնաբառը հաշիվը պաշտպանելու համար",
   current_password: "Ընթացիկ գաղտնաբառ",
   new_password: "Նոր գաղտնաբառ",
   confirm_new_password: "Հաստատել նոր գաղտնաբառը",
@@ -143,7 +139,8 @@ export const amFeatures = {
   footer_careers: "Կարիերա",
   footer_support: "Աջակցություն",
   footer_contact: "Կապ",
-  footer_copyright: "© 2026 ChessMaster Pro. Բոլոր իրավունքները պաշտպանված են։",
+  footer_copyright: "© 2026 ChessMaster. Բոլոր իրավունքները պաշտպանված են։",
   footer_terms: "Օգտագործման պայմաններ",
   footer_privacy: "Գաղտնիության քաղաքականություն",
+  footer_cookies: "Քուքիներ"
 } as const;
