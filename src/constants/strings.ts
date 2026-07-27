@@ -261,7 +261,7 @@ export const baseStrings = {
   draws: "Draws",
   problems_solved: "Problems Solved",
   total_solved: "Total Solved",
-  top_players_elo: "Top players by ELO",
+  top_players_elo: "Top 10 ELO Leaders",
   add_friends_compare: "Add friends to compare ratings.",
   you_suffix: "· You",
   no_friends_yet: "No friends yet",

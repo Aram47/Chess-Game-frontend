@@ -96,7 +96,7 @@ const Results = ({ stats, problemStats, problemsLoading }: ResultsProps) => {
   const dynamicData = formatData(stats, problemStats);
 
   return (
-    <section className="flex flex-col gap-y-4 w-full border border-[#CEB86E33] rounded-[20px] p-6 h-full bg-[var(--bg)]">
+    <section className={`flex flex-col gap-y-4 w-full border border-[#CEB86E33] rounded-[20px] p-6 h-full bg-[var(--bg)]`}>
       {problemsLoading && (
         <div className="flex items-center gap-2 text-[#A39589] text-sm mb-2">
           <Loader2 className="h-4 w-4 animate-spin" />
@@ -105,11 +105,11 @@ const Results = ({ stats, problemStats, problemsLoading }: ResultsProps) => {
       )}
       {dynamicData.map((section, index) => (
         <div key={section.id} className="flex flex-col gap-y-8">
-          <h2
-            className={`text-lg font-semibold ${isDark ? "text-[var(--text)]" : "text-[#F0EDE8]"} `}
+          <h4
+            className={`text-lg font-semibold ${isDark ? "text-[#F0EDE8]" : "text-[#1C1C1C]"}`}
           >
             {t(section.titleKey)}
-          </h2>
+          </h4>
           <div className="flex gap-x-12 items-center py-4">
             <div className="relative w-[160px] h-[160px] flex items-center justify-center shrink-0">
               <div className="absolute inset-0 rounded-full overflow-hidden">
@@ -142,7 +142,7 @@ const Results = ({ stats, problemStats, problemsLoading }: ResultsProps) => {
                       style={{ backgroundColor: stat.color }}
                     />
                     <span
-                      className={`text-sm font-semibold ${isDark ? "text-[var(--text)]" : "text-gray-300"} `}
+                      className={`text-sm font-semibold ${isDark ? "text-[#CFCFCF]" : "text-[#1C1C1C]"} `}
                     >
                       {t(stat.labelKey)}
                     </span>

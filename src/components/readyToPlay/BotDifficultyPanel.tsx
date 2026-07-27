@@ -3,6 +3,7 @@ import type { BotLevel } from "../../types/gameType";
 import type { StringKey } from "../../constants/strings";
 import { useTranslation } from "../../hooks/useTranslation";
 import { StartGameButton } from "./StartGameButton";
+import { useTheme } from "../../context/ThemeContext";
 
 const LEVELS: {
   id: BotLevel;
@@ -43,13 +44,17 @@ interface BotDifficultyPanelProps {
   isStarting?: boolean;
 }
 
-export function BotDifficultyPanel({ onStart, isStarting }: BotDifficultyPanelProps) {
+export function BotDifficultyPanel({
+  onStart,
+  isStarting,
+}: BotDifficultyPanelProps) {
   const { t } = useTranslation();
   const [selected, setSelected] = useState<BotLevel>("easy");
-
+  const { theme } = useTheme();
+  
   return (
     <div
-      className="w-full bg-[rgba(255,255,255,0.05)] border border-[rgba(206,184,110,0.2)] rounded-[20px] p-8 flex flex-col items-center gap-8"
+      className={`w-full border border-[rgba(206,184,110,0.2)] rounded-[20px] p-8 flex flex-col items-center gap-8 ${theme === "dark" ? "bg-[rgba(255,255,255,0.05)] " : "bg-[#FFFFFF]"}`}
       role="tabpanel"
       aria-label={t("select_difficulty")}
     >
@@ -75,15 +80,14 @@ export function BotDifficultyPanel({ onStart, isStarting }: BotDifficultyPanelPr
             <span className={`text-xl font-medium ${level.titleClass}`}>
               {t(level.titleKey)}
             </span>
-            <span className="text-sm text-[#A39589]">{t(level.subtitleKey)}</span>
+            <span className="text-sm text-[#A39589]">
+              {t(level.subtitleKey)}
+            </span>
           </button>
         ))}
       </div>
 
-      <StartGameButton
-        onClick={() => onStart(selected)}
-        loading={isStarting}
-      />
+      <StartGameButton onClick={() => onStart(selected)} loading={isStarting} />
     </div>
   );
 }

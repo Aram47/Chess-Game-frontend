@@ -90,7 +90,7 @@ export const ruFeatures = {
   draws: "Ничьи",
   problems_solved: "Решённые задачи",
   total_solved: "Всего решено",
-  top_players_elo: "Топ игроков по ELO",
+  top_players_elo: "Топ 10 игроков по ELO",
   add_friends_compare: "Добавьте друзей для сравнения рейтингов.",
   you_suffix: "· Вы",
   no_friends_yet: "Друзей пока нет",

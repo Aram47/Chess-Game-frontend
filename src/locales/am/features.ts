@@ -88,7 +88,7 @@ export const amFeatures = {
   draws: "Ոչոքիներ",
   problems_solved: "Լուծված խնդիրներ",
   total_solved: "Ընդամենը լուծված",
-  top_players_elo: "Լավագույն խաղացողներ ELO-ով",
+  top_players_elo: "Լավագույն 10 խաղացողները ELO-ով",
   add_friends_compare: "Ավելացրեք ընկերներ վարկանիշները համեմատելու համար։",
   you_suffix: "· Դուք",
   no_friends_yet: "Դեռ ընկերներ չկան",

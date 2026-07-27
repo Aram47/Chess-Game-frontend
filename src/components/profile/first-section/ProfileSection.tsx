@@ -3,11 +3,13 @@ import { useProfile } from "../../../context/ProfileContext";
 import { useTranslation } from "../../../hooks/useTranslation";
 
 import camera from "../../../assets/icons/profile/camera.svg";
-import editIcon from "../../../assets/icons/profile/edit.svg";
+import { EditIcon } from "../../../assets/icons/profile/editIcon";
+import { useTheme } from "../../../context/ThemeContext";
 
 const ProfileSection = () => {
   const { t } = useTranslation();
   const { profile, updateProfile } = useProfile();
+  const { theme } = useTheme();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -23,16 +25,21 @@ const ProfileSection = () => {
   };
 
   return (
-    <div className="w-[23%] bg-[#1C1C1C] border border-[#CEB86E33] rounded-[20px] p-6 flex flex-col items-center gap-y-6 relative">
-      <div className="w-[54px] h-[54px] bg-[#FFFFFF1A] border-1 border-[#CEB86E33] rounded-full flex items-center justify-center text-[#E5CC7A] text-[32px] font-normal">
+    <div className={`w-[23%] bg-[var(--bg)]] border border-[#CEB86E33] rounded-[20px] p-6 flex flex-col items-center gap-y-6 relative ${theme === "dark" ? "bg-[#2A2A2A4D]" : "bg-[#FFFFFF]"}`}>
+      <div
+        className={`w-[54px] h-[54px] border-1 rounded-full flex items-center justify-center text-[var(--text-h)] text-[32px] font-normal
+        ${theme === "dark" ? "border-[#CEB86E33] bg-[#FFFFFF1A]" : "border-[#C155364D] bg-[#C155364D]"}`}
+      >
         {profile.username.charAt(0).toUpperCase()}
       </div>
-      <h2 className="text-sm font-normal text-[#676767]">
+      <span
+        className={`text-sm font-normal ${theme === "dark" ? "text-[#676767]" : "text-[#3D4350]"}`}
+      >
         @{profile.username}
-      </h2>
-      <div className="bg-[#252525] py-1 px-3 rounded-xl flex gap-x-2 items-center text-xs text-gray-500">
+      </span>
+      <div className={`py-1 px-3 rounded-xl flex gap-x-2 items-center text-xs text-gray-500 ${theme === "dark" ? "bg-[#252525]" : "bg-[#F4ECE7]"}`}>
         {/* Real ELO from API */}
-        <span className="text-[#B7A362]">{profile.elo}</span>
+        <span className={`${theme === "dark" ? "text-[#B7A362]" : "text-[#DA7756]"}`}>{profile.elo}</span>
         <div className="gap-x-2 flex">
           <span>{t("elo_rating")}</span>
           <span>|</span>
@@ -45,10 +52,10 @@ const ProfileSection = () => {
       <div className="w-full h-[1px] bg-[#CEB86E33]"></div>
       <button
         onClick={() => setIsModalOpen(true)}
-        className="w-full py-2.5 bg-[#E5CC7A] text-[#1C1C1C] rounded-full font-semibold flex items-center justify-center gap-x-3 cursor-pointer hover:shadow-[0px_4px_20px_0px_#E5CC7A4D] hover:duration-700"
+        className="w-full py-2.5 bg-[var(--text-h)] text-[var(--bg)] rounded-full font-semibold flex items-center justify-center gap-x-3 cursor-pointer hover:shadow-[0px_4px_20px_0px_#E5CC7A4D] hover:duration-700"
       >
         <span>{t("edit_profile")}</span>
-        <img src={editIcon} alt="edit" />
+        <EditIcon />
       </button>
 
       {isModalOpen && (

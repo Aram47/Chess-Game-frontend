@@ -5,6 +5,7 @@ import search from "../../../assets/icons/profile/search.svg";
 import people from "../../../assets/icons/profile/people.svg";
 import type { FriendshipRow } from "../../../types/profile";
 import { useTranslation } from "../../../hooks/useTranslation";
+import { useTheme } from "../../../context/ThemeContext";
 
 interface InGameProps {
   friends: FriendshipRow[];
@@ -13,6 +14,7 @@ interface InGameProps {
 const InGame = ({ friends }: InGameProps) => {
   const { t } = useTranslation();
   const [query, setQuery] = useState("");
+  const { theme } = useTheme();
 
   const filteredFriends = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -33,13 +35,13 @@ const InGame = ({ friends }: InGameProps) => {
             src={search}
             width={16}
             className="absolute left-3 top-1/2 -translate-y-1/2 opacity-50"
-            alt=""
+            alt="search"
           />
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder={t("search_friends")}
-            className="w-full rounded-lg pl-10 py-2 bg-[#252525] text-xs focus:outline-none border border-transparent focus:border-[#E5CC7A]"
+            className={`w-full rounded-lg pl-10 py-2 text-xs focus:outline-none border border-transparent focus:border-[#E5CC7A] placeholder-[#666666] ${theme === "dark" ? "bg-[#252525]" : "bg-[#F4F1ED]"}`}
           />
         </div>
 
@@ -50,12 +52,20 @@ const InGame = ({ friends }: InGameProps) => {
                 <img src={people} alt="" width={24} height={24} />
               </div>
               <div className="flex flex-col gap-y-2 mt-4">
-                <p className="text-[#F0EDE8] text-sm">{t("no_friends_yet")}</p>
-                <p className="text-[#888888] text-sm">{t("no_friends_search")}</p>
+                <p
+                  className={`text-sm ${theme === "dark" ? "text-[#F0EDE8]" : "text-[#1C1C1C]"}`}
+                >
+                  {t("no_friends_yet")}
+                </p>
+                <p
+                  className={`${theme === "dark" ? "text-[#888888]" : "text-[#5E6470]"} text-sm`}
+                >
+                  {t("no_friends_search")}
+                </p>
               </div>
               <Link
                 to="/play"
-                className="inline-block border border-[#E5CC7A] text-[#CFCFCF] px-6 py-2.5 mt-4 rounded-full font-semibold text-xs transition-transform duration-400 hover:-translate-y-[2px] hover:bg-[#E5CC7A1A]"
+                className={`inline-block border px-6 py-2.5 mt-4 rounded-full font-semibold text-xs transition-transform duration-400 hover:-translate-y-[2px] hover:bg-[#E5CC7A1A] ${theme === "dark" ? "border-[#E5CC7A] text-[#CFCFCF]" : "border-[#C15536] text-[#C15536]"}`}
               >
                 {t("find_players")}
               </Link>

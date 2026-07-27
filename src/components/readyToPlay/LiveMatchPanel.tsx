@@ -1,3 +1,4 @@
+import { useTheme } from "../../context/ThemeContext";
 import { useTranslation } from "../../hooks/useTranslation";
 import { StartGameButton } from "./StartGameButton";
 
@@ -8,10 +9,11 @@ interface LiveMatchPanelProps {
 
 export function LiveMatchPanel({ onStart, isStarting }: LiveMatchPanelProps) {
   const { t } = useTranslation();
+  const { theme } = useTheme();
 
   return (
     <div
-      className="w-full bg-[rgba(255,255,255,0.05)] border border-[rgba(206,184,110,0.2)] rounded-[20px] p-8 flex flex-col items-center justify-center gap-8 min-h-[532px]"
+      className={`w-full border border-[rgba(206,184,110,0.2)] rounded-[20px] p-8 flex flex-col items-center justify-center gap-8 min-h-[532px] ${theme === "dark" ? "bg-[rgba(255,255,255,0.05)]" : "bg-[#FFFFFF]"}`}
       role="tabpanel"
       aria-label="Live matchmaking"
     >

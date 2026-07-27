@@ -134,7 +134,7 @@ header[data-modal-open="true"] {
           position: absolute;
           top: 65px;
           right: 0;
-          background: #1c1c1c;
+          background: var(--bg);
           border: 1px solid #e5cc7a33;
           border-radius: 10px;
           box-shadow: 0px 8px 24px 0px #00000080;
@@ -156,7 +156,7 @@ header[data-modal-open="true"] {
 
             &:hover {
               background: #252525;
-              color: #e5cc7a;
+              color: var(--gold);
               transition: 0.3s ease;
 
               img {

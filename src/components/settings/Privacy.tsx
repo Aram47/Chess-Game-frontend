@@ -1,7 +1,7 @@
 import { Section } from "./Section";
 import { ToggleRow } from "../../helpers/ToggleRow";
 import { useTranslation } from "../../hooks/useTranslation";
-import privacyIcon from "../../assets/icons/settings/privacy.svg";
+import { PrivacyIcon } from "../../assets/icons/settings/privacy";
 
 interface PrivacyProps {
   privacy: {
@@ -19,7 +19,7 @@ const Privacy = ({ privacy, setPrivacy }: PrivacyProps) => {
 
   return (
     <Section
-      icon={<img src={privacyIcon} alt="privacy" />}
+      icon={<PrivacyIcon />}
       title={t("privacy_title")}
       subtitle={t("privacy_subtitle")}
     >
