@@ -135,10 +135,11 @@ const Header = ({
                 </button>
 
                 {isDropdownOpen && (
-                  <div className={style.dropdown_menu}>
+                  <div className={`${style.dropdown_menu}`}>
                     <Link
                       to="/profile"
                       onClick={() => setIsDropdownOpen(false)}
+                      className={`${theme === "dark" ? "hover:bg-[#252525]" : "hover:bg-[#F5F5F5]"}`}
                     >
                       <img src={userIcon} alt="userIcon" />
                       <span>{t("header_profile")}</span>
@@ -149,12 +150,13 @@ const Header = ({
                         setIsSettingsOpen(true);
                         setIsDropdownOpen(false);
                       }}
+                      className={`${theme === "dark" ? "hover:bg-[#252525]" : "hover:bg-[#F5F5F5]"}`}
                     >
                       <img src={settingsIcon} alt="settings" />
                       <span>{t("header_settings")}</span>
                     </button>
                     <div className="h-[1px] w-full bg-[#E5CC7A1A] my-2"></div>
-                    <button onClick={logout} className={style.logout}>
+                    <button onClick={logout} className={`${style.logout} ${theme === "dark" ? "hover:bg-[#252525]" : "hover:bg-[#F5F5F5]"}`}>
                       <img
                         src={logoutIcon}
                         alt="logout"
@@ -174,7 +176,7 @@ const Header = ({
                   {t("header_signup")}
                 </button>
                 <button
-                   className={style.cm_signin}
+                  className={style.cm_signin}
                   onClick={() => setActiveModal("signin")}
                 >
                   {t("header_signin")}

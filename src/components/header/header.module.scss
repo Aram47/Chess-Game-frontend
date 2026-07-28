@@ -155,7 +155,6 @@ header[data-modal-open="true"] {
             cursor: pointer;
 
             &:hover {
-              background: #252525;
               color: var(--gold);
               transition: 0.3s ease;
 
@@ -177,7 +176,6 @@ header[data-modal-open="true"] {
 
             &:hover {
               color: red;
-              background: #252525;
 
               img {
                 filter: invert(24%) sepia(97%) saturate(7469%) hue-rotate(0deg)

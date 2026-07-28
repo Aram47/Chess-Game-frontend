@@ -16,9 +16,9 @@ export function ReSignIcon(props: React.SVGProps<SVGSVGElement>) {
     >
       <path
         d="M4 15.0005C4 15.0005 5 14.0005 8 14.0005C11 14.0005 13 16.0005 16 16.0005C19 16.0005 20 15.0005 20 15.0005V3.00049C20 3.00049 19 4.00049 16 4.00049C13 4.00049 11 2.00049 8 2.00049C5 2.00049 4 3.00049 4 3.00049V15.0005ZM4 15.0005V22.0005"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );

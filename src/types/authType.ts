@@ -1,9 +1,5 @@
 export interface UserProfile {
-  id: string;
-  username: string;
-  email: string;
-  name: string;
-  surname: string;
+  [key: string]: any;
 }
 
 export interface IRegisterPayload extends UserProfile {
