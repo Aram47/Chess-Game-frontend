@@ -1,3 +1,4 @@
+import { useTheme } from "../../context/ThemeContext";
 import { useTranslation } from "../../hooks/useTranslation";
 
 interface StartGameButtonProps {
@@ -14,6 +15,7 @@ export function StartGameButton({
   label,
 }: StartGameButtonProps) {
   const { t } = useTranslation();
+  const { theme } = useTheme();
   const buttonLabel = label ?? t("start_game");
 
   return (
@@ -21,9 +23,9 @@ export function StartGameButton({
       type="button"
       onClick={onClick}
       disabled={disabled || loading}
-      className="max-w-[382px] w-full h-16 rounded-[90px] transition text-[#1C1C1C] font-semibold text-center disabled:opacity-50 disabled:cursor-not-allowed"
+      className={`max-w-[382px] w-full h-16 rounded-[90px] transition font-semibold text-center disabled:opacity-50 disabled:cursor-not-allowed ${theme === "dark" ? "text-[#1C1C1C]" : "text-[#FFFFFF]"}`}
       style={{
-        background: "linear-gradient(180deg, #E5CC7A 0%, #F4E09E 100%)",
+        background: "var(--bg-line)",
         boxShadow: "0px 4px 10px rgba(229, 204, 122, 0.3)",
       }}
     >

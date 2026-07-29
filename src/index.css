@@ -15,7 +15,7 @@
   --font-barlow: var(--font-main);
   --font-playfair: var(--font-heading);
 
-  --color-gold: #e5cc7a;
+  --color-gold: #da7756;
   --color-gold-hover: #e8ce8c;
   --color-cream: #f0e8d0;
   --color-app-bg: #1c1c1c;
@@ -40,9 +40,44 @@ html[data-lang="am"] {
   --font-heading: "Noto Sans Armenian", sans-serif;
 }
 
-:root {
-  --text-h: #08060d;
+:root,
+[data-theme="light"] {
+  --bg: #ffffff;
+  --bg-line: linear-gradient(
+    180deg,
+    #da7756 0%,
+    #d77554 8.33%,
+    #d47251 16.67%,
+    #d1704f 25%,
+    #cf6e4d 33.33%,
+    #cc6c4a 41.67%,
+    #c96948 50%,
+    #c66746 58.33%,
+    #c36543 66.67%,
+    #c06341 75%,
+    #be603f 83.33%,
+    #bb5e3c 91.67%,
+    #b85c3a 100%
+  );
+  --foreground: #f5f1e8;
+  --card: #1e293b;
+  --border: #334155;
+  --text: #1c1c1c;
+  --text-h: #da7756;
+  --span: #DA7756;
+  --bodyBg: #f9f6f3ff;
+  --nav_border: rgba(255, 255, 255, 0.07);
+  --gold: #da7756;
+  --gold_hover: #e8ce8c;
+  --muted: #5E6470;
+  color-scheme: dark;
+}
+
+[data-theme="dark"] {
+  --text-h: #e5cc7a;
   --bg: #1c1c1c;
+  --bodyBg: #1c1c1c;
+  --bg-line: linear-gradient(180deg, #e5cc7a 0%, #f4e09e 100%);
   --nav_border: rgba(255, 255, 255, 0.07);
   --gold: #e5cc7a;
   --gold_hover: #e8ce8c;
@@ -53,15 +88,19 @@ html[data-lang="am"] {
   --sq_dark: #b58863;
   --code-g: #f4f3ec;
   --head: #d4af37;
+  --span: #CFCFCF;
   --shadow:
     rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
   --font-arial: "Noto Sans Symbols 2", sans-serif;
+}
 
+html,
+body,
+#root {
   font-size: 16px;
   letter-spacing: 0.18px;
   color-scheme: light dark;
   color: var(--text);
-  background: var(--bg);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -69,16 +108,6 @@ html[data-lang="am"] {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-}
-
-html,
-body,
-#root {
-  font-family: var(--font-main);
-}
-
-body {
-  font-family: var(--font-main);
 }
 
 .font-barlow,
@@ -96,4 +125,10 @@ input,
 select,
 textarea {
   font-family: inherit;
+}
+
+h1,
+h2,
+h3 {
+  color: var(--text-h);
 }

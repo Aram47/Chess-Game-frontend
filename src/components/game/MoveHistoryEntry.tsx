@@ -4,6 +4,7 @@ import {
   moveNumberForPly,
 } from "../../lib/chess/formatMove";
 import { useTranslation } from "../../hooks/useTranslation";
+import { useTheme } from "../../context/ThemeContext";
 
 interface MoveHistoryEntryProps {
   plyIndex: number;
@@ -21,6 +22,7 @@ export function MoveHistoryEntry({
   isActive = false,
 }: MoveHistoryEntryProps) {
   const { t } = useTranslation();
+  const { theme } = useTheme();
   const white = isWhitePly(plyIndex);
   const moveLabel = formatMoveSquares(from, to);
 
@@ -31,7 +33,7 @@ export function MoveHistoryEntry({
       } ${isActive ? "ring-1 ring-[#E5CC7A]/60" : ""}`}
     >
       <span
-        className="w-7 shrink-0 text-right text-[10px] font-medium text-[#E5CC7A]"
+        className={`w-7 shrink-0 text-right text-[10px] font-medium ${theme === "dark" ? "text-[#E5CC7A]" : "text-[#A39589]"}`}
         aria-hidden={!white}
       >
         {white ? `${moveNumberForPly(plyIndex)}.` : ""}
@@ -47,13 +49,13 @@ export function MoveHistoryEntry({
       >
         <span
           className={`text-[10px] uppercase tracking-wide ${
-            white ? "text-[#E5CC7A]" : "text-[#A39589]"
+            white && theme === "dark" ? "text-[#E5CC7A]" : "text-[#DA7756]"
           }`}
         >
           {white ? t("white") : t("black")}
         </span>
         <span
-          className={`font-medium tabular-nums ${white ? "text-[#F7EFD6]" : "text-[#CFCFCF]"}`}
+          className={`font-medium tabular-nums ${white ? "text-[#F7EFD6]" : theme === "dark" ? "text-[#CFCFCF]" : "text-[#5E6470]"}`}
         >
           {moveLabel}
         </span>

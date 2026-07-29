@@ -64,7 +64,7 @@ const SectionList = () => {
                     alt=""
                     width={35}
                     height={35}
-                    className="rounded object-cover"
+                    className="rounded object-cover bg-red-300"
                   />
                 }
                 label={item.name}

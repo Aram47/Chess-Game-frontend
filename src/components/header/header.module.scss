@@ -9,7 +9,6 @@ header[data-modal-open="true"] {
   margin: 33px auto 0 auto;
   border-radius: 999px;
   box-shadow: 0px 8px 32px 0px #00000080;
-  border: 1px solid rgba(229, 204, 122, 0.2);
   position: sticky;
   top: 0;
   z-index: 1;
@@ -123,6 +122,7 @@ header[data-modal-open="true"] {
 
         .cm_btn {
           cursor: pointer;
+          background: var(--gold);
 
           &:hover {
             transform: translateY(-3px);
@@ -134,7 +134,7 @@ header[data-modal-open="true"] {
           position: absolute;
           top: 65px;
           right: 0;
-          background: #1c1c1c;
+          background: var(--bg);
           border: 1px solid #e5cc7a33;
           border-radius: 10px;
           box-shadow: 0px 8px 24px 0px #00000080;
@@ -155,8 +155,7 @@ header[data-modal-open="true"] {
             cursor: pointer;
 
             &:hover {
-              background: #252525;
-              color: #e5cc7a;
+              color: var(--gold);
               transition: 0.3s ease;
 
               img {
@@ -177,7 +176,6 @@ header[data-modal-open="true"] {
 
             &:hover {
               color: red;
-              background: #252525;
 
               img {
                 filter: invert(24%) sepia(97%) saturate(7469%) hue-rotate(0deg)
@@ -200,7 +198,7 @@ header[data-modal-open="true"] {
           font-family: var(--font-barlow);
           border-radius: 50%;
           color: var(--bg);
-          background: linear-gradient(180deg, #e5cc7a 0%, #f4e09e 100%);
+          background: var(--bg-line);
           box-shadow: 0px 4px 20px 0px #e5cc7a4d;
           display: flex;
           align-items: center;
@@ -210,9 +208,9 @@ header[data-modal-open="true"] {
       }
     }
     .cm_signin {
-      background: linear-gradient(180deg, #e5cc7a 0%, #f4e09e 100%);
+      background: var(--bg-line);
       box-shadow: 0px 4px 20px 0px #e5cc7a4d;
-      color: #1c1c1c;
+      color: var(--bg);
       border: none;
       border-radius: 999px;
       padding: 0.625rem 1.5rem;
@@ -223,9 +221,12 @@ header[data-modal-open="true"] {
       transition:
         transform 0.7s ease,
         box-shadow 0.7s ease;
-
+      [data-theme="dark"] & {
+        &:hover {
+          background: var(--gold_hover);
+        }
+      }
       &:hover {
-        background: var(--gold_hover);
         transform: translateY(-5px);
         box-shadow: 0 0 20px 5px rgba(229, 204, 122, 0.6);
       }
@@ -238,7 +239,6 @@ header[data-modal-open="true"] {
       font-weight: 600;
       border: none;
       background: none;
-      color: #f7efd6;
       cursor: pointer;
 
       &:hover {

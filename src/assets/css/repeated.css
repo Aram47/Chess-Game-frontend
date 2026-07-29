@@ -30,8 +30,8 @@
 }
 
 .cm_btn_fill {
-  background: linear-gradient(180deg, #e5cc7a 0%, #f4e09e 100%);
-  color: #1a1613;
+  background: var(--bg-line);
+  color: var(--bg);
   border: none;
   border-radius: 16777200px;
   padding: 1.125rem 1.75rem;
@@ -48,7 +48,6 @@
 
 .cm_button {
   background: transparent;
-  color: var(--text);
   font-size: 1.01rem;
   font-weight: 700;
   cursor: pointer;

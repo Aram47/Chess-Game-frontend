@@ -5,14 +5,14 @@ import {
   BOARD_THEMES,
   type BoardTheme,
 } from "../../game/board-theme/boardThemes";
-import { figurePieces } from "../../../helpers/chess-figures/FiguresChess";
-import controls from "../../../assets/icons/analyze/controls.svg";
-// import "./style.scss";
-import AnalyzeButtons from "./AnalyzeButtons";
+import { useTheme } from "../../../context/ThemeContext";
 import { usePositionAnalysis } from "../../../hooks/usePositionAnalysis";
-import { Loader2 } from "lucide-react";
 import { useTranslation } from "../../../hooks/useTranslation";
+import { figurePieces } from "../../../helpers/chess-figures/FiguresChess";
 import type { StringKey } from "../../../constants/strings";
+import AnalyzeButtons from "./AnalyzeButtons";
+import { Loader2 } from "lucide-react";
+import controls from "../../../assets/icons/analyze/controls.svg";
 
 type AnalyzeControls = {
   goBack: () => void;
@@ -53,11 +53,12 @@ export const ChessColumn = ({
   enableAnalysis?: boolean;
 }) => {
   const { t } = useTranslation();
+  const { theme } = useTheme();
   const winnerPlayer = winner ? t("win") : t("loss");
   const boardOrientation = playerColor === "w" ? "white" : "black";
   const playerSideKey: StringKey = playerColor === "w" ? "white" : "black";
   const opponentSideKey: StringKey = playerColor === "w" ? "black" : "white";
-  const theme = boardTheme ?? BOARD_THEMES[0];
+  const themes = boardTheme ?? BOARD_THEMES[0];
   const [showPiece, setShowPiece] = useState(false);
 
   const analysisEnabled = Boolean(enableAnalysis && analyzeControls && fen);
@@ -97,24 +98,32 @@ export const ChessColumn = ({
   });
 
   return (
-    <div className="flex flex-col gap-8 border-[#CEB86E33] border rounded-[20px] p-8 bg-[#FFFFFF0D]">
+    <div
+      className={`flex flex-col gap-8 border-[#CEB86E33] border rounded-[20px] p-8  ${theme === "dark" ? "bg-[#262421]" : "bg-[#FFFFFF]"}`}
+    >
       {/* Bot Info */}
-      <div className="flex items-center justify-between bg-[#1C1C1C4D] px-4 py-3 rounded-[20px]">
+      <div
+        className={`flex items-center justify-between px-4 py-3 rounded-[20px] ${theme === "dark" ? "bg-[#1C1C1C4D]" : "bg-[#F0F0F066]"}`}
+      >
         <div className="flex items-center gap-x-3">
           <div className="w-10 h-10 border-2 border-[#1C1C1C] flex items-center justify-center rounded-full">
             <span className="text-2xl text-[#1C1C1C]">♚</span>
           </div>
           <div className="flex flex-col ">
-            <h3 className="text-gold capitalize">
+            <h3 className="text-[var(--gold)] capitalize">
               {opponentName || t("platform")}
             </h3>
-            <p className="text-[#A39589] text-sm">
+            <p
+              className={`text-sm ${theme === "dark" ? "text-[#5E6470]" : "text-[#A39589]"}`}
+            >
               {t("playing_color", { color: t(opponentSideKey) })}
             </p>
           </div>
         </div>
 
-        <p className="text-xl text-[#AD1414] bg-[#EF66661A] py-2 px-4 rounded-[10px]">
+        <p
+          className={`${theme === "dark" ? "bg-[#5E64701A] text-[#5E6470]" : "text-[#AD1414] bg-[#EF66661A]"} text-xl py-2 px-4 rounded-[10px]`}
+        >
           {winnerPlayer}
         </p>
       </div>
@@ -133,12 +142,12 @@ export const ChessColumn = ({
               pieces: figurePieces,
               squareStyles: boardInteraction.squareStyles,
               darkSquareStyle: {
-                backgroundColor: theme.dark,
-                color: theme.light,
+                backgroundColor: themes.dark,
+                color: themes.light,
               },
               lightSquareStyle: {
-                backgroundColor: theme.light,
-                color: theme.dark,
+                backgroundColor: themes.light,
+                color: themes.dark,
               },
             }}
           />
@@ -166,13 +175,23 @@ export const ChessColumn = ({
       </div>
 
       {/* Player Info */}
-      <div className="flex items-center justify-between bg-[#1C1C1C4D] px-4 py-3 rounded-3xl">
+      <div
+        className={`flex items-center justify-between px-4 py-3 rounded-[20px] ${theme === "dark" ? "bg-[#1C1C1C4D]" : "bg-[#F0F0F066]"}`}
+      >
         <div className="flex items-center gap-x-3">
           <div className="w-10 h-10 border-2 border-[#FFFFFF] flex items-center justify-center rounded-full">
-            <span className="text-2xl text-[#FFFFFF]">♚</span>
+            <span
+              className={`text-2xl  ${theme === "dark" ? "text-[#FFFFFF]" : "text-[#5E6470]"}`}
+            >
+              ♚
+            </span>
           </div>
           <div className="flex flex-col">
-            <h3 className="text-[#E5CC7A]">{playerName || t("me")}</h3>
+            <h3
+              className={`${theme === "dark" ? "text-[#E5CC7A]" : "text-[#DA7756]"}`}
+            >
+              {playerName || t("me")}
+            </h3>
             <p className="text-[#A39589]">
               {t("playing_color", { color: t(playerSideKey) })}
             </p>
@@ -180,13 +199,17 @@ export const ChessColumn = ({
         </div>
       </div>
       <div className="flex items-center gap-x-3">
-        <div className="bg-[#0000004D] rounded-[20px] justify-center p-4 text-sm text-[#F7EFD6] w-full mx-auto text-center">
-          <p className="font-normal text-xs text-[#F7EFD6]">
-            {t("current_move")}
-          </p>
+        <div
+          className={`${theme === "dark" ? "bg-[#0000004D] text-[#F7EFD6]" : "bg-[#F0F0F0] text-[#da7756]"} rounded-[20px] justify-center p-4 text-sm w-full mx-auto text-center`}
+        >
+          <p className="font-medium text-xs">{t("current_move")}</p>
         </div>
         <button
-          className="w-[184px] bg-[linear-gradient(180deg,#E5CC7A_0%,#F4E09E_100%)] rounded-full text-[#1C1C1C] font-semibold text-sm hover:shadow-[0px_4px_20px_0px_#E5CC7A4D] py-3 cursor-pointer"
+          className={`w-[184px] rounded-full  font-semibold text-sm hover:shadow-[0px_4px_20px_0px_#E5CC7A4D] py-3 cursor-pointer ${
+            theme === "dark"
+              ? "bg-[linear-gradient(180deg,#E5CC7A_0%,#F4E09E_100%)] text-[#1C1C1C]"
+              : "bg-[linear-gradient(180deg,#DA7756_0%,#D77554_8.33%,#D47251_16.67%,#D1704F_25%,#CF6E4D_33.33%,#CC6C4A_41.67%,#C96948_50%,#C66746_58.33%,#C36543_66.67%,#C06341_75%,#BE603F_83.33%,#BB5E3C_91.67%,#B85C3A_100%)] text-[#FFFFFF]"
+          }`}
           onClick={() => setShowPiece(!showPiece)}
         >
           {t("analyze_btn")}
@@ -195,7 +218,9 @@ export const ChessColumn = ({
       <div className="flex flex-col items-center gap-y-6 ">
         <h2 className="text-[#A39589]">{t("ai_insights_desc")}</h2>
         {showPiece && analysisEnabled && (
-          <div className="flex flex-col gap-y-4 bg-[#FFFFFF0D] py-3 px-4 rounded-[20px] w-full">
+          <div
+            className={`flex flex-col gap-y-4 py-3 px-4 rounded-[20px] w-full ${theme === "dark" ? "bg-[#FFFFFF0D]" : "bg-[#DA77560D] border-[#DA7756] border-1"}`}
+          >
             {analysisQuery.isLoading && (
               <div className="flex items-center justify-center gap-2 py-6 text-[#A39589]">
                 <Loader2 className="h-5 w-5 animate-spin" />
@@ -225,7 +250,9 @@ export const ChessColumn = ({
                     </p>
                   </div>
                 </div>
-                <p className="text-[#E5CC7A] text-sm">
+                <p
+                  className={`${theme === "dark" ? "text-[#DA7756]" : "text-[#E5CC7A]"} text-[#E5CC7A] text-sm`}
+                >
                   {t("recommended_move")}{" "}
                   <b className="text-[#CFCFCF] tabular-nums">{bestMoveLabel}</b>
                 </p>

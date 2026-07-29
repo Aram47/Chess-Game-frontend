@@ -1,10 +1,8 @@
-// components/analyze/LeftColumn.tsx
 import { useMemo, useState } from "react";
 import { Chess } from "chess.js";
 import { useAuth } from "../../../context/AuthContext";
 import { useChessAnalysis } from "../../../context/ChessAnalysisContext";
 import { ChessColumn } from "../helpers/ChessColumn";
-// import { GameColumn } from "../game/gameColumn";
 import { tryApplyMove } from "../../../utils/utils";
 import type { MoveType } from "../../../types/gameType";
 import type { BoardTheme } from "../../game/board-theme/boardThemes";

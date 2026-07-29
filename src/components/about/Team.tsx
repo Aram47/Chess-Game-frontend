@@ -5,10 +5,11 @@ import Sona from "../../assets/icons/about/Sona.png";
 import Nver from "../../assets/icons/about/Nver.png";
 import { useTranslation } from "../../hooks/useTranslation";
 import type { StringKey } from "../../constants/strings";
+import { useTheme } from "../../context/ThemeContext";
 
 const Team = () => {
   const { t } = useTranslation();
-
+  const { theme } = useTheme();
   const team: {
     name: string;
     roleKey: StringKey;
@@ -50,7 +51,9 @@ const Team = () => {
   const renderMember = (member: (typeof team)[0], idx: number) => (
     <div
       key={idx}
-      className="max-w-[250px] w-full bg-white/[0.03] backdrop-blur-md border border-[#FFFFFF0D] rounded-[20px] p-6 text-center flex flex-col gap-y-2 items-center"
+      className={`max-w-[250px] w-full backdrop-blur-md border border-[#FFFFFF0D] rounded-[20px] p-6 text-center flex flex-col gap-y-2 items-center ${
+        theme === "dark" ? "bg-white/[0.03]" : "bg-white/90"
+      }`}
     >
       <img
         src={member.img}
@@ -59,12 +62,25 @@ const Team = () => {
         style={idx === 0 ? { objectPosition: "0 -3px" } : undefined}
       />
       <div>
-        <h3 className="font-medium text-[#E5CC7A] text-xl">{member.name}</h3>
-        <p className="text-sm text-[#A39589] capitalize tracking-wider">
+        <h4
+          className={`font-medium text-xl`}
+          style={{
+            color: theme === "dark" ? "#E5CC7A" : "#A45941",
+          }}
+        >
+          {member.name}
+        </h4>
+        <p className="text-sm capitalize tracking-wider"
+         style={{
+            color: theme === "dark" ? "#A39589" : "#5E6470",
+          }}
+        >
           {t(member.roleKey)}
         </p>
       </div>
-      <p className="text-sm text-[#A39589] leading-relaxed">
+      <p className="text-sm leading-relaxed" style={{
+            color: theme === "dark" ? "#A39589" : "#5E6470",
+          }}>
         {t(member.bioKey)}
       </p>
     </div>

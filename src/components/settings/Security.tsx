@@ -3,7 +3,7 @@ import { PasswordField } from "../../helpers/PasswordField";
 import { Section } from "./Section";
 import { useTranslation } from "../../hooks/useTranslation";
 
-import passwordIcon from "../../assets/icons/settings/password.svg";
+import { PasswordIcon } from "../../assets/icons/settings/password";
 
 const Security = () => {
   const { t } = useTranslation();
@@ -14,7 +14,7 @@ const Security = () => {
   });
   return (
     <Section
-      icon={<img src={passwordIcon} alt="passwordIcon" />}
+      icon={<PasswordIcon />}
       title={t("password_security")}
       subtitle={t("password_security_subtitle")}
     >

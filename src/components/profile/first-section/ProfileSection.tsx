@@ -2,12 +2,14 @@ import { useState } from "react";
 import { useProfile } from "../../../context/ProfileContext";
 import { useTranslation } from "../../../hooks/useTranslation";
 
-import camera from "../../../assets/icons/profile/camera.svg";
-import editIcon from "../../../assets/icons/profile/edit.svg";
+import { EditIcon } from "../../../assets/icons/profile/editIcon";
+import { useTheme } from "../../../context/ThemeContext";
+import { CameraIcon } from "../../../assets/icons/profile/camera";
 
 const ProfileSection = () => {
   const { t } = useTranslation();
   const { profile, updateProfile } = useProfile();
+  const { theme } = useTheme();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -23,16 +25,29 @@ const ProfileSection = () => {
   };
 
   return (
-    <div className="w-[23%] bg-[#1C1C1C] border border-[#CEB86E33] rounded-[20px] p-6 flex flex-col items-center gap-y-6 relative">
-      <div className="w-[54px] h-[54px] bg-[#FFFFFF1A] border-1 border-[#CEB86E33] rounded-full flex items-center justify-center text-[#E5CC7A] text-[32px] font-normal">
+    <div
+      className={`w-[23%] bg-[var(--bg)]] border border-[#CEB86E33] rounded-[20px] p-6 flex flex-col items-center gap-y-6 relative ${theme === "dark" ? "bg-[#2A2A2A4D]" : "bg-[#FFFFFF]"}`}
+    >
+      <div
+        className={`w-[54px] h-[54px] border-1 rounded-full flex items-center justify-center text-[var(--text-h)] text-[32px] font-normal
+        ${theme === "dark" ? "border-[#CEB86E33] bg-[#FFFFFF1A]" : "border-[#C155364D] bg-[#C155364D]"}`}
+      >
         {profile.username.charAt(0).toUpperCase()}
       </div>
-      <h2 className="text-sm font-normal text-[#676767]">
+      <span
+        className={`text-sm font-normal ${theme === "dark" ? "text-[#676767]" : "text-[#3D4350]"}`}
+      >
         @{profile.username}
-      </h2>
-      <div className="bg-[#252525] py-1 px-3 rounded-xl flex gap-x-2 items-center text-xs text-gray-500">
+      </span>
+      <div
+        className={`py-1 px-3 rounded-xl flex gap-x-2 items-center text-xs text-gray-500 ${theme === "dark" ? "bg-[#252525]" : "bg-[#F4ECE7]"}`}
+      >
         {/* Real ELO from API */}
-        <span className="text-[#B7A362]">{profile.elo}</span>
+        <span
+          className={`${theme === "dark" ? "text-[#B7A362]" : "text-[#DA7756]"}`}
+        >
+          {profile.elo}
+        </span>
         <div className="gap-x-2 flex">
           <span>{t("elo_rating")}</span>
           <span>|</span>
@@ -45,19 +60,19 @@ const ProfileSection = () => {
       <div className="w-full h-[1px] bg-[#CEB86E33]"></div>
       <button
         onClick={() => setIsModalOpen(true)}
-        className="w-full py-2.5 bg-[#E5CC7A] text-[#1C1C1C] rounded-full font-semibold flex items-center justify-center gap-x-3 cursor-pointer hover:shadow-[0px_4px_20px_0px_#E5CC7A4D] hover:duration-700"
+        className="w-full py-2.5 bg-[var(--text-h)] text-[var(--bg)] rounded-full font-semibold flex items-center justify-center gap-x-3 cursor-pointer hover:shadow-[0px_4px_20px_0px_#E5CC7A4D] hover:duration-700"
       >
         <span>{t("edit_profile")}</span>
-        <img src={editIcon} alt="edit" />
+        <EditIcon />
       </button>
 
       {isModalOpen && (
         <div
-          className="fixed inset-0 bg-[#2A2A2ACC]/80 flex items-center justify-center z-50   shadow-[0px_8px_32px_0px_#00000080]"
+          className={`fixed inset-0 flex items-center justify-center z-50 bg-[#2A2A2ACC]/80 shadow-[0px_8px_32px_0px_#00000080]`}
           onClick={() => setIsModalOpen(false)}
         >
           <div
-            className="max-w-[600px] bg-[#202020] p-8 rounded-[20px] w-[502px] border border-[#CEB86E33] relative"
+            className={`max-w-[600px] p-8 rounded-[20px] w-[502px] border border-[#CEB86E33] relative ${theme === "dark" ? "bg-[#202020]" : "bg-[#FFFFFF]"}`}
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header & Close Icon */}
@@ -67,7 +82,7 @@ const ProfileSection = () => {
               </h2>
               <button
                 onClick={() => setIsModalOpen(false)}
-                className="text-[#A39589] hover:text-[#E5CC7A] cursor-pointer absolute top-6 right-6"
+                className="text-[#A39589] hover:text-[var(--text-h)] cursor-pointer absolute top-6 right-6"
               >
                 ✕
               </button>
@@ -75,11 +90,15 @@ const ProfileSection = () => {
 
             {/* Profile Picture Placeholder */}
             <div className="flex flex-col items-center mb-8">
-              <div className="w-[100px] h-[100px] bg-[#252525] rounded-full flex items-center justify-center text-[#B7A362] text-4xl border border-[#B7A362]/20 relative">
+              <div
+                className={`w-[100px] h-[100px] rounded-full flex items-center justify-center text-4xl border border-[#B7A362]/20 relative ${theme === "dark" ? "bg-[#252525] text-[#B7A362]" : "bg-[#FFFFFF] text-[#DA7756]"}`}
+              >
                 {profile.username.charAt(0).toUpperCase()}
-                <div className="absolute bottom-0 right-0 bg-[#B7A362] p-1.5 rounded-full border-2 border-[#202020]">
+                <div
+                  className={`absolute bottom-0 right-0 p-1.5 rounded-full border-2 ${theme === "dark" ? "border-[#202020] bg-[#B7A362]" : "border-[#DA775614] bg-[#DA775614]"}`}
+                >
                   {/* Camera Icon placeholder - you can use an SVG here */}
-                  <img src={camera} alt="" />
+                  <CameraIcon />
                 </div>
               </div>
               <p className="text-sm text-[#A39589] mt-3">
@@ -90,7 +109,9 @@ const ProfileSection = () => {
             {/* Input Fields */}
             <div className="space-y-5">
               <div>
-                <label className="text-sm text-[#F7F7F7] font-medium mb-2 block">
+                <label
+                  className={`${theme === "dark" ? "text-[#F7F7F7]" : "text-[#1C1C1C]"} text-sm font-medium mb-2 block`}
+                >
                   {t("nickname_label")}
                 </label>
                 <input
@@ -98,13 +119,15 @@ const ProfileSection = () => {
                   onChange={(e) =>
                     setFormData({ ...formData, username: e.target.value })
                   }
-                  className="w-full bg-[#1C1C1C] text-sm border border-[#333333] py-3 pl-4 rounded-xl text-[#A39589] placeholder:text-[#A39589] focus:border-[#B7A362] outline-none"
+                  className={`w-full text-sm border py-3 pl-4 rounded-xl  focus:border-[#B7A362] outline-none ${theme === "dark" ? "bg-[#1C1C1C] text-[#A39589] placeholder:text-[#A39589] border-[#333333]" : "bg-[#F5F5F5] text-[#6B6B6B] placeholder:text-[#6B6B6B] border-[#E5E5E5]"}`}
                   placeholder={t("placeholder_choose_username")}
                 />
               </div>
 
               <div>
-                <label className="text-sm text-[#F7F7F7] font-medium mb-2 block">
+                <label
+                  className={`${theme === "dark" ? "text-[#F7F7F7]" : "text-[#1C1C1C]"} text-sm font-medium mb-2 block`}
+                >
                   {t("email_label")}
                 </label>
                 <input
@@ -112,17 +135,19 @@ const ProfileSection = () => {
                   onChange={(e) =>
                     setFormData({ ...formData, email: e.target.value })
                   }
-                  className="w-full text-[#A39589] bg-[#181818] border border-[#333333] p-3.5 rounded-xl text-sm focus:border-[#B7A362] outline-none placeholder:text-[#A39589]"
+                  className={`w-full text-sm border py-3 pl-4 rounded-xl  focus:border-[#B7A362] outline-none ${theme === "dark" ? "bg-[#1C1C1C] text-[#A39589] placeholder:text-[#A39589] border-[#333333]" : "bg-[#F5F5F5] text-[#6B6B6B] placeholder:text-[#6B6B6B] border-[#E5E5E5]"}`}
                   placeholder={t("placeholder_email")}
                 />
               </div>
 
               <div>
-                <label className="text-sm text-[#F7F7F7] font-medium mb-2 block">
+                <label
+                  className={`${theme === "dark" ? "text-[#F7F7F7]" : "text-[#1C1C1C]"} text-sm font-medium mb-2 block`}
+                >
                   {t("country_label")}
                 </label>
                 <input
-                  className="w-full bg-[#181818] text-sm border border-[#333333] p-3.5 rounded-xl text-white focus:border-[#B7A362] outline-none placeholder:text-[#A39589]"
+                  className={`w-full text-sm border py-3 pl-4 rounded-xl  focus:border-[#B7A362] outline-none ${theme === "dark" ? "bg-[#1C1C1C] text-[#A39589] placeholder:text-[#A39589] border-[#333333]" : "bg-[#F5F5F5] text-[#6B6B6B] placeholder:text-[#6B6B6B] border-[#E5E5E5]"}`}
                   placeholder={t("placeholder_choose_country")}
                 />
               </div>
@@ -132,13 +157,13 @@ const ProfileSection = () => {
             <div className="flex justify-end gap-x-3 mt-8 pr-8 pt-6 border-t-1 border-t-[#E5CC7A1A]">
               <button
                 onClick={() => setIsModalOpen(false)}
-                className="py-3 px-6 text-[#A39589] rounded-full hover:text-[#E5CC7A] hover:bg-[#2A2A2ACC] font-medium cursor-pointer transition-all duration-800 hover:-translate-y-1 hover:shadow-[0px_4px_20px_0px_#E5CC7A4D]"
+                className="py-3 px-6 text-[#A39589] rounded-full hover:text-[var(--text-h)] hover:bg-[#2A2A2ACC] font-medium cursor-pointer transition-all duration-800 hover:-translate-y-1 hover:shadow-[0px_4px_20px_0px_#E5CC7A4D]"
               >
                 {t("cancel")}
               </button>
               <button
                 onClick={handleSaveChanges}
-                className="py-3 px-6 bg-[linear-gradient(180deg,#E5CC7A_0%,#F4E09E_100%)] text-[#1C1C1C] rounded-full hover:bg-[#d6be6f] font-semibold text-sm cursor-pointer transition-all duration-800 hover:-translate-y-1 hover:shadow-[0px_4px_20px_0px_#E5CC7A4D]"
+                className="py-3 px-6 bg-[var(--text-h)] text-[var(--bg)] rounded-full hover:bg-[var(--text-h)] font-semibold text-sm cursor-pointer transition-all duration-800 hover:-translate-y-1 hover:shadow-[0px_4px_20px_0px_#E5CC7A4D]"
               >
                 {t("save_changes")}
               </button>

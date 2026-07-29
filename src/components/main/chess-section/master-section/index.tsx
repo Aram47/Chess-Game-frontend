@@ -1,6 +1,7 @@
 import type { FC } from "react";
 import { useTranslation } from "../../../../hooks/useTranslation";
 import style from "./style.module.scss";
+import { useTheme } from "../../../../context/ThemeContext";
 
 interface MasterChessSectionProps {
   phase: "idle" | "entrance" | "exit";
@@ -8,7 +9,7 @@ interface MasterChessSectionProps {
 
 const MasterChessSection: FC<MasterChessSectionProps> = ({ phase }) => {
   const { t } = useTranslation();
-
+  const { theme } = useTheme();
   return (
     <div
       className={`${style.cm_copy} ${phase === "exit" ? style.hide_text : ""}`}
@@ -20,7 +21,9 @@ const MasterChessSection: FC<MasterChessSectionProps> = ({ phase }) => {
       <p className="cm_subline cm_text">{t("master_chess_subtitle")}</p>
       <div className={`${style.cm_actions} cm_buttons`}>
         <button className="cm_btn_fill">{t("start_playing")}</button>
-        <button className={`${style.cm_btn_ghost} cm_button`}>
+        <button
+          className={`${style.cm_btn_ghost} cm_button ${theme === "dark" ? "text-[#CFCFCF]" : "text-[#DA7756]"}`}
+        >
           {t("watch_demo")}
         </button>
       </div>

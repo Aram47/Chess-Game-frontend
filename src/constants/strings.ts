@@ -78,7 +78,8 @@ export const baseStrings = {
   master_chess_title: "Master the Art of Chess",
   master_chess_subtitle:
     "Elevate your game with AI-powered analysis, expert instruction, and a global community of chess enthusiasts.",
-  play_chess_title: "Play Chess Your Way",
+  play_chess_title: "Play Chess",
+  your_way: "Your Way",
   play_chess_subtitle:
     "Challenge our advanced AI bots or compete against players worldwide in real-time matches.",
   tools_section_title: "Everything You Need to Excel",
@@ -135,8 +136,7 @@ export const baseStrings = {
     "Start matchmaking and we will pair you with another player.",
 
   // Game
-  game_locked_message:
-    "The game is locked. Please log in to start playing.",
+  game_locked_message: "The game is locked. Please log in to start playing.",
   finding_opponent: "Finding opponent…",
   connected: "Connected",
   reconnecting: "Reconnecting…",
@@ -169,8 +169,7 @@ export const baseStrings = {
   theme_green: "Green",
 
   // Analyze
-  sign_in_to_analyze:
-    "Sign in to analyze your real games with the engine.",
+  sign_in_to_analyze: "Sign in to analyze your real games with the engine.",
   analyze_your_games: "Analyze Your Games",
   analyze_subtitle:
     "Deep dive into your games with AI-powered analysis and improve faster.",
@@ -193,8 +192,7 @@ export const baseStrings = {
   player_id: "Player {{id}}",
   current_move: "Current Move:",
   analyze_btn: "Analyze",
-  ai_insights_desc:
-    "Get AI insights and best move suggestions as you navigate",
+  ai_insights_desc: "Get AI insights and best move suggestions as you navigate",
   analyzing_position: "Analyzing position…",
   analysis_unavailable: "Analysis unavailable. Try again in a moment.",
   ai_label: "AI",
@@ -263,12 +261,11 @@ export const baseStrings = {
   draws: "Draws",
   problems_solved: "Problems Solved",
   total_solved: "Total Solved",
-  top_players_elo: "Top players by ELO",
+  top_players_elo: "Top 10 ELO Leaders",
   add_friends_compare: "Add friends to compare ratings.",
   you_suffix: "· You",
   no_friends_yet: "No friends yet",
-  no_friends_search:
-    "Connect with other players from your profile or search.",
+  no_friends_search: "Connect with other players from your profile or search.",
   find_players: "Find Players",
   no_friends_match: "No friends match your search.",
   search_friends: "Search friends…",
@@ -296,6 +293,7 @@ export const baseStrings = {
   privacy_subtitle: "Control who can see your activity",
   show_online_status: "Show Online Status",
   show_online_status_desc: "Let others know when you're online",
+  manage_notification: "Manage how you receive notifications",
 
   // Pages & misc
   loading_profile: "Loading profile",
@@ -324,9 +322,10 @@ export const baseStrings = {
   footer_careers: "Careers",
   footer_support: "Support",
   footer_contact: "Contact",
-  footer_copyright: "© 2026 ChessMaster Pro. All rights reserved.",
-  footer_terms: "Terms of Service",
-  footer_privacy: "Privacy Policy",
+  footer_copyright: "© 2026 ChessMaster. All rights reserved.",
+  footer_terms: "Terms",
+  footer_privacy: "Privacy",
+  footer_cookies: "Cookies",
 
   // About (existing)
   about_title: "About ChessMaster",

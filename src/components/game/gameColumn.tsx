@@ -11,6 +11,7 @@ import { useChessboardInteraction } from "../../hooks/useChessboardInteraction";
 
 import "../../assets/css/style.scss";
 import type { ChessColor } from "../../types/gameType";
+import { useTheme } from "../../context/ThemeContext";
 
 type AnalyzeControls = {
   goBack: () => void;
@@ -67,7 +68,8 @@ export const GameColumn = ({
   const playerSideKey = playerColor === "w" ? "white" : "black";
   const opponentSideColor: ChessColor = playerColor === "w" ? "black" : "white";
   const activeTurn = fen.split(" ")[1] === "b" ? "black" : "white";
-  const theme = boardTheme ?? BOARD_THEMES[0];
+  const themes = boardTheme ?? BOARD_THEMES[0];
+  const { theme } = useTheme();
 
   const lastMoveStyles = useMemo(() => {
     const styles: Record<string, CSSProperties> = {};
@@ -116,17 +118,21 @@ export const GameColumn = ({
   };
 
   return (
-    <div className="flex flex-col gap-8 border-[#CEB86E33] border rounded-[20px] p-8 bg-[#FFFFFF0D]">
+    <div
+      className={`flex flex-col gap-8 border-[#CEB86E33] border rounded-[20px] p-8 ${theme === "dark" ? "bg-[#262421]" : "bg-[#FFFFFF]"}`}
+    >
       {/* Bot Info */}
-      <div className="flex items-center justify-between bg-[#1C1C1C4D] px-4 py-3 rounded-[20px]">
+      <div className={`flex items-center justify-between px-4 py-3 rounded-[20px] ${theme === "dark" ? "bg-[#1C1C1C4D]" : "bg-[#F0F0F066]"}`}>
         <div className="flex items-center gap-x-3">
           <div className="w-10 h-10 border-2 border-[#1C1C1C] flex items-center justify-center rounded-full">
             <span className="text-2xl text-[#1C1C1C]">♚</span>
           </div>
           <div className="flex flex-col ">
-            <h3 className="text-gold capitalize">
+            <h3 className="text-[var(--gold)] capitalize">
               {opponentName || t("platform")}
-              {!isLiveGame && level ? ` (${t(level as "easy" | "medium" | "hard")})` : ""}
+              {!isLiveGame && level
+                ? ` (${t(level as "easy" | "medium" | "hard")})`
+                : ""}
             </h3>
             <p className="text-[#A39589] text-sm">
               {t("playing_color", { color: t(opponentSideColor) })}
@@ -134,7 +140,7 @@ export const GameColumn = ({
           </div>
         </div>
 
-        <p className="text-xl text-[#A39589] bg-[#0000004D] py-2 px-4 rounded-[10px]">
+        <p className={`text-xl text-[#A39589] py-2 px-4 rounded-[10px] ${theme === "dark" ? "bg-[#0000004D]" : "bg-[#5E64701A]"}`}>
           {formatTime(timers[opponentSideColor])}
         </p>
       </div>
@@ -153,12 +159,12 @@ export const GameColumn = ({
               pieces: figurePieces,
               squareStyles: boardInteraction.squareStyles,
               darkSquareStyle: {
-                backgroundColor: theme.dark,
-                color: theme.light,
+                backgroundColor: themes.dark,
+                color: themes.light,
               },
               lightSquareStyle: {
-                backgroundColor: theme.light,
-                color: theme.dark,
+                backgroundColor: themes.light,
+                color: themes.dark,
               },
             }}
           />
@@ -178,33 +184,35 @@ export const GameColumn = ({
         {gameStatus !== "playing" &&
           gameStatus !== "idle" &&
           gameStatus !== "waiting" && (
-          <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-black/80">
-            <h2 className="text-white text-2xl mb-4">
-              {winner === "you"
-                ? t("you_win")
-                : winner === "bot"
-                  ? t("bot_wins")
-                  : winner === "opponent"
-                    ? t("opponent_wins")
-                  : winner === "draw"
-                    ? t("draw_result")
-                    : gameStatus.toUpperCase()}
-            </h2>
-            <button
-              onClick={resetGame}
-              className="bg-[#E5CC7A] px-4 py-2 rounded text-[#1C1C1C] font-semibold"
-            >
-              {t("new_game")}
-            </button>
-          </div>
-        )}
+            <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-black/80">
+              <h2 className="text-white text-2xl mb-4">
+                {winner === "you"
+                  ? t("you_win")
+                  : winner === "bot"
+                    ? t("bot_wins")
+                    : winner === "opponent"
+                      ? t("opponent_wins")
+                      : winner === "draw"
+                        ? t("draw_result")
+                        : gameStatus.toUpperCase()}
+              </h2>
+              <button
+                onClick={resetGame}
+                className="bg-[#E5CC7A] px-4 py-2 rounded text-[#1C1C1C] font-semibold"
+              >
+                {t("new_game")}
+              </button>
+            </div>
+          )}
       </div>
 
       {/* Player Info */}
-      <div className="flex items-center justify-between bg-[#1C1C1C4D] px-4 py-3 rounded-3xl">
+      <div
+        className={`flex items-center justify-between px-4 py-3 rounded-3xl ${theme === "dark" ? "bg-[#1C1C1C4D]" : "bg-[#F0F0F066]"}`}
+      >
         <div className="flex items-center gap-x-3">
-          <div className="w-10 h-10 border-2 border-[#FFFFFF] flex items-center justify-center rounded-full">
-            <span className="text-2xl text-[#FFFFFF]">♚</span>
+          <div className={`w-10 h-10 border-2 flex items-center  justify-center rounded-full ${theme === "dark" ? "border-[#FFFFFF] bg-none" : "border-none bg-white"}`}>
+            <span className="text-2xl text-[var(--text)]">♚</span>
           </div>
           <div className="flex flex-col">
             <h3 className="text-white">{playerName || t("me")}</h3>
@@ -214,14 +222,12 @@ export const GameColumn = ({
           </div>
         </div>
 
-        <p className="text-xl text-[#1C1C1C] bg-[#E5CC7A] py-2 px-4 rounded-[10px]">
-          {formatTime(
-            timers[playerSideKey as "white" | "black"],
-          )}
+        <p className={`text-xl text-[#1C1C1C] py-2 px-4 rounded-[10px] bg-[var(--text-h)] text-[var(--bg)]`}>
+          {formatTime(timers[playerSideKey as "white" | "black"])}
         </p>
       </div>
-      <div className="bg-[#0000004D] rounded-xl justify-center p-4 text-sm text-[#F7EFD6] max-w-[70%] w-full mx-auto text-center">
-        <p className="font-normal text-xs text-[#F7EFD6] ">
+            <div className={`rounded-xl justify-center p-4 text-sm max-w-[70%] w-full mx-auto text-center ${theme === "dark" ? "bg-[#0000004D] text-[#F7EFD6]" : "bg-[#FAF9F7] text-[#5E6470]"}`}>
+        <p className="font-normal text-xs">
           {activeTurn === "white" ? t("white_to_move") : t("black_to_move")}
         </p>
       </div>

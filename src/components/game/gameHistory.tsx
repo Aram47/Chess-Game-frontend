@@ -4,6 +4,7 @@ import { useTranslation } from "../../hooks/useTranslation";
 import type { GameHistoryItem, MoveType } from "../../types/gameType";
 import { normalizeMove } from "../../lib/chess/formatMove";
 import { MoveHistoryEntry } from "./MoveHistoryEntry";
+import { useTheme } from "../../context/ThemeContext";
 
 interface Props {
   currentFen: string | undefined;
@@ -28,13 +29,18 @@ const GameHistory = ({
   const { t } = useTranslation();
   const isLoadingDetail = !selectedGame?.allMoves && selectedGame?._id;
   const displayedMoves = moveHistory;
+  const { theme } = useTheme();
 
   const turnCode = currentFen?.split(" ")[1];
   const currentTurnColor = turnCode === "w" ? t("white") : t("black");
 
   return (
-    <div className="w-[35%] bg-[#262421] border border-[#CEB86E33] rounded-[20px] p-6 flex flex-col text-white ">
-      <h2 className="text-xl font-medium mb-4 text-[#E5CC7A]">
+    <div
+      className={`w-[35%] border rounded-[20px] p-6 flex flex-col text-white ${theme === "dark" ? "bg-[#262421] border-[#CEB86E33]" : "bg-[#FFFFFF] border-[#E7E3DF]"}`}
+    >
+      <h2
+        className={`text-xl font-medium mb-4 ${theme === "dark" ? "text-[#E5CC7A]" : "text-[#DA7756]"}`}
+      >
         {t("move_history")}
       </h2>
 
@@ -81,12 +87,16 @@ const GameHistory = ({
         <div className="w-full flex flex-col gap-y-3 mt-6 border-t border-[#CEB86E33] pb-4">
           <div className="text-sm flex items-center justify-between mt-6">
             <span className="text-[#A39589]">{t("total_moves")}</span>
-            <span className="text-[#E5CC7A]">{displayedMoves.length}</span>
+            <span
+              className={`${theme === "dark" ? "text-[#E5CC7A]" : "text-[#DA7756]"}`}
+            >
+              {displayedMoves.length}
+            </span>
           </div>
           <div className="flex items-center justify-between gap-2 text-sm">
             <span className="text-[#A39589]">{t("current_turn")}</span>
             <span
-              className={`font-medium ${turnCode === "w" ? "text-[#E5CC7A]" : "text-gray-400"}`}
+              className={`font-medium ${turnCode === "w" && theme === "dark" ? "text-[#E5CC7A]" : turnCode === "w" && theme === "light" ? "text-[#DA7756]" : null}`}
             >
               {currentTurnColor}
             </span>

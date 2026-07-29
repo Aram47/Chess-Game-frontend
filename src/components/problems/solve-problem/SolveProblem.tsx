@@ -14,7 +14,7 @@ import type { ChessProblem } from "../../../types/problems";
 import type { MoveType } from "../../../types/gameType";
 import { useTranslation } from "../../../hooks/useTranslation";
 
-import leftIcon from "../../../assets/icons/analyze/left.svg";
+import leftIcon  from "../../../assets/icons/analyze/leftIcon.svg";
 
 const SolveProblem = () => {
   const { t } = useTranslation();
@@ -29,7 +29,7 @@ const SolveProblem = () => {
   );
   const [startError, setStartError] = useState<string | null>(null);
   const [branchMoves] = useState<MoveType[]>([]);
-  const [plyIndex, setPlyIndex] = useState(0);
+  const [_, setPlyIndex] = useState(0);
 
   const parsedId = Number(problemId);
   const effectiveId =
@@ -125,7 +125,7 @@ const SolveProblem = () => {
   return (
     <section className="w-full flex flex-col grow pt-[100px] pb-16 bg-[#1b1a17]">
       <header className="w-full text-center mb-8 px-4">
-        <h1 className="text-3xl md:text-5xl text-gold font-playfair font-black">
+        <h1 className="text-3xl md:text-5xl text-[var(--gold)] font-playfair font-black">
           {activeProblem.description || t("chess_puzzle")}
         </h1>
       </header>
@@ -135,7 +135,7 @@ const SolveProblem = () => {
           className="w-[72px] flex justify-center border-2 border-[#E5CC7A] py-2.5 rounded-3xl"
           aria-label="Back to puzzles"
         >
-          <img src={leftIcon} alt="" />
+          <img src={leftIcon} alt='left-icon' />
         </Link>
       </div>
       <div className="flex flex-col lg:flex-row gap-8 px-8">

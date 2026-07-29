@@ -9,6 +9,7 @@ import {
   type RecentGameSnapshot,
 } from "../../../lib/profile/mapRecentGame";
 import { useTranslation } from "../../../hooks/useTranslation";
+import { useTheme } from "../../../context/ThemeContext";
 
 interface RecentGamesProps {
   games: RecentGameSnapshot[];
@@ -17,6 +18,7 @@ interface RecentGamesProps {
 const RecentGames = ({ games }: RecentGamesProps) => {
   const { t } = useTranslation();
   const { user } = useAuth();
+  const { theme } = useTheme();
 
   const summaries: GameSummary[] = useMemo(() => {
     if (!user?.id || !games?.length) return [];
@@ -54,14 +56,18 @@ const RecentGames = ({ games }: RecentGamesProps) => {
           summaries.map((game, i) => (
             <div
               key={i}
-              className="bg-[#232323] py-2.5 px-3 rounded-xl flex items-center justify-between mb-2"
+              className={`py-2.5 px-3 rounded-xl flex items-center justify-between mb-2 ${theme === "dark" ? "bg-[#252525]" : "bg-[#FAF8F6]"}`}
             >
               <div className="flex items-center gap-3 min-w-0">
-                <div className="w-8 h-8 rounded-full bg-[#E5CC7A] flex items-center justify-center text-[#1c1c1c] font-bold shrink-0">
+                <div
+                  className={`w-8 h-8 rounded-full flex items-center justify-center text-[#1c1c1c] font-normal shrink-0 ${theme === "dark" ? "bg-[#E5CC7A]" : "bg-[#DA775680]"}`}
+                >
                   {game.opponentName?.charAt(0).toUpperCase() || "?"}
                 </div>
                 <div className="min-w-0">
-                  <p className="text-sm font-normal text-[#F7F7F7] truncate">
+                  <p
+                    className={`text-sm font-medium truncate ${theme === "dark" ? "text-[#F7F7F7]" : "text-[#1C1C1C]"}`}
+                  >
                     {game.opponentName}
                   </p>
                   <p className="text-xs font-normal text-[#676767]">

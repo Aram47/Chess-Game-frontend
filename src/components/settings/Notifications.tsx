@@ -1,7 +1,7 @@
 import { Section } from "./Section";
 import { ToggleRow } from "../../helpers/ToggleRow";
 import { useTranslation } from "../../hooks/useTranslation";
-import notification from "../../assets/icons/settings/notification.svg";
+import { NotificationIcon } from "../../assets/icons/settings/notification";
 
 interface NotificationsProps {
   notifications: {
@@ -24,7 +24,7 @@ const Notifications = ({
 
   return (
     <Section
-      icon={<img src={notification} alt="notification" />}
+      icon={<NotificationIcon />}
       title={t("notifications_title")}
       subtitle={t("notifications_subtitle")}
     >

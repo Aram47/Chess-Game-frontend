@@ -90,7 +90,7 @@ export const ruFeatures = {
   draws: "Ничьи",
   problems_solved: "Решённые задачи",
   total_solved: "Всего решено",
-  top_players_elo: "Топ игроков по ELO",
+  top_players_elo: "Топ 10 игроков по ELO",
   add_friends_compare: "Добавьте друзей для сравнения рейтингов.",
   you_suffix: "· Вы",
   no_friends_yet: "Друзей пока нет",
@@ -143,7 +143,8 @@ export const ruFeatures = {
   footer_careers: "Карьера",
   footer_support: "Поддержка",
   footer_contact: "Контакты",
-  footer_copyright: "© 2026 ChessMaster Pro. Все права защищены.",
+  footer_copyright: "© 2026 ChessMaster. Все права защищены.",
   footer_terms: "Условия использования",
   footer_privacy: "Политика конфиденциальности",
+  footer_cookies: "Файлы cookie"
 } as const;

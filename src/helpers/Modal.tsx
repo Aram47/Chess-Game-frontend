@@ -6,6 +6,7 @@ import type { ISignUp } from "../types/authType";
 
 import closeIcon from "../assets/icons/modal/close.svg";
 import google from "../assets/icons/google.svg";
+import { useTheme } from "../context/ThemeContext";
 
 const Modal = ({
   onClose,
@@ -27,11 +28,12 @@ const Modal = ({
 }: ISignUp) => {
   const { loading } = useAuth();
   const { t } = useTranslation();
+  const { theme } = useTheme();
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/30 backdrop-blur-sm p-4 overflow-y-auto">
       <div
-        className={`relative max-w-[448px] top-[5%] bottom-[5%] w-full rounded-[20px] border border-[#2e2e2e] shadow-[0px_8px_32px_0px_#1C1C1C80] backdrop-blur-[100px] bg-[#1C1C1CCC]`}
+        className={`relative max-w-[448px] top-[5%] bottom-[5%] w-full rounded-[20px] border border-[#2e2e2e] shadow-[0px_8px_32px_0px_#1C1C1C80] backdrop-blur-[100px] ${theme === "dark" ? "bg-[#1C1C1CCC]" : "bg-[#FFFFFFCC]"}`}
       >
         <div className="p-8">
           {/* Close button */}
@@ -39,17 +41,19 @@ const Modal = ({
             onClick={onClose}
             className="absolute right-4 top-4 text-xl text-gray-500 hover:text-[var(--text)] transition-colors cursor-pointer"
           >
-            <img src={closeIcon} alt="close-icon" style={{
+            <img
+              src={closeIcon}
+              alt="close-icon"
+              style={{
                 width: "20px",
                 height: "20px",
-            }} />
+              }}
+            />
           </button>
 
           {/* Header */}
           <div className="mb-8">
-            <h1 className="text-white text-3xl font-bold">
-              {text1}
-            </h1>
+            <h1 className="text-white text-3xl font-bold">{text1}</h1>
             {subtitle && (
               <p className="text-[var(--muted)] text-sm mt-2">{subtitle}</p>
             )}
@@ -142,7 +146,7 @@ const Modal = ({
                     </label>
                     <button
                       type="button"
-                      className="text-[#c8a84b] text-sm hover:underline"
+                      className="text-[var(--text-h)] text-sm hover:underline"
                       onClick={isOpen}
                     >
                       {t("forgot_password")}
@@ -155,7 +159,7 @@ const Modal = ({
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-[linear-gradient(180deg,#E5CC7A_0%,#F4E09E_100%)] hover:bg-[#b8963e] text-[var(--bg)] font-bold py-4 rounded-full transition-colors mt-1 text-sm tracking-wide disabled:opacity-60 hover:translate-y-[-5px] cursor-pointer"
+              className="w-full bg-[var(--text-h)] hover:shadow-[0px_4px_20px_0px_ #e5cc7a4d] text-[var(--bg)] font-bold py-4 rounded-full transition-all duration-1000 mt-1 text-sm tracking-wide disabled:opacity-60 hover:translate-y-[-5px] cursor-pointer"
             >
               {loading ? t("processing") : text2}
             </button>
@@ -170,7 +174,7 @@ const Modal = ({
                   ? t("already_have_account")
                   : t("dont_have_account")}
               <button
-                className="text-[#c8a84b] font-semibold hover:underline cursor-pointer"
+                className="text-[var(--text-h)] font-semibold hover:underline cursor-pointer"
                 onClick={onSwitch}
               >
                 {text3}
