@@ -293,6 +293,7 @@ export const baseStrings = {
   privacy_subtitle: "Control who can see your activity",
   show_online_status: "Show Online Status",
   show_online_status_desc: "Let others know when you're online",
+  manage_notification: "Manage how you receive notifications",
 
   // Pages & misc
   loading_profile: "Loading profile",

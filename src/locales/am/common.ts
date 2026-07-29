@@ -68,4 +68,5 @@ export const amCommon = {
   registration_success: "Գրանցումը հաջող էր: Խնդրում ենք մուտք գործել։",
   completing_login: "Մուտքի ավարտ…",
   restoring_session: "Նիստի վերականգնում",
+  manage_notification: "Կառավարեք ծանուցումների ստացման ձևը",
 } as const;

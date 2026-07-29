@@ -68,4 +68,5 @@ export const ruCommon = {
   registration_success: "Регистрация успешна! Пожалуйста, войдите.",
   completing_login: "Завершение входа...",
   restoring_session: "Восстановление сессии",
+  manage_notification: "Настройте получение уведомлений",
 } as const;

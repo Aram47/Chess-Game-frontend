@@ -1,11 +1,11 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+import { useTheme } from "../../../context/ThemeContext";
+import { useTranslation } from "../../../hooks/useTranslation";
 import { SectionWrapper } from "../../../helpers/sectionWrapper";
 import search from "../../../assets/icons/profile/search.svg";
 import people from "../../../assets/icons/profile/people.svg";
 import type { FriendshipRow } from "../../../types/profile";
-import { useTranslation } from "../../../hooks/useTranslation";
-import { useTheme } from "../../../context/ThemeContext";
 
 interface InGameProps {
   friends: FriendshipRow[];

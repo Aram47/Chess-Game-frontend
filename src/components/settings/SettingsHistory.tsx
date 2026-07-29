@@ -5,6 +5,7 @@ import Privacy from "./Privacy";
 import { NavButton } from "../../helpers/buttons";
 import { useTranslation } from "../../hooks/useTranslation";
 import { useTheme } from "../../context/ThemeContext";
+import Colors from "./Colors";
 
 interface SettingsModalProps {
   onClose?: () => void;
@@ -19,6 +20,11 @@ const SettingsModal = ({ onClose }: SettingsModalProps) => {
   const [privacy, setPrivacy] = useState({
     showOnlineStatus: true,
   });
+  const [colors, setColors] = useState({
+    classic: true,
+    brown: false,
+    blue: false,
+  });
   const { theme } = useTheme();
 
   const handleSave = () => {
@@ -32,7 +38,7 @@ const SettingsModal = ({ onClose }: SettingsModalProps) => {
       onClick={onClose}
     >
       <div
-        className={`relative max-w-[600px] max-h-[90vh] overflow-y-scroll [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] w-full rounded-[20px] border border-[#CEB86E33] shadow-[0px_8px_32px_0px_#000000] bg-[#1C1C1CCC] p-8 ${theme === "dark" ? " bg-[#2A2A2ACC]" : "bg-[#FFFFFFCC]"}`}
+        className={`relative max-w-[600px] max-h-[90vh] overflow-y-scroll [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] w-full rounded-[20px] border border-[#CEB86E33] shadow-[0px_8px_32px_0px_#00000080] backdrop-blur-[100px] bg-[#1C1C1CCC] p-8 ${theme === "dark" ? " bg-[#2A2A2ACC]" : "bg-[#FFFFFFCC]"}`}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex flex-col gap-y-8">
@@ -59,6 +65,8 @@ const SettingsModal = ({ onClose }: SettingsModalProps) => {
 
           {/* Privacy */}
           <Privacy privacy={privacy} setPrivacy={setPrivacy} />
+
+          <Colors colors={colors} setColors={setColors} />
 
           {/* Footer */}
           <div className="flex justify-end gap-2.5 pt-6 border-t border-[#E5CC7A1A]">
