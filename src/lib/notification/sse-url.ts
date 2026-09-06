@@ -1,6 +1,8 @@
+import { API_BASE_URL } from "../../api/baseUrl";
+
 /**
  * SSE URL for NotificationsController — GET /notifications/stream
- * Prefers explicit env URL, then backend base URL.
+ * Prefers explicit env URL, then the public API origin, then same-origin.
  */
 export function getNotificationsSseUrl(): string {
   const explicitStreamUrl = (
@@ -12,18 +14,12 @@ export function getNotificationsSseUrl(): string {
 
   const notificationsBase = (
     import.meta.env.VITE_NOTIFICATIONS_BASE_URL ||
-    import.meta.env.VITE_API_BASE_URL ||
+    API_BASE_URL ||
     ""
   ).trim();
   if (notificationsBase) {
     return `${notificationsBase.replace(/\/$/, "")}/notifications/stream`;
   }
 
-  if (import.meta.env.DEV) {
-    return "/notifications/stream";
-  }
-
-  throw new Error(
-    "Configure VITE_NOTIFICATIONS_SSE_URL, VITE_NOTIFICATIONS_BASE_URL, or VITE_API_BASE_URL",
-  );
+  return "/notifications/stream";
 }

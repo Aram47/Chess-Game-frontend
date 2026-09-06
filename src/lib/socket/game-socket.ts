@@ -1,8 +1,7 @@
 import { io, Socket } from "socket.io-client";
 import { API_BASE_URL } from "../../api/axiosIntance";
 
-// In dev, API_BASE_URL is "" so Socket.IO uses the Vite proxy (/notifications).
-// In production, set VITE_SOCKET_BASE_URL or VITE_APP_API_URL to the API host.
+// Empty origin uses the current host (Vite proxy locally, backend nginx in prod).
 const SOCKET_BASE_URL = (
   import.meta.env.VITE_SOCKET_BASE_URL || API_BASE_URL || ""
 ).replace(/\/$/, "");

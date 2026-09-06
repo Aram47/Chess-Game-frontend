@@ -1,0 +1,17 @@
+node_modules
+dist
+dist-ssr
+.git
+.gitignore
+.cursor
+.vscode
+.idea
+.DS_Store
+*.log
+*.local
+.env
+.env.*
+!.env.example
+figma
+README.md
+eslint.config.js

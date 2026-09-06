@@ -1,9 +1,8 @@
 import axios, { type InternalAxiosRequestConfig } from "axios";
 import { refreshAccessToken } from "./refreshSession";
+import { API_BASE_URL } from "./baseUrl";
 
-export const API_BASE_URL = import.meta.env.DEV
-  ? ""
-  : import.meta.env.VITE_APP_API_URL || "http://localhost:3000";
+export { API_BASE_URL };
 
 type AuthAxiosConfig = InternalAxiosRequestConfig & {
   skipAuthRefresh?: boolean;

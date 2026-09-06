@@ -9,7 +9,7 @@ import { useGameHistory } from "../../hooks/useGameHistory";
 import { BOARD_THEMES, type BoardTheme } from "./board-theme/boardThemes";
 
 import { GameColumn } from "./gameColumn";
-import GameHistory from "./GameHistory.tsx";
+import GameHistory from "./gameHistory";
 import SignInModal from "../modal/SignInModal";
 import type { GamePageLocationState } from "../../types/playPageState";
 import { LeftIcon } from "../../assets/icons/analyze/leftIcon.tsx";

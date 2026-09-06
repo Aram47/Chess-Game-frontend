@@ -6,7 +6,7 @@ const backendTarget =
   process.env.VITE_APP_API_URL?.replace(/\/$/, "") ||
   "http://localhost:3000";
 
-function proxyWithDevCookies(context: string): ProxyOptions {
+function proxyWithDevCookies(_context: string): ProxyOptions {
   return {
     target: backendTarget,
     changeOrigin: true,
@@ -34,6 +34,7 @@ export default defineConfig({
     proxy: {
       "/api": proxyWithDevCookies("/api"),
       "/game": proxyWithDevCookies("/game"),
+      "/billing": proxyWithDevCookies("/billing"),
       "/user-service": proxyWithDevCookies("/user-service"),
       "/snapshot-service": proxyWithDevCookies("/snapshot-service"),
       "/owner-service": proxyWithDevCookies("/owner-service"),
