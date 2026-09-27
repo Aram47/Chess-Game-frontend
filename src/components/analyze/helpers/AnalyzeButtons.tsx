@@ -24,7 +24,7 @@ const AnalyzeButtons: React.FC<AnalyzeButtonsProps> = ({
   const { theme } = useTheme();
 
   return (
-    <div className="flex items-center justify-center gap-4 mt-4">
+    <div className="flex shrink-0 items-center justify-center gap-2">
       <NavButton
         onClick={goFirst}
         icon={<img src={skipBack} alt="first" />}

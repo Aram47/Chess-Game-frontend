@@ -1,111 +1,80 @@
 import { useChessAnalysis } from "../../../context/ChessAnalysisContext";
-import { Bot } from "lucide-react";
-import { useMemo, useEffect, useRef } from "react";
-import type { MoveType } from "../../../types/gameType";
+import { Bot, Loader2 } from "lucide-react";
 import AllPlayedGames from "../AllPlayedGames";
 import { useTranslation } from "../../../hooks/useTranslation";
 import { useTheme } from "../../../context/ThemeContext";
-
-const formatMove = (move: string | MoveType): string => {
-  if (typeof move === "string") return move;
-  return `${move.from}${move.to}${move.promotion ?? ""}`;
-};
+import { usePositionAnalysis } from "../../../hooks/usePositionAnalysis";
+import { formatEvalLabel } from "../helpers/EvalBar";
+import controls from "../../../assets/icons/analyze/controls.svg";
+import type { StringKey } from "../../../constants/strings";
 
 const AnalyzeColumn = ({
-  winner,
+  fen,
+  playerColor = "w",
 }: {
-  winner: "you" | "bot" | "draw" | null;
+  fen: string;
+  playerColor?: "w" | "b";
 }) => {
   const { t } = useTranslation();
-  const { selectedGame, plyIndex, setPlyIndex, setSelectedGameId, games } =
-    useChessAnalysis();
+  const { selectedGame, setSelectedGameId, games } = useChessAnalysis();
   const { theme } = useTheme();
-  const activeRef = useRef<HTMLButtonElement>(null);
-
-  useEffect(() => {
-    activeRef.current?.scrollIntoView({ block: "nearest", behavior: "smooth" });
-  }, [plyIndex]);
-
-  const movePairs = useMemo(() => {
-    if (!selectedGame) return [];
-    const moves = selectedGame.allMoves;
-    const pairs: {
-      white: string;
-      black?: string;
-      whitePly: number;
-      blackPly: number;
-    }[] = [];
-    for (let i = 0; i < moves.length; i += 2) {
-      pairs.push({
-        white: formatMove(moves[i]),
-        black: moves[i + 1] ? formatMove(moves[i + 1]) : undefined,
-        whitePly: i + 1,
-        blackPly: i + 2,
-      });
-    }
-    return pairs;
-  }, [selectedGame]);
-
-  const winnerPlayer = winner ? t("win") : t("loss");
+  const analysisQuery = usePositionAnalysis(fen, Boolean(fen));
+  const bestLine = analysisQuery.data?.lines?.[0];
+  const playerSideKey: StringKey = playerColor === "w" ? "white" : "black";
+  const evalLabel = bestLine ? formatEvalLabel(bestLine.evaluation) : null;
+  const bestMoveLabel = bestLine
+    ? `${bestLine.move.from} → ${bestLine.move.to}`
+    : null;
 
   return (
-    <div className="flex flex-col gap-6 h-full">
-      {/* All Moves */}
+    <div className="flex h-full min-h-0 flex-col gap-3">
       <div
-        className={`${theme === "dark" ? "bg-[#262421]" : "bg-[var(--bg)]"} border border-[#CEB86E33] rounded-xl p-6`}
+        className={`flex min-h-0 flex-1 flex-col overflow-y-auto rounded-xl border border-[#CEB86E33] p-4 ${theme === "dark" ? "bg-[#262421]" : "bg-[var(--bg)]"}`}
       >
         <h2
-          className={`${theme === "dark" ? "text-[#FCFAF2]" : "text-[var(--text)]"} mb-4 text-xs tracking-widest uppercase font-medium`}
+          className={`mb-3 text-xs font-medium tracking-widest uppercase ${theme === "dark" ? "text-[#FCFAF2]" : "text-[var(--text)]"}`}
         >
-          {t("all_moves")}
+          {t("engine_suggestion")}
         </h2>
-
-        {!selectedGame ? (
-          <p className="text-[#676767] text-xs text-center py-6">
-            {t("select_game_moves")}
-          </p>
-        ) : movePairs.length === 0 ? (
-          <p className="text-[#676767] text-xs text-center py-6">
-            {t("no_moves_recorded")}
-          </p>
-        ) : (
-          <div className="max-h-[600px] overflow-y-auto pr-1 space-y-1 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-            {movePairs.map((pair, i) => (
-              <div
-                key={i}
-                className="grid grid-cols-[60px_1fr_1fr] items-center gap-2"
-              >
-                {/* Move number */}
-                <span
-                  className={`text-center font-mono rounded-[10px] px-6 py-3 text-[#4a4540] font-mono text-md ${theme === "light" ? "bg-[#F0F0F0CC]" : "bg-[#00000033]"}`}
-                >
-                  {i + 1}.
-                </span>
-
-                {/* White move */}
-                <button
-                  ref={plyIndex === pair.whitePly ? activeRef : null}
-                  onClick={() => setPlyIndex(pair.whitePly)}
-                  className={`text-left font-mono px-4 py-2.5 border-1 border-[#E5CC7A1A] transition-all duration-150 cursor-pointer rounded-[10px]  ${theme === "light" ? "bg-[#F0F0F0CC] text-[#DA7756]" : "bg-[#00000033] text-[#e5cc7a]"}`}
-                >
-                  {pair.white}
-                </button>
-
-                {/* Black move */}
-                {pair.black ? (
-                  <button
-                    ref={plyIndex === pair.blackPly ? activeRef : null}
-                    onClick={() => setPlyIndex(pair.blackPly)}
-                    className={`text-left font-mono px-4 py-2.5 rounded transition-all duration-150 border-1 border-[#E5CC7A1A] cursor-pointer rounded-[10px] ${theme === "light" ? "bg-[#F0F0F0CC] text-[var(--text)]" : "bg-[#00000033] text-[#F7EFD6]"}`}
-                  >
-                    {pair.black}
-                  </button>
-                ) : (
-                  <div />
-                )}
-              </div>
-            ))}
+        {analysisQuery.isLoading && (
+          <div className="flex items-center justify-center gap-2 py-6 text-[#A39589]">
+            <Loader2 className="h-5 w-5 animate-spin" />
+            <span className="text-sm">{t("analyzing_position")}</span>
           </div>
+        )}
+        {analysisQuery.isError && (
+          <p className="py-4 text-center text-sm text-[#AD1414]">
+            {t("analysis_unavailable")}
+          </p>
+        )}
+        {bestLine && !analysisQuery.isLoading && (
+          <div className="flex flex-col gap-3">
+            <p className="text-sm text-[#A39589]">
+              {t("best_line_for", { color: t(playerSideKey) })}
+              {evalLabel ? ` · ${evalLabel}` : ""}
+            </p>
+            <p className="text-sm text-[#E5CC7A]">
+              {t("recommended_move")}{" "}
+              <b className="tabular-nums text-[#CFCFCF]">{bestMoveLabel}</b>
+            </p>
+            {analysisQuery.data?.lines && analysisQuery.data.lines.length > 1 && (
+              <div className="flex items-start gap-x-2 rounded-lg bg-[#1C1C1C4D] px-3 py-2">
+                <img src={controls} alt="" width={16} height={16} />
+                <p className="text-xs font-medium text-[#A39589]">
+                  {t("alternatives")}{" "}
+                  {analysisQuery.data.lines
+                    .slice(1, 3)
+                    .map((line) => `${line.move.from}→${line.move.to}`)
+                    .join(", ")}
+                </p>
+              </div>
+            )}
+          </div>
+        )}
+        {!bestLine && !analysisQuery.isLoading && !analysisQuery.isError && (
+          <p className="py-4 text-center text-sm text-[#A39589]">
+            {t("no_engine_lines")}
+          </p>
         )}
       </div>
 
@@ -114,7 +83,7 @@ const AnalyzeColumn = ({
         <AllPlayedGames games={games} />
       ) : (
         <div
-          className={`${theme === "dark" ? "bg-[#262421]" : "bg-[var(--bg)]"} border border-[#CEB86E33] rounded-xl p-8 flex flex-col flex-1`}
+          className={`${theme === "dark" ? "bg-[#262421]" : "bg-[var(--bg)]"} flex max-h-40 min-h-0 shrink-0 flex-col overflow-hidden rounded-xl border border-[#CEB86E33] p-4`}
         >
           <div className="flex justify-between">
             <h2
@@ -127,7 +96,7 @@ const AnalyzeColumn = ({
             </p>
           </div>
 
-          <div className="space-y-4 overflow-y-auto mt-4">
+          <div className="mt-2 min-h-0 flex-1 space-y-2 overflow-y-auto">
             {games.map((game) => (
               <button
                 key={game._id}
@@ -158,14 +127,9 @@ const AnalyzeColumn = ({
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-x-3">
-                    <span className="text-xs text-[#AD1414] bg-[#EF66661A] py-1.5 px-3 rounded-[8px]">
-                      {winnerPlayer}
-                    </span>
-                    <span className="text-sm text-[#787878] font-normal">
-                      {t("moves_count", { count: game.allMoves.length })}
-                    </span>
-                  </div>
+                  <span className="text-sm font-normal text-[#787878]">
+                    {t("moves_count", { count: game.allMoves.length })}
+                  </span>
                 </div>
               </button>
             ))}

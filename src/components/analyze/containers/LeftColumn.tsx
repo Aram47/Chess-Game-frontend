@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Chess } from "chess.js";
 import { useAuth } from "../../../context/AuthContext";
 import { useChessAnalysis } from "../../../context/ChessAnalysisContext";
@@ -9,7 +9,7 @@ import type { BoardTheme } from "../../game/board-theme/boardThemes";
 import { BOARD_THEMES } from "../../game/board-theme/boardThemes";
 import { useTranslation } from "../../../hooks/useTranslation";
 
-const LeftColumn = () => {
+const LeftColumn = ({ onFenChange }: { onFenChange?: (fen: string) => void }) => {
   const { t } = useTranslation();
   const { user } = useAuth();
   const { selectedGame, plyIndex, setPlyIndex } = useChessAnalysis();
@@ -39,6 +39,10 @@ const LeftColumn = () => {
     return chess.fen();
   }, [selectedGame, plyIndex, branchMoves]);
 
+  useEffect(() => {
+    onFenChange?.(currentFen);
+  }, [currentFen, onFenChange]);
+
   const maxPly = selectedGame?.allMoves.length || 0;
 
   const userId = user?.id ?? "";
@@ -55,7 +59,7 @@ const LeftColumn = () => {
   }, [selectedGame, userId, t]);
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex h-full min-h-0 flex-col">
       <ChessColumn
         fen={currentFen}
         opponentName={opponentName}

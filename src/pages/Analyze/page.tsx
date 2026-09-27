@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -16,6 +16,7 @@ const AnalysisContent = () => {
   const { t } = useTranslation();
   const { setGames, games, selectedGameId, setSelectedGameId } =
     useChessAnalysis();
+  const [fen, setFen] = useState("");
 
   const { isLoading } = useQuery({
     queryKey: ["game-history"],
@@ -42,12 +43,12 @@ const AnalysisContent = () => {
 
   if (selectedGameId) {
     return (
-      <div className="flex flex-col lg:flex-row items-stretch gap-8 px-4 md:px-8">
-        <div className="lg:w-[64%]">
-          <LeftColumn />
+      <div className="flex min-h-0 flex-1 flex-col gap-3 overflow-hidden px-4 pb-3 md:flex-row">
+        <div className="flex min-h-0 flex-[1.4] flex-col md:flex-1">
+          <LeftColumn onFenChange={setFen} />
         </div>
-        <div className="lg:w-[36%]">
-          <AnalyzeColumn winner={null} />
+        <div className="flex min-h-0 flex-1 flex-col overflow-hidden md:w-[34%] md:flex-none">
+          <AnalyzeColumn fen={fen} />
         </div>
       </div>
     );
@@ -68,20 +69,14 @@ export const ChessAnalysisUI = () => {
       {!user ? (
         <ChessAnalysisHero />
       ) : (
-        <section
-          className="w-full flex flex-col grow pt-8 pb-16"
-        >
-          <header className="w-full text-center mb-8 px-4 md:px-8">
-            <h1 className="text-[clamp(2rem,6vw,3.75rem)] text-[var(--gold)] font-playfair font-black">
-              {t("game_analysis")}
-            </h1>
-          </header>
-          <div className="px-4 md:px-8 mb-8">
+        <section className="flex h-[calc(100dvh-var(--header-band))] w-full flex-col overflow-hidden">
+          <div className="flex shrink-0 items-center px-4 py-2">
             <Link
               to="/"
-              className="w-[72px] flex justify-center border-2 border-[#E5CC7A] py-2.5 rounded-3xl"
+              aria-label={t("nav_analyze")}
+              className="flex h-11 w-11 items-center justify-center rounded-full border-2 border-[#E5CC7A]"
             >
-              <img src={leftIcon} alt="left-icon" />
+              <img src={leftIcon} alt="" />
             </Link>
           </div>
           <AnalysisContent />

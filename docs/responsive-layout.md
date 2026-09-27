@@ -78,21 +78,19 @@ Below 1024px, play, the live game, analysis, and the puzzle solver are one colum
 - `src/pages/Problems/Page2.tsx`
 - `src/components/problems/SelectProblems.tsx`
 
-## Still to do
-
 ### Phase 5 — Analysis workspace
 
-`/analyze` must fit one viewport. The page itself does not scroll. Only the move list and the game list scroll. Pressing Analyze must not push the transport buttons off screen.
+When a game is open, `/analyze` fills the window. There is no "Game Analysis" title. A score bar sits left of the board, the move list is a short strip under the board, and the engine plus game history fill the side panel. The page does not scroll. Below 768px those regions stack and the engine panel scrolls inside itself.
 
-On a phone, keep the same shell and swap panes (board, then moves). Do not promise a single unscrolled view of the board plus both lists at 375px.
-
-The same shell should be reused afterward on the live game and the puzzle solver.
-
-- `src/pages/Analyze/page.tsx` (title and padding already shrink; the viewport shell is still open)
+- `src/pages/Analyze/page.tsx`
 - `src/components/analyze/containers/LeftColumn.tsx`
-- `src/components/analyze/containers/AnalyzeColumn.tsx` (`max-h-[600px]` move list)
+- `src/components/analyze/containers/AnalyzeColumn.tsx`
 - `src/components/analyze/helpers/ChessColumn.tsx`
+- `src/components/analyze/helpers/EvalBar.tsx`
+- `src/components/analyze/helpers/MoveStrip.tsx`
 - `src/components/analyze/helpers/AnalyzeButtons.tsx`
+
+## Still to do
 
 ### Phase 6 — Profile, settings, dialogs
 
