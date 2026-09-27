@@ -38,7 +38,7 @@ export function PlayModeChips({
 
   return (
     <div
-      className="inline-flex bg-[rgba(255,255,255,0.05)] border border-[rgba(206,184,110,0.2)] rounded-full gap-2 p-1.5"
+      className="inline-flex flex-wrap max-w-full bg-[rgba(255,255,255,0.05)] border border-[rgba(206,184,110,0.2)] rounded-full gap-2 p-1.5"
       role="tablist"
       aria-label="Game mode"
     >

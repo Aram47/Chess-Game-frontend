@@ -36,7 +36,7 @@ const ReadyToPlay: React.FC<ReadyToPlayProps> = ({
   };
 
   return (
-    <section className="max-w-[1376px] w-full flex flex-col gap-8 mt-25 mx-auto  px-8 pb-8">
+    <section className="max-w-[1376px] w-full flex flex-col gap-8 mt-25 mx-auto px-4 md:px-8 pb-8">
       <div className="flex flex-col items-center gap-2 text-center">
         <h1 className="text-[42px] font-semibold leading-tight text-[var(--color-gold)]">
           {t("ready_to_play_title")}
@@ -46,7 +46,7 @@ const ReadyToPlay: React.FC<ReadyToPlayProps> = ({
         </p>
       </div>
 
-      <div className="flex justify-end w-full">
+      <div className="flex flex-wrap justify-end w-full">
         <PlayModeChips
           activeTab={activeTab}
           onPlatformClick={() => setActiveTab("platform")}

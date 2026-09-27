@@ -90,8 +90,8 @@ export const ChessGamePage: React.FC = () => {
   }, [isLiveGame, gameStatus, level, t]);
 
   return (
-    <section className={`w-full flex flex-col grow pt-[170px] pb-16`}>
-      <div className="text-white flex flex-col px-8 w-full">
+    <section className="w-full flex flex-col grow pt-8 pb-16">
+      <div className="text-white flex flex-col px-4 md:px-8 w-full">
         {/* Header */}
         <header className="flex items-center w-full text-center mb-8">
           <Link
@@ -114,7 +114,7 @@ export const ChessGamePage: React.FC = () => {
         </header>
 
         {/* Body */}
-        <div className="w-full flex items-start gap-8">
+        <div className="w-full flex flex-col lg:flex-row items-start gap-8">
           <div className="flex-1 flex flex-col gap-4">
             {user ? (
               <GameColumn

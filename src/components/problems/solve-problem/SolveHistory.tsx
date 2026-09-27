@@ -43,7 +43,7 @@ const SolveHistory = ({
 
   return (
     <div
-      className={`w-[35%] border border-[#CEB86E33] rounded-[20px] p-6 flex flex-col text-white ${theme === "dark" ? "bg-[#262421]" : "bg-white"}`}
+      className={`w-full lg:w-[35%] min-w-0 border border-[#CEB86E33] rounded-[20px] p-6 flex flex-col text-white ${theme === "dark" ? "bg-[#262421]" : "bg-white"}`}
     >
       <h2 className="text-xl font-medium mb-4 text-[#E5CC7A]">Move History</h2>
 
@@ -140,7 +140,7 @@ export default SolveHistory;
 
 //   return (
 //     <div
-//       className={`w-[35%] border border-[#CEB86E33] rounded-[20px] p-6 flex flex-col text-white ${theme === "dark" ? "bg-[#262421]" : "bg-white"}`}
+//       className={`w-full lg:w-[35%] min-w-0 border border-[#CEB86E33] rounded-[20px] p-6 flex flex-col text-white ${theme === "dark" ? "bg-[#262421]" : "bg-white"}`}
 //     >
 //       <h2 className="text-xl font-medium mb-4 text-[#E5CC7A]">
 //         {t("move_history")}

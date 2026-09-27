@@ -62,7 +62,7 @@ const ProblemsPage: React.FC = () => {
       />
 
       <section
-        className={`w-full grid grid-cols-1fr sm:grid-cols-[repeat(2,1fr)] md:grid-cols-[repeat(3,1fr)]
+        className={`w-full grid grid-cols-1 sm:grid-cols-[repeat(2,1fr)] md:grid-cols-[repeat(3,1fr)]
       lg:grid-cols-[repeat(4,1fr)] xl:grid-cols-[repeat(5,250px)] justify-between gap-6 p-4 rounded-[36px] ${theme === "dark" ? "bg-[#FFFFFF0D]" : "bg-[#FFFDFA]"}`}
       >
         {isLoading && (
@@ -240,7 +240,7 @@ export default ProblemsPage;
 //       />
 //       {/* ── Problems grid ── */}
 //       <section
-//         className={`w-full grid grid-cols-1fr sm:grid-cols-[repeat(2,1fr)] md:grid-cols-[repeat(3,1fr)]
+//         className={`w-full grid grid-cols-1 sm:grid-cols-[repeat(2,1fr)] md:grid-cols-[repeat(3,1fr)]
 //       lg:grid-cols-[repeat(4,1fr)] xl:grid-cols-[repeat(5,250px)] justify-between gap-6 p-4 rounded-[36px] ${theme === "dark" ? "bg-[#FFFFFF0D]" : "bg-[#FFFDFA]"}`}
 //       >
 //         {filteredProblems.map((problem) => (

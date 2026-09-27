@@ -16,7 +16,7 @@ const PlatformCard = ({
   return (
     <PlayModal
       onClose={onClose}
-      className={`${activeTab === "platform" ? "w-full mx-20" : "max-w-md"}`}
+      className={`${activeTab === "platform" ? "w-full max-w-full" : "max-w-md"}`}
       style={{
         background: "rgba(28, 28, 28, 0.80)",
         border: "1px solid rgba(206, 184, 110, 0.20)",

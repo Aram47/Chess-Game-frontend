@@ -54,7 +54,7 @@ const SelectProblems = ({
   const { theme } = useTheme();
   return (
     <article
-      className="flex items-center justify-end max-w-[370px] text-end gap-2.5 float-right
+      className="flex flex-wrap items-center justify-end w-full max-w-full text-end gap-2.5
                    bg-white/[0.05] shadow-[0px_4px_20px_0px_rgba(28,28,28,0.3)] px-4 py-2.5 rounded-[41px] mb-8"
     >
       <div className="inline-flex items-center gap-x-3 bg-white/[0.07] border border-[rgba(206,184,110,0.2)] rounded-[20px] px-3.5 py-1.5 outline-none appearance-none">

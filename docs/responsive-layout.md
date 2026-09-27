@@ -62,27 +62,23 @@ Home `main` is in normal flow below `xl` (1280px) and `absolute` from `xl` up, s
 - `src/components/main/chess-section/play/style.module.scss`
 - `src/layouts/Layout.tsx`
 
-## Still to do
-
 ### Phase 4 — Boards reflow
 
-Next phase. Do this before Phase 5. Phase 5 is the one-viewport analysis tool. Phase 4 only stops these screens from overflowing or covering each other. The page may still scroll.
+Below 1024px, play, the live game, analysis, and the puzzle solver are one column. Side panels are `w-full` until `lg`, then `lg:w-[35%]` where they sit beside the board. Boards stay `w-full max-w-[600px]`. The page may still scroll. The one-viewport analysis tool is still Phase 5.
 
-Below 1024px, every board screen is one column: title, board, controls, then the side panel. From 1024px up, keep the current side-by-side layout. The board width is `min(100%, 600px)`, centered, with square tiles from the container. Delete every `grid-template-columns: repeat(8, Npx)`.
+- `src/components/game/Game.tsx`
+- `src/components/game/gameHistory.tsx`
+- `src/components/readyToPlay/ReadyToPlay.tsx`
+- `src/components/readyToPlay/platformCard.tsx`
+- `src/components/readyToPlay/PlayModeChips.tsx`
+- `src/pages/Analyze/page.tsx`
+- `src/pages/Analyze/style.scss`
+- `src/components/problems/solve-problem/SolveProblem.tsx`
+- `src/components/problems/solve-problem/SolveHistory.tsx`
+- `src/pages/Problems/Page2.tsx`
+- `src/components/problems/SelectProblems.tsx`
 
-Do not let a side panel use a fixed share of the row (`w-[35%]`, `w-[60%]`, `lg:w-[64%]`) unless the row is `flex-col` below `lg` and the panel is `w-full`. Page padding is `px-4` below `md` and may stay `px-8` from `md` up. Titles use `clamp`, not `text-6xl` alone. Back buttons stay in normal flow and are at least 44px tall.
-
-Play setup, `src/components/readyToPlay/ReadyToPlay.tsx` and `src/pages/PlayPage/page.tsx`: the `max-w-[1376px]` section already stacks. Replace `px-8` with padding that can shrink, and let the mode chips wrap. No fixed `mx-20` on the platform card.
-
-Live game, `src/components/game/Game.tsx`, `src/components/game/gameColumn.tsx`, `src/components/game/gameHistory.tsx`: the body is `flex items-start` with history at `w-[35%]`. Below `lg`, stack history under the board and set it to `w-full`. Drop `pt-[170px]` down to clear the header without a second empty band.
-
-Analysis, `src/pages/Analyze/page.tsx`, `src/pages/Analyze/style.scss`, `src/components/analyze/helpers/ChessColumn.tsx`: columns already stack at `lg`. Remove the fixed chessboard column widths in `style.scss`. The board in `ChessColumn` is `max-w-[600px]`; keep that cap and let it shrink to the column. Do not rebuild the viewport shell here.
-
-Puzzle solver, `src/components/problems/solve-problem/SolveProblem.tsx` and `src/components/problems/solve-problem/SolveHistory.tsx`: same stack. History is `w-[35%]` and must become `w-full` below `lg`. Inner card padding `p-8` becomes `p-4` below `md`.
-
-Puzzle list, `src/pages/Problems/Page2.tsx`: replace the invalid `grid-cols-1fr` with `grid-cols-1`. The filter bar in `src/components/problems/SelectProblems.tsx` is `float-right` and `whitespace-nowrap`; let it wrap instead of hanging off the row.
-
-Check `/play`, `/play/game`, `/analyze`, `/problems`, and one puzzle at 375 and 1024. No horizontal scroll. The board does not cover the title or the buttons. At 1440 the side-by-side layout is unchanged.
+## Still to do
 
 ### Phase 5 — Analysis workspace
 
@@ -92,7 +88,7 @@ On a phone, keep the same shell and swap panes (board, then moves). Do not promi
 
 The same shell should be reused afterward on the live game and the puzzle solver.
 
-- `src/pages/Analyze/page.tsx` (`pt-[100px]`, `text-6xl` title)
+- `src/pages/Analyze/page.tsx` (title and padding already shrink; the viewport shell is still open)
 - `src/components/analyze/containers/LeftColumn.tsx`
 - `src/components/analyze/containers/AnalyzeColumn.tsx` (`max-h-[600px]` move list)
 - `src/components/analyze/helpers/ChessColumn.tsx`

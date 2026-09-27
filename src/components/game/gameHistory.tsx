@@ -36,7 +36,7 @@ const GameHistory = ({
 
   return (
     <div
-      className={`w-[35%] border rounded-[20px] p-6 flex flex-col text-white ${theme === "dark" ? "bg-[#262421] border-[#CEB86E33]" : "bg-[#FFFFFF] border-[#E7E3DF]"}`}
+      className={`w-full lg:w-[35%] min-w-0 border rounded-[20px] p-6 flex flex-col text-white ${theme === "dark" ? "bg-[#262421] border-[#CEB86E33]" : "bg-[#FFFFFF] border-[#E7E3DF]"}`}
     >
       <h2
         className={`text-xl font-medium mb-4 ${theme === "dark" ? "text-[#E5CC7A]" : "text-[#DA7756]"}`}

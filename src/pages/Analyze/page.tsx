@@ -42,7 +42,7 @@ const AnalysisContent = () => {
 
   if (selectedGameId) {
     return (
-      <div className="flex flex-col lg:flex-row items-stretch gap-8 px-8">
+      <div className="flex flex-col lg:flex-row items-stretch gap-8 px-4 md:px-8">
         <div className="lg:w-[64%]">
           <LeftColumn />
         </div>
@@ -53,7 +53,7 @@ const AnalysisContent = () => {
     );
   }
   return (
-    <div className="px-8 animate-in slide-in-from-bottom-4 duration-500">
+    <div className="px-4 md:px-8 animate-in slide-in-from-bottom-4 duration-500">
       <NotPlayed games={games} />
     </div>
   );
@@ -69,14 +69,14 @@ export const ChessAnalysisUI = () => {
         <ChessAnalysisHero />
       ) : (
         <section
-          className={`w-full flex flex-col grow pt-[100px] pb-16`}
+          className="w-full flex flex-col grow pt-8 pb-16"
         >
-          <header className="w-full text-center mb-8">
-            <h1 className="text-6xl text-[var(--gold)] font-playfair font-black">
+          <header className="w-full text-center mb-8 px-4 md:px-8">
+            <h1 className="text-[clamp(2rem,6vw,3.75rem)] text-[var(--gold)] font-playfair font-black">
               {t("game_analysis")}
             </h1>
           </header>
-          <div className="px-8 mb-8">
+          <div className="px-4 md:px-8 mb-8">
             <Link
               to="/"
               className="w-[72px] flex justify-center border-2 border-[#E5CC7A] py-2.5 rounded-3xl"

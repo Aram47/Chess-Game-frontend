@@ -1,5 +1,5 @@
 .cm_board_outer {
-  width: 294px;
+  width: min(100%, 600px);
   flex-shrink: 0;
   border: 8px solid #eedda6;
   border-radius: 14px;
@@ -13,57 +13,11 @@
     filter: none !important;
     transform-style: flat;
 
-    img {
-      width: 33px;
-      height: 33px;
-    }
+    img,
     .chess_icon {
-      width: 33px;
-      height: 33px;
-    }
-
-    @media (max-width: 1024px) {
-      .chess_icon,
-      img {
-        width: 16px;
-        height: 20px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .chess_icon,
-      img {
-        width: 12px;
-        height: 16px;
-      }
-    }
-  }
-
-  #chessboard-board {
-    grid-template-columns: repeat(8, 57.75px) !important;
-  }
-  [id^="chessboard-square-"] > div {
-    height: auto !important;
-    width: auto !important;
-  }
-}
-
-@media (max-width: 1024px) {
-  .cm_board_outer {
-    width: 340px;
-
-    #chessboard-board {
-      grid-template-columns: repeat(8, 42.5px) !important;
-    }
-  }
-}
-
-@media (max-width: 600px) {
-  .cm_board_outer {
-    width: 280px;
-
-    #chessboard-board {
-      grid-template-columns: repeat(8, 35px) !important;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
     }
   }
 }

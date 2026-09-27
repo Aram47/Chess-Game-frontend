@@ -123,13 +123,13 @@ const SolveProblem = () => {
     : (activeProblem.solutionMoves ?? branchMoves);
 
   return (
-    <section className="w-full flex flex-col grow pt-[100px] pb-16 bg-[#1b1a17]">
+    <section className="w-full flex flex-col grow pt-8 pb-16 bg-[#1b1a17]">
       <header className="w-full text-center mb-8 px-4">
         <h1 className="text-3xl md:text-5xl text-[var(--gold)] font-playfair font-black">
           {activeProblem.description || t("chess_puzzle")}
         </h1>
       </header>
-      <div className="px-8 mb-8">
+      <div className="px-4 md:px-8 mb-8">
         <Link
           to="/problems"
           className="w-[72px] flex justify-center border-2 border-[#E5CC7A] py-2.5 rounded-3xl"
@@ -138,8 +138,8 @@ const SolveProblem = () => {
           <img src={leftIcon} alt='left-icon' />
         </Link>
       </div>
-      <div className="flex flex-col lg:flex-row gap-8 px-8">
-        <div className="w-full lg:w-[60%] flex flex-col gap-8 border-[#CEB86E33] border rounded-[20px] p-8 bg-[#FFFFFF0D]">
+      <div className="flex flex-col lg:flex-row gap-8 px-4 md:px-8">
+        <div className="w-full lg:w-[60%] min-w-0 flex flex-col gap-8 border-[#CEB86E33] border rounded-[20px] p-4 md:p-8 bg-[#FFFFFF0D]">
           <div className="flex items-center justify-between bg-[#1C1C1C4D] px-4 py-3 rounded-[20px]">
             <div className="w-full flex items-center justify-between gap-x-3">
               <div className="flex flex-col text-[#A39589]">
