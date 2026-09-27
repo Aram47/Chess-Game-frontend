@@ -1,16 +1,16 @@
 .cm_column {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
-  text-align: end;
+  align-items: flex-start;
+  text-align: start;
   gap: 2rem;
-  width: 40%;
-  position: absolute;
-  top: 30%;
-  right: 5%;
-  opacity: 0;
-  animation: slideInFromRight 1.5s ease forwards;
-  animation-delay: 9s;
+  width: 100%;
+  position: static;
+  top: auto;
+  right: auto;
+  opacity: 1;
+  transform: none;
+  animation: none;
 
   @keyframes slideInFromRight {
     0% {
@@ -24,7 +24,7 @@
   }
 
   .cm_title {
-    font-size: 3.75rem;
+    font-size: clamp(2rem, 8vw, 3.5rem);
     font-weight: 700;
   }
 
@@ -66,27 +66,27 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
+@media (min-width: 1280px) {
   .cm_column {
-    animation: none;
+    align-items: flex-end;
+    text-align: end;
+    width: 40%;
+    position: absolute;
+    top: 30%;
+    right: 5%;
     opacity: 0;
-  }
-}
-
-@media (max-width: 1279px) {
-  .cm_column {
-    position: static;
-    top: auto;
-    right: auto;
-    width: 100%;
-    opacity: 1;
-    transform: none;
-    animation: none;
-    align-items: flex-start;
-    text-align: start;
+    animation: slideInFromRight 1.5s ease forwards;
+    animation-delay: 9s;
 
     .cm_title {
-      font-size: clamp(2rem, 8vw, 3.5rem);
+      font-size: 3.75rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cm_column {
+      animation: none;
+      opacity: 0;
     }
   }
 }

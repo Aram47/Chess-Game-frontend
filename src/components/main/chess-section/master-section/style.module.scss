@@ -1,19 +1,20 @@
 .cm_copy {
-  width: min(50%, calc(80% - 500px - 2rem));
-  position: absolute;
-  left: -50%;
-  transition:
-    opacity 2.5s ease,
-    transform 2.5s ease;
-  animation: slideLeft 1.5s forwards;
+  position: static;
+  width: 100%;
+  left: auto;
+  opacity: 1;
+  transform: none;
+  animation: none;
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  text-align: start;
+  pointer-events: auto;
 
   &.hide_text {
-    opacity: 0;
-    transform: scale(0.9) translateX(-50px);
-    pointer-events: none;
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
   }
 
   @keyframes slideLeft {
@@ -26,7 +27,7 @@
   }
 
   .cm_title {
-    font-size: 4.5rem;
+    font-size: clamp(2rem, 8vw, 3.5rem);
   }
 
   .cm_btn_ghost {
@@ -43,33 +44,35 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
+@media (min-width: 1280px) {
   .cm_copy {
-    animation: none;
-    left: 10%;
-    opacity: 1;
-  }
-}
-
-@media (max-width: 1279px) {
-  .cm_copy {
-    position: static;
-    width: 100%;
-    left: auto;
-    opacity: 1;
-    transform: none;
-    animation: none;
-    text-align: start;
-    pointer-events: auto;
+    width: min(50%, calc(80% - 500px - 2rem));
+    position: absolute;
+    left: -50%;
+    animation: slideLeft 1.5s forwards;
 
     &.hide_text {
-      opacity: 1;
-      transform: none;
-      pointer-events: auto;
+      opacity: 0;
+      transform: scale(0.9) translateX(-50px);
+      pointer-events: none;
     }
 
     .cm_title {
-      font-size: clamp(2rem, 8vw, 3.5rem);
+      font-size: 4.5rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cm_copy {
+      animation: none;
+      left: 10%;
+      opacity: 1;
+
+      &.hide_text {
+        opacity: 1;
+        transform: none;
+        pointer-events: auto;
+      }
     }
   }
 }
