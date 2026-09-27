@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
+import { Menu, X } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 import { useTranslation } from "../../hooks/useTranslation";
 import { useTheme } from "../../context/ThemeContext";
-import type { UiLang } from "../../constants/strings";
+import type { StringKey, UiLang } from "../../constants/strings";
 import usaIcon from "../../assets/icons/flags/usaFlag.svg";
 import rusIcon from "../../assets/icons/flags/rusFlag.svg";
 import NotificationBell from "../notification/NotificationBell";
@@ -22,12 +23,22 @@ interface HeaderType {
   setIsSettingsOpen: (open: boolean) => void;
 }
 
+const NAV_LINKS: { to: string; key: StringKey }[] = [
+  { to: "/play", key: "nav_play" },
+  { to: "/problems", key: "nav_problems" },
+  { to: "/analyze", key: "nav_analyze" },
+  { to: "/about", key: "nav_about" },
+];
+
 const Header = ({
   setActiveModal,
   isSettingsOpen,
   setIsSettingsOpen,
 }: HeaderType) => {
   const [showFlag, setShowFlag] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const headerRef = useRef<HTMLElement>(null);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
   const navigate = useNavigate();
   const { user, logout } = useAuth();
   const location = useLocation();
@@ -43,63 +54,111 @@ const Header = ({
 
   const activeFlag = flags.find((f) => f.id === lang) ?? flags[0];
 
+  const closeMenu = () => setMenuOpen(false);
+
   const handleFlagClick = (flag: (typeof flags)[0]) => {
     setLang(flag.id);
     setShowFlag(false);
   };
 
-  return (
-    <>
-      <header
-        data-lang={lang}
-        data-modal-open={isSettingsOpen ? "true" : "false"}
-        className={`border-1
-            ${theme === "dark" ? "border-[#CEB86E33]" : "border-[#F0C4B4]"}
-            ${style.cm_container} transition-shadow duration-300
-            ${isSettingsOpen ? "shadow-none" : "shadow-[your-existing-shadow-class]"} 
-            ${!isHomePage ? "static transform-none" : style.headerAnimate}`}
+  useEffect(() => {
+    closeMenu();
+    setIsDropdownOpen(false);
+    setShowFlag(false);
+  }, [location.pathname]);
+
+  useEffect(() => {
+    const header = headerRef.current;
+    if (!header) return;
+
+    const observer = new ResizeObserver(([entry]) => {
+      if (entry.contentRect.width >= 1120) setMenuOpen(false);
+    });
+    observer.observe(header);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      setMenuOpen(false);
+      menuButtonRef.current?.focus();
+    };
+    const onPointer = (event: PointerEvent) => {
+      if (!headerRef.current?.contains(event.target as Node)) {
+        setMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("keydown", onKey);
+    document.addEventListener("pointerdown", onPointer);
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.removeEventListener("pointerdown", onPointer);
+    };
+  }, [menuOpen]);
+
+  const ThemeSwitch = () => (
+    <button
+      type="button"
+      aria-pressed={theme === "dark"}
+      onClick={toggleTheme}
+      className={`w-16 h-7 rounded-[20px] border p-1 cursor-pointer flex items-center transition-colors duration-300 ease-in-out ${
+        theme === "dark"
+          ? "bg-[#1C1C1C80] border-[#303030] shadow-[0px_4px_4px_0px_#00000040_inset]"
+          : "bg-gradient-to-b from-[#DA7756] via-[#C96948] to-[#B85C3A] border-[#EB7C57]"
+      }`}
+    >
+      <span
+        className={`w-5 h-5 rounded-full flex items-center justify-center transition-transform duration-300 ease-in-out ${
+          theme === "dark" ? "translate-x-0" : "translate-x-9"
+        }`}
       >
-        <div className={style.cm_header}>
-          <div className={style.cm_left}>
-            <span className={style.cm_logo} onClick={() => navigate("/")}>
-              {t("app_name")}
-            </span>
-          </div>
-          <nav className={style.cm_nav}>
-            <ul className={style.cm_links}>
-              <li>
-                <NavLink to="/play">{t("nav_play")}</NavLink>
-              </li>
-              <li>
-                <NavLink to="/problems">{t("nav_problems")}</NavLink>
-              </li>
-              <li>
-                <NavLink to="/analyze">{t("nav_analyze")}</NavLink>
-              </li>
+        <img src={theme === "dark" ? dark : light} alt="theme-mode" />
+      </span>
+    </button>
+  );
 
-              <li>
-                <NavLink to="/about">{t("nav_about")}</NavLink>
-              </li>
-            </ul>
-          </nav>
+  const navLinks = (onNavigate?: () => void) =>
+    NAV_LINKS.map((link) => (
+      <li key={link.to}>
+        <NavLink to={link.to} onClick={onNavigate}>
+          {t(link.key)}
+        </NavLink>
+      </li>
+    ));
 
-          <div className={style.cm_right}>
-            <div
-              onClick={toggleTheme}
-              className={`w-16 h-7 rounded-[20px] border p-1 cursor-pointer flex items-center transition-colors duration-300 ease-in-out ${
-                theme === "dark"
-                  ? "bg-[#1C1C1C80] border-[#303030] shadow-[0px_4px_4px_0px_#00000040_inset]"
-                  : "bg-gradient-to-b from-[#DA7756] via-[#C96948] to-[#B85C3A] border-[#EB7C57]"
-              }`}
-            >
-              <div
-                className={`w-5 h-5 rounded-full flex items-center justify-center transition-transform duration-300 ease-in-out ${
-                  theme === "dark" ? "translate-x-0" : "translate-x-9"
-                }`}
-              >
-                <img src={theme === "dark" ? dark : light} alt="theme-mode" />
-              </div>
-            </div>
+  const openAuth = (type: "signup" | "signin") => {
+    setActiveModal(type);
+    closeMenu();
+  };
+
+  return (
+    <header
+      ref={headerRef}
+      data-lang={lang}
+      data-modal-open={isSettingsOpen ? "true" : "false"}
+      className={`border-1
+          ${theme === "dark" ? "border-[#CEB86E33]" : "border-[#F0C4B4]"}
+          ${style.cm_container} transition-shadow duration-300
+          ${isSettingsOpen ? "shadow-none" : ""}
+          ${!isHomePage ? "static transform-none" : style.headerAnimate}`}
+    >
+      <div className={style.cm_header}>
+        <div className={style.cm_left}>
+          <span className={style.cm_logo} onClick={() => navigate("/")}>
+            {t("app_name")}
+          </span>
+        </div>
+        <nav className={style.cm_nav}>
+          <ul className={style.cm_links}>{navLinks()}</ul>
+        </nav>
+
+        <div className={style.cm_right}>
+          <div className={style.cm_tools}>
+            {ThemeSwitch()}
             <div className={style.cm_right_flags}>
               <img
                 src={activeFlag.icon}
@@ -126,8 +185,11 @@ const Header = ({
             {user ? (
               <div className={style.cm_user_profile}>
                 <NotificationBell isLoggedIn={!!user} />
-                <span>{user.username || t("header_user")}</span>
+                <span className={style.cm_user_name}>
+                  {user.username || t("header_user")}
+                </span>
                 <button
+                  type="button"
                   className={style.cm_btn}
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                 >
@@ -135,31 +197,36 @@ const Header = ({
                 </button>
 
                 {isDropdownOpen && (
-                  <div className={`${style.dropdown_menu}`}>
+                  <div className={style.dropdown_menu}>
                     <Link
                       to="/profile"
                       onClick={() => setIsDropdownOpen(false)}
                       className={`${theme === "dark" ? "hover:bg-[#252525]" : "hover:bg-[#F5F5F5]"}`}
                     >
-                      <img src={userIcon} alt="userIcon" />
+                      <img src={userIcon} alt="" />
                       <span>{t("header_profile")}</span>
                     </Link>
 
                     <button
+                      type="button"
                       onClick={() => {
                         setIsSettingsOpen(true);
                         setIsDropdownOpen(false);
                       }}
                       className={`${theme === "dark" ? "hover:bg-[#252525]" : "hover:bg-[#F5F5F5]"}`}
                     >
-                      <img src={settingsIcon} alt="settings" />
+                      <img src={settingsIcon} alt="" />
                       <span>{t("header_settings")}</span>
                     </button>
                     <div className="h-[1px] w-full bg-[#E5CC7A1A] my-2"></div>
-                    <button onClick={logout} className={`${style.logout} ${theme === "dark" ? "hover:bg-[#252525]" : "hover:bg-[#F5F5F5]"}`}>
+                    <button
+                      type="button"
+                      onClick={logout}
+                      className={`${style.logout} ${theme === "dark" ? "hover:bg-[#252525]" : "hover:bg-[#F5F5F5]"}`}
+                    >
                       <img
                         src={logoutIcon}
-                        alt="logout"
+                        alt=""
                         className={style.logoutIcon}
                       />
                       <span>{t("header_logout")}</span>
@@ -170,26 +237,125 @@ const Header = ({
             ) : (
               <div>
                 <button
+                  type="button"
                   className={`${style.cm_signup} text-[var(--text-h)]`}
-                  onClick={() => setActiveModal("signup")}
+                  onClick={() => openAuth("signup")}
                 >
                   {t("header_signup")}
                 </button>
                 <button
+                  type="button"
                   className={style.cm_signin}
-                  onClick={() => setActiveModal("signin")}
+                  onClick={() => openAuth("signin")}
                 >
                   {t("header_signin")}
                 </button>
               </div>
             )}
           </div>
-          {/* {isSettingsOpen && (
-          <SettingsModal onClose={() => setIsSettingsOpen(false)} />
-        )} */}
+
+          <button
+            ref={menuButtonRef}
+            type="button"
+            className={style.menuButton}
+            aria-expanded={menuOpen}
+            aria-controls="site-menu"
+            aria-label={t("header_menu")}
+            onClick={() => {
+              setIsDropdownOpen(false);
+              setMenuOpen((open) => !open);
+            }}
+          >
+            {menuOpen ? <X size={22} /> : <Menu size={22} />}
+          </button>
         </div>
-      </header>
-    </>
+      </div>
+
+      {menuOpen && (
+        <div id="site-menu" className={style.menuPanel}>
+          <nav>
+            <ul className={style.menuLinks}>{navLinks(closeMenu)}</ul>
+          </nav>
+          {!user && (
+            <button
+              type="button"
+              className={`${style.menuAction} ${style.menuSignup}`}
+              onClick={() => openAuth("signup")}
+            >
+              {t("header_signup")}
+            </button>
+          )}
+          <div className={style.menuTools}>
+            <div className={style.menuThemeRow}>
+              {ThemeSwitch()}
+            </div>
+            <div className={style.menuFlags}>
+              {flags.map((flag) => (
+                <button
+                  key={flag.id}
+                  type="button"
+                  aria-pressed={flag.id === lang}
+                  onClick={() => handleFlagClick(flag)}
+                >
+                  <img src={flag.icon} alt={flag.alt} />
+                </button>
+              ))}
+            </div>
+            {user ? (
+              <>
+                <Link
+                  to="/profile"
+                  className={style.menuAction}
+                  onClick={closeMenu}
+                >
+                  <img src={userIcon} alt="" />
+                  <span>{t("header_profile")}</span>
+                </Link>
+                <button
+                  type="button"
+                  className={style.menuAction}
+                  onClick={() => {
+                    setIsSettingsOpen(true);
+                    closeMenu();
+                  }}
+                >
+                  <img src={settingsIcon} alt="" />
+                  <span>{t("header_settings")}</span>
+                </button>
+                <button
+                  type="button"
+                  className={`${style.menuAction} ${style.logout}`}
+                  onClick={() => {
+                    logout();
+                    closeMenu();
+                  }}
+                >
+                  <img src={logoutIcon} alt="" className={style.logoutIcon} />
+                  <span>{t("header_logout")}</span>
+                </button>
+              </>
+            ) : (
+              <>
+                <button
+                  type="button"
+                  className={style.menuAction}
+                  onClick={() => openAuth("signup")}
+                >
+                  {t("header_signup")}
+                </button>
+                <button
+                  type="button"
+                  className={style.menuAction}
+                  onClick={() => openAuth("signin")}
+                >
+                  {t("header_signin")}
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      )}
+    </header>
   );
 };
 

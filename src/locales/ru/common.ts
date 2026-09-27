@@ -9,6 +9,7 @@ export const ruCommon = {
   header_logout: "Выйти",
   header_signup: "Регистрация",
   header_signin: "Войти",
+  header_menu: "Меню",
   header_user: "Пользователь",
   cancel: "Отмена",
   save_changes: "Сохранить",

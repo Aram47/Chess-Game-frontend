@@ -12,6 +12,7 @@ export const baseStrings = {
   header_logout: "Log Out",
   header_signup: "Sign up",
   header_signin: "Sign In",
+  header_menu: "Menu",
   header_user: "User",
 
   // Common

@@ -9,6 +9,7 @@ export const amCommon = {
   header_logout: "Դուրս գալ",
   header_signup: "Գրանցվել",
   header_signin: "Մուտք",
+  header_menu: "Մենյու",
   header_user: "Օգտատեր",
   cancel: "Չեղարկել",
   save_changes: "Պահպանել",
