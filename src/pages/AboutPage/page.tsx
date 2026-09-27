@@ -23,24 +23,19 @@ const AboutPage = () => {
           />
         </div>
 
-        <div className="max-w-6xl mx-auto mt-[100px] relative z-10">
-          {/* Header */}
-          <header className="mb-16 text-center flex items-end">
+        <div className="max-w-6xl mx-auto mt-8 relative z-10">
+          <div className="mb-8 flex items-center gap-4">
             <button
-              className="absolute -left-[32px] py-2.5 px-6 rounded-full border border-[#CEB86E33] hover:bg-[#E5CC7A4D] hover:-translate-y-[5px] duration-800 hover:shadow-[0px_4px_20px_0px_#E5CC7A4D] transition-all cursor-pointer"
+              type="button"
+              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[#CEB86E33] hover:bg-[#E5CC7A4D] transition-all cursor-pointer"
               onClick={() => navigate("/")}
             >
               <img src={ArrowLeft} alt="Arrow Left" />
             </button>
-            <div className="flex flex-col w-full mx-auto">
-              <h1 className="text-[32px] font-medium text-[#E5CC7A] mb-4">
-                {t("about_title")}
-              </h1>
-              <p className="max-w-3xl mx-auto text-[#A39589] text-xl leading-relaxed">
-                {t("about_subtitle")}
-              </p>
-            </div>
-          </header>
+            <p className="text-[#A39589] text-lg leading-relaxed">
+              {t("about_subtitle")}
+            </p>
+          </div>
 
           {/* Our Story */}
           <OurStory />

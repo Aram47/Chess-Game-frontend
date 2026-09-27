@@ -93,20 +93,17 @@ export const ChessGamePage: React.FC = () => {
     <section className="w-full flex flex-col grow pt-8 pb-16">
       <div className="text-white flex flex-col px-4 md:px-8 w-full">
         {/* Header */}
-        <header className="flex items-center w-full text-center mb-8">
+        <header className="flex items-center w-full text-center mb-4">
           <Link
             to="/play"
             state={{ tab: isLiveGame ? "live" : "platform" }}
-            className={`w-[72px] flex justify-center border-2  py-2.5 rounded-3xl ${theme === "dark" ? "border-[#E5CC7A]" : "border-[#DA775626]"}`}
+            className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full border-2 ${theme === "dark" ? "border-[#E5CC7A]" : "border-[#DA775626]"}`}
           >
             <LeftIcon theme={theme} />
           </Link>
 
-          <div className="w-full flex flex-col items-center gap-1">
-            <h1 className="text-4xl md:text-5xl text-[var(--gold)] font-medium tracking-tight">
-              {isLiveGame ? t("live_game") : t("chess_game")}
-            </h1>
-            <p className="text-lg text-[#A39589] font-medium">{subtitle}</p>
+          <div className="flex min-w-0 flex-1 flex-col items-center gap-1">
+            <p className="text-sm font-medium text-[#A39589]">{subtitle}</p>
             {isLiveGame && (
               <ConnectionBadge status={socketStatus} gameStatus={gameStatus} />
             )}
