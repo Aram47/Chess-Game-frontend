@@ -38,13 +38,30 @@ const ChessMaster: FC = () => {
   }, [tick]);
 
   useEffect(() => {
-    setPhase("entrance");
+    const media = window.matchMedia(
+      "(min-width: 1024px) and (prefers-reduced-motion: no-preference)",
+    );
 
-    const timer = setTimeout(() => {
-      setPhase("exit");
-    }, 4000);
+    const start = () => {
+      if (!media.matches) {
+        setPhase("idle");
+        return undefined;
+      }
+      setPhase("entrance");
+      return window.setTimeout(() => setPhase("exit"), 4000);
+    };
 
-    return () => clearTimeout(timer);
+    let timer = start();
+    const onChange = () => {
+      if (timer) window.clearTimeout(timer);
+      timer = start();
+    };
+
+    media.addEventListener("change", onChange);
+    return () => {
+      if (timer) window.clearTimeout(timer);
+      media.removeEventListener("change", onChange);
+    };
   }, []);
 
   const onMouseEnter = useCallback(() => {

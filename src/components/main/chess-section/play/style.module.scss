@@ -65,3 +65,28 @@
     }
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .cm_column {
+    animation: none;
+    opacity: 0;
+  }
+}
+
+@media (max-width: 1023px) {
+  .cm_column {
+    position: static;
+    top: auto;
+    right: auto;
+    width: 100%;
+    opacity: 1;
+    transform: none;
+    animation: none;
+    align-items: flex-start;
+    text-align: start;
+
+    .cm_title {
+      font-size: clamp(2rem, 8vw, 3.5rem);
+    }
+  }
+}

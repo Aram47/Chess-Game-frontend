@@ -93,35 +93,14 @@
       filter: none !important;
       transform-style: flat;
 
-      img {
-        width: 33px;
-        height: 33px;
-      }
+      img,
       .chess_icon {
-        width: 33px;
-        height: 33px;
-      }
-
-      @media (max-width: 1024px) {
-        .chess_icon,
-        img {
-          width: 16px;
-          height: 20px;
-        }
-      }
-
-      @media (max-width: 480px) {
-        .chess_icon,
-        img {
-          width: 12px;
-          height: 16px;
-        }
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
       }
     }
 
-    #chessboard-board {
-      grid-template-columns: repeat(8, 57.75px) !important;
-    }
     [id^="chessboard-square-"] > div {
       height: auto !important;
       width: auto !important;
@@ -191,43 +170,68 @@
   }
 }
 
-@media (max-width: 1024px) {
-  .cm_hero {
-    margin: 40px 0;
-    flex-direction: column;
-    padding: 0 40px;
+@media (prefers-reduced-motion: reduce) {
+  .cm_hero .cm_board_outer {
+    animation: none !important;
+    right: 10%;
   }
 
-  .cm_board_outer {
-    width: 340px;
-
-    #chessboard-board {
-      grid-template-columns: repeat(8, 42.5px) !important;
-    }
+  .cm_hero .cm_figure,
+  .cm_hero .sec_figure {
+    display: none;
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 1023px) {
   .cm_hero {
+    height: auto;
+    margin: 1.5rem 0 2rem;
     flex-direction: column;
-    gap: 1rem;
-    padding: 0 20px;
+    align-items: stretch;
+    gap: 2rem;
+    padding-inline: var(--page-gutter);
+    overflow: visible;
 
-    .cm_headline {
-      font-size: 42px;
+    .cm_board_outer {
+      position: relative;
+      right: auto;
+      width: min(100%, 420px);
+      aspect-ratio: 1;
+      margin-inline: auto;
+      animation: none !important;
+      transform: none;
+
+      &:hover {
+        transform: none;
+      }
     }
 
-    .cm_subline {
-      font-size: 16px;
-      width: 100%;
+    .cm_board {
+      aspect-ratio: 1;
+    }
+
+    .cm_figure,
+    .sec_figure {
+      display: none;
     }
   }
 
-  .cm_board_outer {
-    width: 280px;
+  :global(.cm_buttons) {
+    flex-wrap: wrap;
+  }
 
-    #chessboard-board {
-      grid-template-columns: repeat(8, 35px) !important;
-    }
+  :global(.cm_btn_fill),
+  :global(.cm_button) {
+    min-height: 44px;
+  }
+
+  :global(.cm_headline) {
+    font-size: clamp(2rem, 8vw, 3.5rem);
+  }
+
+  :global(.cm_text),
+  :global(.cm_desc) {
+    width: 100%;
+    text-align: start;
   }
 }

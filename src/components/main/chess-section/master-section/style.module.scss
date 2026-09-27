@@ -42,3 +42,34 @@
     }
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .cm_copy {
+    animation: none;
+    left: 10%;
+    opacity: 1;
+  }
+}
+
+@media (max-width: 1023px) {
+  .cm_copy {
+    position: static;
+    width: 100%;
+    left: auto;
+    opacity: 1;
+    transform: none;
+    animation: none;
+    text-align: start;
+    pointer-events: auto;
+
+    &.hide_text {
+      opacity: 1;
+      transform: none;
+      pointer-events: auto;
+    }
+
+    .cm_title {
+      font-size: clamp(2rem, 8vw, 3.5rem);
+    }
+  }
+}

@@ -28,7 +28,7 @@ const Layout: React.FC = () => {
       </div>
 
       <main
-        className={`${currentPath === "/" ? "absolute top-0 bottom-0" : "relative"} main-content`}
+        className={`${currentPath === "/" ? "relative lg:absolute lg:top-0 lg:bottom-0" : "relative"} main-content`}
       >
         <Outlet />
       </main>
