@@ -1,5 +1,5 @@
 .cm_copy {
-  width: 50%;
+  width: min(50%, calc(80% - 500px - 2rem));
   position: absolute;
   left: -50%;
   transition:
@@ -51,7 +51,7 @@
   }
 }
 
-@media (max-width: 1023px) {
+@media (max-width: 1279px) {
   .cm_copy {
     position: static;
     width: 100%;

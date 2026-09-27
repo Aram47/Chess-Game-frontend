@@ -39,7 +39,7 @@ const ChessMaster: FC = () => {
 
   useEffect(() => {
     const media = window.matchMedia(
-      "(min-width: 1024px) and (prefers-reduced-motion: no-preference)",
+      "(min-width: 1280px) and (prefers-reduced-motion: no-preference)",
     );
 
     const start = () => {
