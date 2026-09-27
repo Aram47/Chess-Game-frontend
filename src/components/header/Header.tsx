@@ -126,7 +126,7 @@ const Header = ({
             {user ? (
               <div className={style.cm_user_profile}>
                 <NotificationBell isLoggedIn={!!user} />
-                <span>{t("header_nickname")}</span>
+                <span>{user.username || t("header_user")}</span>
                 <button
                   className={style.cm_btn}
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}

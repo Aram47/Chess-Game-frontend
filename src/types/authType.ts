@@ -2,9 +2,9 @@ export interface UserProfile {
   [key: string]: any;
 }
 
-export interface IRegisterPayload extends UserProfile {
-  name: string;
-  surname: string;
+export interface IRegisterPayload {
+  name?: string;
+  surname?: string;
   username: string;
   email: string;
   password: string;

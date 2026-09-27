@@ -27,8 +27,14 @@ export default function SignUpModal({ onClose, onSwitchToLogin }: ISignUp) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const { ...payload } = formData;
-    const success = await register(payload);
+    const username = formData.username.trim();
+    const success = await register({
+      name: formData.name?.trim() || username,
+      surname: formData.surname?.trim() || username,
+      username,
+      email: formData.email.trim(),
+      password: formData.password,
+    });
 
     if (success) {
       alert(t("registration_success"));

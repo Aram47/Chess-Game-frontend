@@ -18,7 +18,14 @@ export const loginProvider = async (
 export const registerProvider = async (
   data: IRegisterPayload,
 ): Promise<void> => {
-  const response = await api.post(`/api/register`, data);
+  const username = data.username.trim();
+  const response = await api.post(`/api/register`, {
+    name: (data.name ?? "").trim() || username,
+    surname: (data.surname ?? "").trim() || username,
+    username,
+    email: data.email.trim(),
+    password: data.password,
+  });
   return response.data;
 };
 

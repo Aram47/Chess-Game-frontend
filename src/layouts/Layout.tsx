@@ -18,7 +18,7 @@ const Layout: React.FC = () => {
   const closeModal = () => setActiveModal(null);
 
   return (
-    <div className="app-container min-h-screen text-[var(--text)] transition-colors duration-300">
+    <div className="app-container text-[var(--text)] transition-colors duration-300">
       <div className="headerWrapper">
         <Header
           setActiveModal={setActiveModal}
@@ -33,7 +33,7 @@ const Layout: React.FC = () => {
         <Outlet />
       </main>
       {activeModal !== null && (
-        <div className="relative z-10 w-full max-w-md max-h-[100vh] rounded-[20px]">
+        <div className="relative z-[var(--z-modal)] w-full max-w-md max-h-[100vh] rounded-[20px]">
           {activeModal === "signup" && (
             <SignUpModal
               onClose={closeModal}

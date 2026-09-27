@@ -4,7 +4,6 @@ export const ruCommon = {
   nav_problems: "Задачи",
   nav_analyze: "Анализ",
   nav_about: "О нас",
-  header_nickname: "Никнейм",
   header_profile: "Профиль",
   header_settings: "Настройки",
   header_logout: "Выйти",

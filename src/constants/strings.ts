@@ -7,7 +7,6 @@ export const baseStrings = {
   nav_problems: "Problems",
   nav_analyze: "Analyze",
   nav_about: "About",
-  header_nickname: "Nickname",
   header_profile: "Profile",
   header_settings: "Settings",
   header_logout: "Log Out",

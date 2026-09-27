@@ -4,7 +4,6 @@ export const amCommon = {
   nav_problems: "Խնդիրներ",
   nav_analyze: "Վերլուծել",
   nav_about: "Մեր մասին",
-  header_nickname: "Մականուն",
   header_profile: "Պրոֆիլ",
   header_settings: "Կարգավորումներ",
   header_logout: "Դուրս գալ",

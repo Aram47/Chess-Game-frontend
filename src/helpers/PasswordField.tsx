@@ -7,6 +7,7 @@ interface PasswordFieldProps {
   placeholder: string;
   value: string;
   onChange: (v: string) => void;
+  minLength?: number;
 }
 
 export const PasswordField = ({
@@ -14,6 +15,7 @@ export const PasswordField = ({
   placeholder,
   value,
   onChange,
+  minLength = 6,
 }: PasswordFieldProps) => {
   const [show, setShow] = useState(false);
   const { theme } = useTheme();
@@ -30,6 +32,8 @@ export const PasswordField = ({
           value={value}
           onChange={(e) => onChange(e.target.value)}
           placeholder={placeholder}
+          minLength={minLength}
+          required
           className={`w-full  border border-[#CEB86E33] rounded-xl py-3 pl-4 pr-10 text-sm text-[#A39589] placeholder:text-[#4A4A4A] focus:border-[#B7A362] outline-none transition-colors ${theme === "dark" ? "bg-[#1C1C1C]" : "bg-[#F5F5F5]"}`}
         />
         <PasswordToggleIcon visible={show} onClick={() => setShow(!show)} />

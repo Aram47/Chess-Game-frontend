@@ -132,3 +132,28 @@ h2,
 h3 {
   color: var(--text-h);
 }
+
+:root {
+  --page-gutter: 1rem;
+  --header-band: 110px;
+  --z-header: 40;
+  --z-dropdown: 50;
+  --z-overlay: 80;
+  --z-modal: 100;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --page-gutter: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --page-gutter: 2rem;
+  }
+}
+
+.page-gutter {
+  padding-inline: var(--page-gutter);
+}
